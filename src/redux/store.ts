@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 import * as reducer from './reducers';
 import { transactionAPI } from '../services/api/transaction';
-import { setupListeners } from '@reduxjs/toolkit/query';
 
 const store = configureStore({
   reducer: {
@@ -13,6 +13,8 @@ const store = configureStore({
     getDefaultMiddleware().concat(transactionAPI.middleware),
   devTools: process.env.NODE_ENV !== 'production'
 });
+
+export type RootState = ReturnType<typeof store.getState>;
 
 setupListeners(store.dispatch);
 
