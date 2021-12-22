@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import { ReactLocation, Router, Outlet } from 'react-location';
 
-import { TRANSACTIONS } from './CONSTANTS';
+import { ROOT } from './CONSTANTS';
 import { NotFound } from './NotFound';
-import { Transactions } from '../pages';
+import { MainPage } from '../pages';
 
 const routes = [
   {
-    path: TRANSACTIONS,
-    element: <Transactions />
+    path: ROOT,
+    element: <MainPage />
   },
   {
     element: <NotFound />
