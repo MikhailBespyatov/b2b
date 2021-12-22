@@ -1,0 +1,18 @@
+import React, { FC } from 'react';
+
+export const CheckmarkIcon: FC = () => {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7.125 12.75L2.25 7.875L1.5 8.625L7.125 14.25L16.875 4.5L16.125 3.75L7.125 12.75Z"
+        fill="white"
+      />
+    </svg>
+  );
+};
