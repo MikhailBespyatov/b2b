@@ -1,5 +1,43 @@
 {
   "app.name": "Бизнес отчёт",
 
-  "page.notFound.text" : "Страница не найдена"
+  "page.notFound.text" : "Страница не найдена",
+  "page.nav.tab_1": "Статистика",
+  "page.nav.tab_2": "Транзакции",
+  "page.nav.tab_3": "Аналитика",
+  "page.nav.tab_4": "Взаиморасчеты",
+
+  "transactions.header.title": "Текущие транзакции",
+
+  "transactions.modal.confirm.title": "Отправить заказ клиенту",
+  "transactions.modal.confirm.input": "ОТП",
+  "transactions.modal.confirm.button": "Подтвердить",
+
+  "transactions.status.type.paid": "Оплачено",
+  "transactions.status.type.refusing": "Отказ",
+  "transactions.status.type.refund": "Возврат",
+  "transactions.status.type.delivered": "Доставлен",
+  "transactions.status.type.readyDelivery": "В обработке",
+  "transactions.status.type.refundRequest": "Запрос возврата",
+  "transactions.status.type.refundCompleted": "Возврат совершен",
+
+  "transactions.filter.title": "Фильтры",
+
+  "transactions.filter.orderNumber": "№ заказа",
+  "transactions.filter.transactionNumber": "№ транзакции",
+  "transactions.filter.phoneNumber": "Номер телефона",
+  "transactions.filter.createdDate": "Дата создания заказа",
+  "transactions.filter.orderStatus": "Статус заказа",
+  "transactions.filter.deliveredDate": "Дата доставки заказа",
+  "transactions.filter.amount": "Сумма заказа",
+
+  "transactions.table.transactionNumber": "№ Транзакции",
+  "transactions.table.orderNumber": "№ Заказа",
+  "transactions.table.date": "Дата оформления",
+  "transactions.table.amount": "Сумма заказа ₸",
+  "transactions.table.payment": "К выплате",
+  "transactions.table.commission": "Комиссия",
+  "transactions.table.status": "Статус",
+  "transactions.table.action": "Действие"
+
 }

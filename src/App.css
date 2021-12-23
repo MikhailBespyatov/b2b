@@ -1,8 +1,56 @@
-*{
+@import '~arui-feather/vars.css';
+
+* {
   margin: 0;
-  padding:0;
+  padding: 0;
+  font-family: var(--font);
 }
 
-/*html,body{
-  //font-family
-}*/
+body {
+  margin: 0 8px;
+}
+
+.bold_700 {
+  font-weight: 700;
+}
+
+.table {
+  width: 100%;
+  color: #6d7986;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+.table > thead {
+  background-color: #ecedef;
+  font-size: 13px;
+  line-height: 18px;
+}
+.table > thead > tr > td {
+  padding: 4px 8px;
+}
+
+.table > tbody > tr {
+  font-size: 17px;
+  border-bottom: 1px solid rgba(11, 31, 53, 0.08);
+}
+
+.table > tbody > tr > td {
+  padding-top: 18px;
+  padding-bottom: 13px;
+}
+
+.table .icon-button {
+  color: #fff;
+}
+
+.table .icon-button.bg-green {
+  background-color: #5fae50;
+}
+
+.table .icon-button.bg-blue {
+  background-color: #007aff;
+}
+
+.table .icon-button.bg-red {
+  background-color: #f1463b;
+}

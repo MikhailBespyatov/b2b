@@ -1,0 +1,35 @@
+.status {
+  border: none;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.status-paid {
+  background-color: #2fc26e33 !important;
+  color: #5fae50;
+}
+
+.status-refusing {
+  background-color: #ef31241a !important;
+  color: #ff5c5cf2;
+}
+
+.status-delivered {
+  background-color: #e5f1ff !important;
+  color: #3481d6;
+}
+
+.status-inProcess {
+  background-color: #e9f6f5 !important;
+  color: #20a69a;
+}
+
+.status-refund {
+  background-color: #f0ebf8 !important;
+  color: #673ab4;
+}
+
+.status-refundRequest {
+  background-color: #fef2e6 !important;
+  color: #de6b00;
+}
