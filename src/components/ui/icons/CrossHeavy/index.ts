@@ -1,0 +1,1 @@
+export { CrossHeavyIcon } from './CrossHeavy';

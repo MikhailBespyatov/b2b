@@ -1,0 +1,1 @@
+export { PencilHeavyIcon } from './PencilHeavy';
