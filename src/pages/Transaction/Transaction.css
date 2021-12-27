@@ -1,0 +1,35 @@
+.transaction__title {
+  font-size: 30px;
+  margin-bottom: 38px;
+}
+
+.collapsible {
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: bold;
+  padding-bottom: 16px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid #d8dcde;
+  background-color: inherit;
+}
+
+.collapsible > svg {
+  position: absolute;
+  right: 10px;
+}
+
+.collapse {
+  background-color: #f3f4f5;
+  margin-bottom: 40px;
+}
+
+.collapse__box-item {
+  margin: 15px 20px;
+}
+
+.collapse__box-item > .collapse__box-value {
+  margin-left: 4px;
+  color: #858f9a;
+}
