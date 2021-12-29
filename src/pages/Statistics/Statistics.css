@@ -1,0 +1,28 @@
+.btn {
+  border: none;
+  padding: 7px 14px;
+  color: #fff;
+}
+.btn > svg {
+  margin-right: 14px;
+  vertical-align: middle;
+}
+
+.curved-btn-blue {
+  background-color: #212a33;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+.curved-btn-red {
+  background-color: #f03226;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.collapse-wrapper {
+  margin-bottom: 36px;
+}
+.collapse__content {
+  padding-bottom: 36px;
+}

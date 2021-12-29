@@ -15,7 +15,7 @@ export const BuyerInfo: FC = () => {
     <>
       <button
         type="button"
-        className="collapsible"
+        className="collapsible title-2"
         onClick={() => setExpanded(prev => !prev)}
       >
         {t('transaction.collapse.buyer')}

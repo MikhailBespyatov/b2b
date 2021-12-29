@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
+import ThemeProvider from 'arui-feather/theme-provider';
 
 import { RouterConfig } from './navigation/RouterConfig';
 import store from './redux/store';
@@ -13,7 +14,9 @@ export const App: FC = () => {
     <>
       <Provider store={store}>
         <I18nextProvider i18n={i18n}>
-          <RouterConfig />
+          <ThemeProvider theme="alfa-on-white">
+            <RouterConfig />
+          </ThemeProvider>
         </I18nextProvider>
       </Provider>
     </>

@@ -31,7 +31,9 @@ export const OrderList: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [modalType, setModalType] = useState<ModalType>('SEND_ORDER_OTP');
+  const [modalType, setModalType] = useState<ModalType>(
+    'ORDER_DELIVERY_SUCCESS'
+  );
   const { data } = useSelector((state: RootState) => state.transaction);
 
   const handleModalOpen = (type: ModalType) => (e: any) => {

@@ -1,32 +1,41 @@
 import React, { FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Space } from '@alfalab/core-components/space';
+import { Col, Container, Row } from 'react-grid-system';
 
-import { FileCSVIcon } from '../../../../components/ui/icons/FileCSV';
-import { FilePDFIcon } from '../../../../components/ui/icons/FilePDF';
+import { FileCSVIcon, FilePDFIcon } from '../../../../components/ui/icons';
+import { RangePicker } from '../../../../components/DatePicker';
 
 export const TableExport: FC = () => {
-  const { t } = useTranslation();
-
   return (
-    <div className="transactions__export">
-      <div className="transactions__btn-group">
-        <button className="btn-csv">
-          <FileCSVIcon width={23} height={24} />
-        </button>
-        <div className="divider"></div>
-        <button>
-          <FilePDFIcon width={23} height={24} />
-        </button>
-      </div>
-      <div className="transactions__date-picker">
-        <Space direction="horizontal">
-          {t('date.range.from')}
-          <input type="date" />
-          {t('date.range.till')}
-          <input type="date" />
-        </Space>
-      </div>
-    </div>
+    <Container fluid={true} className="table-export">
+      <Row align="center">
+        <Col
+          xl={1}
+          lg={2}
+          md={2}
+          sm={3}
+          xs={12}
+          className="transactions__btn-group p-0"
+        >
+          <button>
+            <FileCSVIcon width={23} height={24} />
+          </button>
+          <div className="divider"></div>
+          <button>
+            <FilePDFIcon width={23} height={24} />
+          </button>
+        </Col>
+        <Col
+          xl={4}
+          lg={5}
+          md={6}
+          sm={9}
+          xs={12}
+          offset={{ xl: 7, lg: 5, md: 4 }}
+          className="p-0"
+        >
+          <RangePicker />
+        </Col>
+      </Row>
+    </Container>
   );
 };

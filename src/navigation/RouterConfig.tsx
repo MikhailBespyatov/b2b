@@ -10,11 +10,12 @@ import {
 } from './CONSTANTS';
 import { Transaction, Transactions } from '../pages';
 import { Navbar } from '../components';
+import { Statistics } from '../pages/Statistics';
 
 const routes = [
   {
     path: ROOT,
-    element: <Navigate to={TRANSACTIONS} />
+    element: <Navigate to={ANALYTICS} />
   },
   {
     path: TRANSACTIONS,
@@ -35,7 +36,7 @@ const routes = [
   },
   {
     path: STATISTICS,
-    element: <>STATISTICS</>
+    element: <Statistics />
   },
   {
     path: SETTLEMENTS,
