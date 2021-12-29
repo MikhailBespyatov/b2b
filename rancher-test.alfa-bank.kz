@@ -1,0 +1,11 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://rancher-test.alfa-bank.kz
+  name: rancher-test.alfa-bank.kz
+contexts: null
+current-context: ""
+kind: Config
+preferences: {}
+users: null
