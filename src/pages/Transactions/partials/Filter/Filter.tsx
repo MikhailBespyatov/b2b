@@ -121,6 +121,7 @@ export const Filter: FC = () => {
                           width="available"
                           options={[]}
                           label={t('transactions.filter.orderStatus')}
+                          className="select_theme_alfa-on-white select-button"
                           {...field}
                         />
                       )}

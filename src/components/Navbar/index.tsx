@@ -40,7 +40,7 @@ export const Navbar: FC = () => {
 
   const handleClick = (event: any) => {
     event.preventDefault();
-    if (event.target.getAttribute('href') || matches.length > 1) {
+    if (event.target.getAttribute('href')) {
       navigate({ to: event.target.getAttribute('href'), replace: true });
     }
   };

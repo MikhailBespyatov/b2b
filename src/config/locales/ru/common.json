@@ -74,5 +74,13 @@
   "transaction.data.changeResponsibility": "Ответственный за изменения",
   "transaction.data.order": "Заказ",
   "transaction.data.numberOfGoods": "Количество товара",
-  "transaction.data.price": "Цена"
+  "transaction.data.price": "Цена",
+
+
+  "statistics.button.dashboard": "Дашборд",
+  "statistics.button.report": "Отчёт",
+  "statistics.collapse.moneyTurnover": "Денежный оборот",
+  "statistics.collapse.profitByOrder": "Доходность по заказам",
+  "statistics.collapse.orderQuantity": "Количество заказов"
+
 }
