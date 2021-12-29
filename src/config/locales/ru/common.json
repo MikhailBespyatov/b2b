@@ -1,17 +1,30 @@
 {
   "app.name": "Бизнес отчёт",
 
-  "page.notFound.text" : "Страница не найдена",
+  "page.notFound.text": "Страница не найдена",
   "page.nav.tab_1": "Статистика",
   "page.nav.tab_2": "Транзакции",
   "page.nav.tab_3": "Аналитика",
-  "page.nav.tab_4": "Взаиморассчеты",
+  "page.nav.tab_4": "Взаиморасчеты",
+
+  "date.range.from": "с",
+  "date.range.till": "по",
 
   "transactions.header.title": "Текущие транзакции",
 
-  "transactions.modal.confirm.title": "Отправить заказ клиенту",
-  "transactions.modal.confirm.input": "ОТП",
-  "transactions.modal.confirm.button": "Подтвердить",
+  "transactions.modal.title.sendOrder": "Отправить заказ клиенту",
+  "transactions.modal.input.otp": "ОТП",
+  "transactions.modal.title.confirmOrder": "Вы подтверждаете заказ №{{orderNumber}}?",
+  "transactions.modal.title.confirmDelivery": "Подтверждение доставки",
+  "transactions.modal.subtitle.confirmDelivery": "Заказ №56784985",
+  "transactions.modal.hint.confirmDelivery": "СМС-код отправлен клиенту, на номер {{phoneNumber}}",
+  "transactions.modal.title.confirmAction": "Вы подтверждаете действие?",
+  "transactions.modal.button.confirm": "Подтвердить",
+  "transactions.modal.button.cancel": "Отменить",
+  "transactions.modal.button.resend": "Переотправить",
+  "transactions.modal.error.otpNoMatch": "Введенный код не совпадает",
+  "transactions.modal.success.confirmed": "Заказ подтвержден и ожидает доставки",
+  "transactions.modal.success.delivered": "Заказ подтвержден и доставлен",
 
   "transactions.status.type.paid": "Оплачено",
   "transactions.status.type.refusing": "Отказ",
@@ -38,6 +51,34 @@
   "transactions.table.payment": "К выплате",
   "transactions.table.commission": "Комиссия",
   "transactions.table.status": "Статус",
-  "transactions.table.action": "Действие"
+  "transactions.table.action": "Действие",
 
+  "transaction.header.title": "Транзакция",
+
+  "transaction.collapse.historyOfOrder": "Информация о заказе",
+  "transaction.collapse.buyer": "Покупатель",
+  "transaction.collapse.orderComposition": "Состав заказа",
+  "transaction.collapse.historyOfChanges": "История изменений",
+
+  "transaction.data.registrationDate": "Дата регистрации заказа",
+  "transaction.data.orderStatus": "Статус заказа",
+  "transaction.data.orderAmount": "Сумма заказа",
+  "transaction.data.bankCommission": "Комиссия банка",
+  "transaction.data.amountToBePaid": "Сумма к выплате",
+  "transaction.data.paymentTerms": "Условия оплаты",
+  "transaction.data.surname": "Фамилия",
+  "transaction.data.name": "Имя",
+  "transaction.data.phoneNumber": "Номер телефона",
+  "transaction.data.statusChangedDate": "Дата изменения статуса",
+  "transaction.data.changedStatus": "Измененный статус",
+  "transaction.data.changeResponsibility": "Ответственный за изменения",
+  "transaction.data.order": "Заказ",
+  "transaction.data.numberOfGoods": "Количество товара",
+  "transaction.data.price": "Цена",
+
+  "statistics.button.dashboard": "Дашборд",
+  "statistics.button.report": "Отчёт",
+  "statistics.collapse.moneyTurnover": "Денежный оборот",
+  "statistics.collapse.profitByOrder": "Доходность по заказам",
+  "statistics.collapse.orderQuantity": "Количество заказов"
 }

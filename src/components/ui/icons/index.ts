@@ -1,4 +1,8 @@
 export { CheckmarkIcon } from './Checkmark';
+export { CheckmarkCircle } from './CheckmarkCircle';
 export { PencilHeavyIcon } from './PencilHeavy';
 export { CrossHeavyIcon } from './CrossHeavy';
-export { PencilIcon } from './Pencil';
+export { FilePDFIcon } from './FilePDF';
+export { FileCSVIcon } from './FileCSV';
+export { DashboardIcon } from './Dashboard';
+export { ReportIcon } from './Report';

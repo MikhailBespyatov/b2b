@@ -1,0 +1,19 @@
+.rangePicker {
+  color: #fff;
+  background-color: #0b1f35;
+  padding: 8px;
+  border-radius: 8px;
+  display: inline-block;
+  float: right;
+}
+
+.rangePicker > span {
+  margin-right: 8px;
+}
+
+.rangePicker input {
+  border-radius: 6px;
+  outline: none;
+  border: none;
+  font-size: 13px;
+}

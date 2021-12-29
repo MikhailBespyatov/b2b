@@ -3,21 +3,73 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: var(--font);
+  font-family: var(--font) !important;
 }
 
 body {
   margin: 0 8px;
 }
 
+button {
+  cursor: pointer;
+}
+
+.navbar {
+  margin-bottom: 32px;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
 .bold_700 {
   font-weight: 700;
+}
+.bold_600 {
+  font-weight: 600;
+}
+.bold_300 {
+  font-weight: 300;
+}
+
+.overflowX {
+  overflow-x: auto;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.modal-responsive__header {
+  padding-left: 14px;
+}
+
+.modal-responsive__footer {
+  margin-top: 40px;
+}
+
+.title-1 {
+  font-size: 30px;
+  line-height: 36px;
+}
+.title-2 {
+  font-size: 22px;
+  line-height: 26px;
+}
+
+.top-menu {
+  margin-top: 40px;
+  margin-bottom: 26px;
+  padding: 0 30px;
+}
+.top-menu > div {
+  padding: 0 !important;
+  margin-bottom: 4px;
 }
 
 .table {
   width: 100%;
   color: #6d7986;
-  overflow-x: auto;
   border-collapse: collapse;
 }
 .table > thead {
@@ -39,18 +91,18 @@ body {
   padding-bottom: 13px;
 }
 
-.table .icon-button {
+.icon-button {
   color: #fff;
 }
 
-.table .icon-button.bg-green {
-  background-color: #5fae50;
+.icon-button.bg-green {
+  background-color: #d5f3e2;
 }
 
-.table .icon-button.bg-blue {
-  background-color: #007aff;
+.icon-button.bg-blue {
+  background-color: #e5f1ff;
 }
 
-.table .icon-button.bg-red {
-  background-color: #f1463b;
+.icon-button.bg-red {
+  background-color: #feebea;
 }

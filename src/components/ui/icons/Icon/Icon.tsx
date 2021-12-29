@@ -1,13 +1,7 @@
 import React, { FC } from 'react';
 import { IconProps } from './model';
 
-const getSize = (width: number, height: number, ratio: number) => {
-  if (!width && !height) {
-    return { width: 13, height: 13 };
-  }
-  if (width && height) {
-    return { width, height };
-  }
+const getSize = (width: number = 13, height: number = 13, ratio: number) => {
   return {
     ...(width && { width, height: width / ratio }),
     ...(height && { width: height * ratio, height })
@@ -35,12 +29,8 @@ export const Icon: FC<IconProps> = ({
     {...props}
     fill={fill}
     stroke={stroke}
-    viewBox={getViewBox(
-      viewBox,
-      (originalWidth = width),
-      (originalHeight = height)
-    )}
-    {...getSize(width, height, originalWidth / originalHeight)}
+    viewBox={getViewBox(viewBox, width, height)}
+    {...getSize(width, height, width / height)}
   >
     {children}
   </svg>

@@ -1,0 +1,1 @@
+export { BarChartMemo } from './BarChartMemo';

@@ -1,3 +1,11 @@
+.table > tbody > tr {
+  cursor: pointer;
+}
+
+.table > tbody > tr:hover {
+  background-color: #fafafa;
+}
+
 .status {
   border: none;
   font-size: 11px;
@@ -32,4 +40,67 @@
 .status-refundRequest {
   background-color: #fef2e6 !important;
   color: #de6b00;
+}
+
+.transactions__title {
+  margin-bottom: 22px;
+}
+
+.transactions__filter-head {
+  margin-bottom: 22px;
+}
+
+.transactions__filter-head > button {
+  margin-left: 10px;
+}
+
+.transactions__filter-head svg {
+  width: 14px;
+  height: 12px;
+}
+
+.transactions__filter-form {
+  margin-bottom: 22px;
+}
+
+.transactions__btn-group {
+  display: flex;
+  justify-content: space-around;
+  border: 0.5px solid #1c293b;
+  box-sizing: border-box;
+  border-radius: 8px;
+  overflow: hidden;
+  color: #e5e5e5;
+}
+
+.transactions__btn-group > button {
+  border: none;
+  background: none;
+  padding: 7px 14px;
+  width: 100%;
+}
+
+.transactions__btn-group > button:hover {
+  background-color: #f5f5f5;
+}
+
+.transactions__btn-group > .divider {
+  border-left: 0.5px solid #b6bcc3;
+  margin: 7px 0;
+}
+
+.modal__subtitle {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #6d7986;
+  margin: 20px 0;
+}
+
+.transactions__filter-form .input__input-wrapper {
+  width: 100%;
+}
+
+.table-export {
+  margin-bottom: 20px;
 }
