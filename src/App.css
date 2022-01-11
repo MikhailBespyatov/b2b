@@ -22,6 +22,10 @@ button {
   padding: 0 !important;
 }
 
+.mb-20 {
+  margin-bottom: 20px;
+}
+
 .bold_700 {
   font-weight: 700;
 }
@@ -51,10 +55,12 @@ button {
 .title-1 {
   font-size: 30px;
   line-height: 36px;
+  color: #172a3f;
 }
 .title-2 {
   font-size: 22px;
   line-height: 26px;
+  color: #172a3f;
 }
 
 .top-menu {

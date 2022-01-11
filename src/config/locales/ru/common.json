@@ -81,6 +81,22 @@
   "statistics.button.report": "Отчёт",
   "statistics.collapse.moneyTurnover": "Денежный оборот",
   "statistics.collapse.profitByOrder": "Доходность по заказам",
-  "statistics.collapse.orderQuantity": "Количество заказов"
+  "statistics.collapse.orderQuantity": "Количество заказов",
+
+
+  "analytics.category.mainResults": "Основные результаты аналитики",
+  "analytics.category.mainResults.chart1": "Оборот по заказам",
+  "analytics.category.mainResults.chart2": "Доходность от заказов",
+  "analytics.category.mainResults.chart3": "Средний чек",
+
+  "analytics.category.statisticalResults": "Статистические результаты аналитики",
+  "analytics.category.statisticalResults.chart1": "Категории",
+  "analytics.category.statisticalResults.chart2": "Возрасная статистика",
+  "analytics.category.statisticalResults.chart3": "Гендерная статистика",
+  "analytics.category.statisticalResults.chart4": "Статистика по регионам",
+  "analytics.category.statisticalResults.chart5": "Статистика по статусам",
+  "analytics.category.statisticalResults.chart6": "Статистика по предыдущим периодам",
+  "analytics.category.statisticalResults.chart7": "Процент одобрения заявок"
+
 
 }
