@@ -23,3 +23,7 @@ export const phoneNumberFormatter = (str: string) => {
         7
       )}-${nulledStr.slice(7, 9)}-${nulledStr.slice(9, 11)}`;
 };
+
+export const calculatePercent = (amount: number, num: number) => {
+  return Math.round(Number((num / amount).toFixed(2)) * 100);
+};

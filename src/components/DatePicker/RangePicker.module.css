@@ -5,6 +5,7 @@
   border-radius: 8px;
   display: inline-block;
   float: right;
+  font-size: 13px;
 }
 
 .rangePicker > span {

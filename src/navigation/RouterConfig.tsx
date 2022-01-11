@@ -8,9 +8,8 @@ import {
   STATISTICS,
   TRANSACTIONS
 } from './CONSTANTS';
-import { Transaction, Transactions } from '../pages';
+import { Transaction, Transactions, Statistics, Analytics } from '../pages';
 import { Navbar } from '../components';
-import { Statistics } from '../pages/Statistics';
 
 const routes = [
   {
@@ -32,7 +31,7 @@ const routes = [
   },
   {
     path: ANALYTICS,
-    element: <>ANALYTICS</>
+    element: <Analytics />
   },
   {
     path: STATISTICS,
