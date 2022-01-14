@@ -22,6 +22,10 @@ button {
   padding: 0 !important;
 }
 
+.mb-20 {
+  margin-bottom: 20px;
+}
+
 .bold_700 {
   font-weight: 700;
 }
@@ -51,10 +55,18 @@ button {
 .title-1 {
   font-size: 30px;
   line-height: 36px;
+  color: #172a3f;
 }
 .title-2 {
   font-size: 22px;
   line-height: 26px;
+  color: #172a3f;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .top-menu {
@@ -87,8 +99,7 @@ button {
 }
 
 .table > tbody > tr > td {
-  padding-top: 18px;
-  padding-bottom: 13px;
+  padding: 18px 4px 13px 4px;
 }
 
 .icon-button {
@@ -97,12 +108,19 @@ button {
 
 .icon-button.bg-green {
   background-color: #d5f3e2;
+  border: 1px solid #d5f3e2;
 }
 
 .icon-button.bg-blue {
   background-color: #e5f1ff;
+  border: 1px solid #e5f1ff;
 }
 
 .icon-button.bg-red {
   background-color: #feebea;
+  border: 1px solid #feebea;
+}
+
+.icon-button:hover {
+  background-color: #fff;
 }

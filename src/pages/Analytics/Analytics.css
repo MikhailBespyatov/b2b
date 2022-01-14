@@ -1,0 +1,28 @@
+.thumbnail {
+  border: 1px solid #d8dcde;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.thumbnail__chart {
+  padding: 18px;
+  word-wrap: break-word;
+  height: 100%;
+}
+
+.thumbnail__chart > h3 {
+  color: #172a3f;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.thumbnail__chart .thumbnail__footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.thumbnail__profit {
+  color: #17bd77;
+}

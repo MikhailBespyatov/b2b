@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 import * as reducer from './reducers';
-import { transactionAPI } from '../services/api/transaction';
+import { transactionAPI } from '../services/api/transactionAPI';
 
 const store = configureStore({
   reducer: {

@@ -42,6 +42,8 @@ export const Navbar: FC = () => {
     event.preventDefault();
     if (event.target.getAttribute('href')) {
       navigate({ to: event.target.getAttribute('href'), replace: true });
+    } else {
+      navigate({ to: matches[0]?.id, replace: true });
     }
   };
 
