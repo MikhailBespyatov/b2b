@@ -14,11 +14,14 @@
 
   "transactions.modal.title.sendOrder": "Отправить заказ клиенту",
   "transactions.modal.input.otp": "ОТП",
+  "transactions.modal.input.smsCode": "СМС-код",
+  "transactions.modal.input.smsCode.resend": "Отправить код повторно через",
   "transactions.modal.title.confirmOrder": "Вы подтверждаете заказ №{{orderNumber}}?",
   "transactions.modal.title.confirmDelivery": "Подтверждение доставки",
-  "transactions.modal.subtitle.confirmDelivery": "Заказ №56784985",
+  "transactions.modal.subtitle.confirmDelivery": "Заказ №{{orderNumber}}",
   "transactions.modal.hint.confirmDelivery": "СМС-код отправлен клиенту, на номер {{phoneNumber}}",
   "transactions.modal.title.confirmAction": "Вы подтверждаете действие?",
+  "transactions.modal.title.confirmCancel": "Вы подтверждаете отмену?",
   "transactions.modal.button.confirm": "Подтвердить",
   "transactions.modal.button.cancel": "Отменить",
   "transactions.modal.button.resend": "Переотправить",
@@ -76,13 +79,11 @@
   "transaction.data.numberOfGoods": "Количество товара",
   "transaction.data.price": "Цена",
 
-
   "statistics.button.dashboard": "Дашборд",
   "statistics.button.report": "Отчёт",
   "statistics.collapse.moneyTurnover": "Денежный оборот",
   "statistics.collapse.profitByOrder": "Доходность по заказам",
   "statistics.collapse.orderQuantity": "Количество заказов",
-
 
   "analytics.category.mainResults": "Основные результаты аналитики",
   "analytics.category.mainResults.chart1": "Оборот по заказам",
@@ -97,6 +98,4 @@
   "analytics.category.statisticalResults.chart5": "Статистика по статусам",
   "analytics.category.statisticalResults.chart6": "Статистика по предыдущим периодам",
   "analytics.category.statisticalResults.chart7": "Процент одобрения заявок"
-
-
 }

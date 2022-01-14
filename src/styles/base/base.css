@@ -63,6 +63,12 @@ button {
   color: #172a3f;
 }
 
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .top-menu {
   margin-top: 40px;
   margin-bottom: 26px;
@@ -93,8 +99,7 @@ button {
 }
 
 .table > tbody > tr > td {
-  padding-top: 18px;
-  padding-bottom: 13px;
+  padding: 18px 4px 13px 4px;
 }
 
 .icon-button {
@@ -103,12 +108,19 @@ button {
 
 .icon-button.bg-green {
   background-color: #d5f3e2;
+  border: 1px solid #d5f3e2;
 }
 
 .icon-button.bg-blue {
   background-color: #e5f1ff;
+  border: 1px solid #e5f1ff;
 }
 
 .icon-button.bg-red {
   background-color: #feebea;
+  border: 1px solid #feebea;
+}
+
+.icon-button:hover {
+  background-color: #fff;
 }

@@ -6,8 +6,14 @@ import { Link } from 'arui-feather/link';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
+import { IOrder } from '../../../../models/IOrder';
+import { phoneNumberFormatter } from '../../../../utils/helpers';
 
-export const BuyerInfo: FC = () => {
+type PropTypes = {
+  order: IOrder;
+};
+
+export const BuyerInfo: FC<PropTypes> = ({ order }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
 
@@ -28,13 +34,13 @@ export const BuyerInfo: FC = () => {
               <Label className="bold_600">
                 {t('transaction.data.surname')}:
               </Label>
-              <span className="collapse__box-value">21.12.2020</span>
+              <span className="collapse__box-value">Surname</span>
             </div>
           </Col>
           <Col lg={4} md={4} xs={12}>
             <div className="collapse__box-item">
               <Label className="bold_600">{t('transaction.data.name')}:</Label>
-              <span className="collapse__box-value">asd</span>
+              <span className="collapse__box-value">Name</span>
             </div>
           </Col>
           <Col lg={4} md={4} xs={12}>
@@ -44,8 +50,8 @@ export const BuyerInfo: FC = () => {
               </Label>
               <span className="collapse__box-value">
                 <Link
-                  text="+7 (727) 771-22-33"
-                  url="tel:+7 (727) 771-22-33"
+                  text={phoneNumberFormatter(order.phoneNumber)}
+                  url={`tel:${phoneNumberFormatter(order.phoneNumber)}`}
                   size="m"
                   view="blue"
                 />

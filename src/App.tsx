@@ -7,7 +7,7 @@ import { RouterConfig } from './navigation/RouterConfig';
 import store from './redux/store';
 import i18n from './i18n';
 
-import './App.css';
+import './styles/styles.css';
 
 export const App: FC = () => {
   return (
