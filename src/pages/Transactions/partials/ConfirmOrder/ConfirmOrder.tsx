@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormField } from 'arui-feather/form-field';
+import Button from 'arui-feather/button';
 import { Typography } from '@alfalab/core-components/typography';
 import { Col } from '@alfalab/core-components/grid/col';
-import { Button } from '@alfalab/core-components/button';
 import { Row } from '@alfalab/core-components/grid/row';
 
 type PropTypes = {
@@ -23,12 +23,12 @@ export const ConfirmOrder: FC<PropTypes> = ({ title }) => {
       <div className="modal-responsive__footer">
         <Row align="middle">
           <Col>
-            <Button size="m" view="primary" block={true}>
+            <Button size="l" view="extra" width="available">
               {t('transactions.modal.button.confirm')}
             </Button>
           </Col>
           <Col>
-            <Button size="m" view="tertiary" block={true}>
+            <Button size="l" view="default" width="available">
               {t('transactions.modal.button.cancel')}
             </Button>
           </Col>

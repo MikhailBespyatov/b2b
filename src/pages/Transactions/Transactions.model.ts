@@ -1,7 +1,1 @@
-export type ModalType =
-  | 'SEND_ORDER_OTP'
-  | 'CONFIRM_ORDER'
-  | 'CONFIRM_ACTION'
-  | 'DELIVERY_ORDER_OTP'
-  | 'ORDER_CONFIRM_SUCCESS'
-  | 'ORDER_DELIVERY_SUCCESS';
+export type ModalType = 'CONFIRM_CANCEL' | 'DELIVERY_ORDER_OTP' | undefined;

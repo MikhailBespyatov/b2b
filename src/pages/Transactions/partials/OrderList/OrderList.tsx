@@ -1,14 +1,14 @@
 import React, { FC, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-location';
+import { Link } from 'react-location';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 import { TagButton } from 'arui-feather/tag-button';
 import AlphaIcon from 'arui-feather/icon/brand/bank-2449';
 import { Space } from '@alfalab/core-components/space';
 import { IconButton } from '@alfalab/core-components/icon-button';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 
-import { RootState } from '../../../../redux/store';
 import { TRANSACTIONS } from '../../../../navigation/CONSTANTS';
 import { ModalType } from '../../Transactions.model';
 import {
@@ -20,70 +20,43 @@ import {
   CrossHeavyIcon,
   PencilHeavyIcon
 } from '../../../../components/ui/icons';
-import {
-  SendOrderOTP,
-  DeliverOrderOTP,
-  OrderStatus,
-  ConfirmOrder
-} from '../index';
+import { DeliverOrderOTP, ConfirmOrder } from '../index';
+import { Skeleton } from '@alfalab/core-components/skeleton';
+import { useGetTransactionsQuery } from '../../../../services/api/transactionAPI';
+import { IOrder } from '../../../../models/IOrder';
 
 export const OrderList: FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [modalType, setModalType] = useState<ModalType>(
-    'ORDER_DELIVERY_SUCCESS'
-  );
-  const { data } = useSelector((state: RootState) => state.transaction);
+  const [modalType, setModalType] = useState<ModalType>();
+  const [currentOrder, setCurrentOrder] = useState<IOrder>();
+  //const { data } = useSelector((state: RootState) => state.transaction);
+  const { data, isLoading, isSuccess } = useGetTransactionsQuery('');
 
-  const handleModalOpen = (type: ModalType) => (e: any) => {
-    e.stopPropagation();
-    setOpen(true);
-    setModalType(type);
-  };
+  const handleModalOpen =
+    (type: ModalType, order: IOrder) => (e: React.SyntheticEvent) => {
+      e.stopPropagation();
+      setOpen(true);
+      setModalType(type);
+      setCurrentOrder(order);
+    };
 
   const handleModalClose = () => {
     setOpen(false);
   };
 
-  const handleTableItemClick = (id: number) => () => {
-    navigate({ to: `${TRANSACTIONS}/${id}` });
-  };
-
   const renderModalContent = (type: ModalType) => {
-    switch (type) {
-      case 'SEND_ORDER_OTP':
-        return <SendOrderOTP />;
-      case 'CONFIRM_ORDER':
-        return (
-          <ConfirmOrder
-            title={t('transactions.modal.title.confirmOrder', {
-              orderNumber: '56784985'
-            })}
-          />
-        );
-      case 'CONFIRM_ACTION':
-        return (
-          <ConfirmOrder title={t('transactions.modal.title.confirmAction')} />
-        );
-      case 'DELIVERY_ORDER_OTP':
-        return <DeliverOrderOTP />;
-      case 'ORDER_CONFIRM_SUCCESS':
-        return (
-          <OrderStatus
-            status="success"
-            title={t('transactions.modal.success.confirmed')}
-          />
-        );
-      case 'ORDER_DELIVERY_SUCCESS':
-        return (
-          <OrderStatus
-            status="success"
-            title={t('transactions.modal.success.delivered')}
-          />
-        );
-      default:
-        return null;
+    if (currentOrder?.id) {
+      switch (type) {
+        case 'CONFIRM_CANCEL':
+          return (
+            <ConfirmOrder title={t('transactions.modal.title.confirmCancel')} />
+          );
+        case 'DELIVERY_ORDER_OTP':
+          return <DeliverOrderOTP order={currentOrder} />;
+        default:
+          return null;
+      }
     }
   };
 
@@ -102,50 +75,68 @@ export const OrderList: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map(item => {
-              return (
-                <tr key={item.id} onClick={handleTableItemClick(item.id)}>
-                  <td>{item.merchant_order_id}</td>
-                  <td>{item.created_at}</td>
-                  <td>{moneyFormatter.format(item.amount)}</td>
-                  <td>{phoneNumberFormatter(item.phoneNumber)}</td>
-                  <td>
-                    {item.app_status && (
-                      <TagButton
-                        size="s"
-                        className={`status status-${item.app_status}`}
-                      >
-                        {t(
-                          `transactions.status.type.${item.app_status}`
-                        ).toUpperCase()}
-                      </TagButton>
-                    )}
-                  </td>
-                  <td>
-                    <Space direction="horizontal" size={8}>
-                      <IconButton
-                        size="xs"
-                        icon={CheckmarkIcon}
-                        className="icon-button bg-green"
-                        onClick={handleModalOpen('SEND_ORDER_OTP')}
-                      />
-                      <IconButton
-                        size="xs"
-                        icon={PencilHeavyIcon}
-                        className="icon-button bg-blue"
-                        onClick={handleModalOpen('DELIVERY_ORDER_OTP')}
-                      />
-                      <IconButton
-                        size="xs"
-                        icon={CrossHeavyIcon}
-                        className="icon-button bg-red"
-                        onClick={handleModalOpen('CONFIRM_ORDER')}
-                      />
-                    </Space>
-                  </td>
-                </tr>
-              );
-            })}
+            {isLoading &&
+              Array.from({ length: 15 }, (_, index) => {
+                return (
+                  <tr key={index}>
+                    {Array.from({ length: 6 }, (_, j) => {
+                      return (
+                        <td key={'td_' + j}>
+                          <Skeleton visible={true} animate={true}>
+                            -
+                          </Skeleton>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            {isSuccess &&
+              data.map((item: IOrder) => {
+                return (
+                  <tr key={item.id}>
+                    <td>{item.merchant_order_id}</td>
+                    <td>{format(parseISO(item.created_at), 'dd.MM.yyyy')}</td>
+                    <td>{moneyFormatter.format(item.amount)}</td>
+                    <td>{phoneNumberFormatter(item.phoneNumber)}</td>
+                    <td>
+                      {item.app_status && (
+                        <TagButton
+                          size="s"
+                          className={`status status-${item.app_status}`}
+                        >
+                          {t(
+                            `transactions.status.type.${item.app_status}`
+                          ).toUpperCase()}
+                        </TagButton>
+                      )}
+                    </td>
+                    <td>
+                      <Space direction="horizontal" size={8}>
+                        <Link to={`${TRANSACTIONS}/${item.id}`}>
+                          <IconButton
+                            size="xs"
+                            icon={PencilHeavyIcon}
+                            className="icon-button bg-blue"
+                          />
+                        </Link>
+                        <IconButton
+                          size="xs"
+                          icon={CheckmarkIcon}
+                          className="icon-button bg-green"
+                          onClick={handleModalOpen('DELIVERY_ORDER_OTP', item)}
+                        />
+                        <IconButton
+                          size="xs"
+                          icon={CrossHeavyIcon}
+                          className="icon-button bg-red"
+                          onClick={handleModalOpen('CONFIRM_CANCEL', item)}
+                        />
+                      </Space>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
