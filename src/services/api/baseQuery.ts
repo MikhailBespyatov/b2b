@@ -1,5 +1,6 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import configs from './../../config/enviroments';
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://rancher-test.alfa-bank.kz:30380/accounting'
+  baseUrl: configs.SERVER
 });
