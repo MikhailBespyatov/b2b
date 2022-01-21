@@ -5,22 +5,43 @@ export const transactionAPI = createApi({
   reducerPath: 'transactionAPI',
   baseQuery,
   endpoints: builder => ({
+    getStatuses: builder.query({
+      query: () => '/accounting/statuses'
+    }),
+    getStatusById: builder.query({
+      query: id => `/accounting/statuses/${id}`
+    }),
     getTransactions: builder.query({
-      query: ({ from, to }) => ({
-        url: '/applications',
-        params: { from, to }
+      query: ({
+        merchantId,
+        dateCreate,
+        deliveryDate,
+        status,
+        between,
+        sort,
+        limit,
+        page
+      }) => ({
+        url: '/accounting/applications',
+        params: {
+          merchantId,
+          dateCreate,
+          deliveryDate,
+          status,
+          between,
+          sort,
+          lim: limit,
+          page
+        }
       })
     }),
     getTransactionById: builder.query({
-      query: id => ({
-        url: '/applications',
-        params: { id }
-      })
+      query: id => `/accounting/application/${id}`
     }),
     postSendOtp: builder.mutation({
-      query: ({ merchantOrderId, merchantId }) => {
+      query: ({ merchantOrderId = '121123', merchantId = '1' }) => {
         return {
-          url: '/sendOtp',
+          url: '/accounting/sendOtp',
           method: 'POST',
           body: {
             merchantOrderId: merchantOrderId,
@@ -32,7 +53,7 @@ export const transactionAPI = createApi({
     postCheckOtp: builder.mutation({
       query: ({ merchantOrderId, merchantId, otpCode }) => {
         return {
-          url: '/checkOtp',
+          url: '/accounting/checkOtp',
           method: 'POST',
           body: {
             merchantOrderId: merchantOrderId,
@@ -46,6 +67,7 @@ export const transactionAPI = createApi({
 });
 
 export const {
+  useGetStatusesQuery,
   useGetTransactionsQuery,
   useGetTransactionByIdQuery,
   usePostSendOtpMutation,

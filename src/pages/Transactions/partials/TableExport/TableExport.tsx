@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Col, Container, Row } from 'react-grid-system';
 import { CalendarRange } from '@alfalab/core-components/calendar-range';
 
@@ -6,11 +7,15 @@ import { FileCSVIcon, FilePDFIcon } from '../../../../components/ui/icons';
 import { useGetTransactionsQuery } from '../../../../services/api/transactionAPI';
 
 export const TableExport: FC = () => {
+  const { t } = useTranslation();
   const [skip, setSkip] = useState(true);
-  const [dateFrom, setDateFrom] = useState<undefined | string>();
-  const [dateTo, setDateTo] = useState<undefined | string>();
-  const { data } = useGetTransactionsQuery(
-    { to: dateTo, from: dateFrom },
+  const [dateCreate, setDateCreate] = useState<string | undefined>();
+  const [deliveryDate, setDeliveryDate] = useState<string | undefined>();
+  const { data, isLoading, isSuccess } = useGetTransactionsQuery(
+    {
+      dateCreate,
+      deliveryDate
+    },
     {
       skip
     }
@@ -19,6 +24,31 @@ export const TableExport: FC = () => {
   const handleExportClick = (fileType: 'PDF' | 'CSV') => () => {
     setSkip(prev => !prev);
   };
+
+  const headers = useMemo(() => {
+    return [
+      {
+        key: 'id',
+        name: t('transactions.table.orderNumber')
+      },
+      {
+        key: 'created_at',
+        name: t('transactions.table.date')
+      },
+      {
+        key: 'amount',
+        name: t('transactions.table.amount')
+      },
+      {
+        key: 'phoneNumber',
+        name: t('transaction.data.phoneNumber')
+      },
+      {
+        key: 'app_status',
+        name: t('transactions.table.status')
+      }
+    ];
+  }, [t]);
 
   return (
     <Container fluid={true} className="table-export">
@@ -45,8 +75,8 @@ export const TableExport: FC = () => {
         >
           <CalendarRange
             calendarPosition="popover"
-            onDateFromChange={({ value }) => setDateFrom(value)}
-            onDateToChange={({ value }) => setDateTo(value)}
+            onDateFromChange={({ value }) => setDateCreate(value)}
+            onDateToChange={({ value }) => setDeliveryDate(value)}
           />
         </Col>
       </Row>
