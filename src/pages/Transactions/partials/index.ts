@@ -1,4 +1,3 @@
-export { Filter } from './Filter';
 export { TableExport } from './TableExport';
 export { OrderList } from './OrderList';
 export { SendOrderOTP } from './SendOrderOTP';

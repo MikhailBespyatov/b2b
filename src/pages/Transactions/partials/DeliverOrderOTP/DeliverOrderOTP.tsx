@@ -25,29 +25,43 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
   const { handleSubmit, control } = useForm();
 
   const lastMutation = useRef<any>(undefined);
-  const [postSendOtp, { isLoading: isSendingOtp, isSuccess: hasSentOtp }] =
-    usePostSendOtpMutation();
-  const [postCheckOtp, { isLoading: isCheckingOtp, isSuccess, isError }] =
-    usePostCheckOtpMutation();
+  const [
+    postSendOtp,
+    {
+      isLoading: isSendingOtp,
+      isSuccess: hasSentOtp,
+      isError: isErrorSendOtp,
+      error: errorSendOtp
+    }
+  ] = usePostSendOtpMutation();
+  const [
+    postCheckOtp,
+    {
+      isLoading: isCheckingOtp,
+      isSuccess: hasCheckedOtp,
+      isError: isErrorCheckOtp,
+      error: errorCheckOtp
+    }
+  ] = usePostCheckOtpMutation();
 
   useEffect(() => {
-    postSendOtp({ merchantOrderId: order.merchant_order_id, merchantId: 1234 });
+    postSendOtp({ merchantOrderId: '121123', merchantId: '1' });
   }, [postSendOtp, order.merchant_order_id]);
 
   const handleOtpResend = () => {
-    postSendOtp({ merchantOrderId: order.merchant_order_id, merchantId: 1234 });
+    postSendOtp({ merchantOrderId: '121123', merchantId: '1' });
     lastMutation.current?.unsubscribe();
   };
 
   const onSubmit = ({ otpCode }: { otpCode: string }) => {
     lastMutation.current = postCheckOtp({
-      merchantOrderId: order.merchant_order_id,
-      merchantId: 1234,
+      merchantOrderId: '121123',
+      merchantId: '1',
       otpCode: otpCode
     });
   };
 
-  if (isSuccess) {
+  if (hasCheckedOtp) {
     return (
       <OrderStatus
         status="success"
@@ -89,7 +103,9 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
                     phoneNumber: order.phoneNumber
                   })
                 }
-                error={isError && t('transactions.modal.error.otpNoMatch')}
+                error={
+                  isErrorCheckOtp && t('transactions.modal.error.otpNoMatch')
+                }
                 {...field}
               />
             )}
@@ -103,7 +119,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
                 type="submit"
                 view="extra"
                 width="available"
-                disabled={isError || isCheckingOtp}
+                disabled={isErrorCheckOtp || isCheckingOtp}
                 icon={isCheckingOtp && <Spinner visible={true} />}
               >
                 {t('transactions.modal.button.confirm')}

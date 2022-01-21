@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-location';
 import format from 'date-fns/format';
@@ -8,6 +8,9 @@ import AlphaIcon from 'arui-feather/icon/brand/bank-2449';
 import { Space } from '@alfalab/core-components/space';
 import { IconButton } from '@alfalab/core-components/icon-button';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
+import { ArrowDownCompactXsIcon } from '@alfalab/icons-glyph/ArrowDownCompactXsIcon';
+import { ArrowUpCompactXsIcon } from '@alfalab/icons-glyph/ArrowUpCompactXsIcon';
+import { Skeleton } from '@alfalab/core-components/skeleton';
 
 import { TRANSACTIONS } from '../../../../navigation/CONSTANTS';
 import { ModalType } from '../../Transactions.model';
@@ -21,17 +24,27 @@ import {
   PencilHeavyIcon
 } from '../../../../components/ui/icons';
 import { DeliverOrderOTP, ConfirmOrder } from '../index';
-import { Skeleton } from '@alfalab/core-components/skeleton';
-import { useGetTransactionsQuery } from '../../../../services/api/transactionAPI';
-import { IOrder } from '../../../../models/IOrder';
+import { IOrder, IOrderSort } from '../../../../models/IOrder';
+import { sortOperator } from '../../../../utils/sorts';
 
-export const OrderList: FC = () => {
+type PropTypes = {
+  data: IOrder[];
+  isLoading: boolean;
+  orderSort: IOrderSort;
+  handleChangeSort: (value: IOrderSort) => void;
+};
+
+export const OrderList: FC<PropTypes> = ({
+  data,
+  isLoading,
+  orderSort,
+  handleChangeSort
+}) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
   const [modalType, setModalType] = useState<ModalType>();
   const [currentOrder, setCurrentOrder] = useState<IOrder>();
-  //const { data } = useSelector((state: RootState) => state.transaction);
-  const { data, isLoading, isSuccess } = useGetTransactionsQuery('');
 
   const handleModalOpen =
     (type: ModalType, order: IOrder) => (e: React.SyntheticEvent) => {
@@ -41,9 +54,9 @@ export const OrderList: FC = () => {
       setCurrentOrder(order);
     };
 
-  const handleModalClose = () => {
+  const handleModalClose = useCallback(() => {
     setOpen(false);
-  };
+  }, [setOpen]);
 
   const renderModalContent = (type: ModalType) => {
     if (currentOrder?.id) {
@@ -60,15 +73,55 @@ export const OrderList: FC = () => {
     }
   };
 
+  const handleSortButtonClick =
+    (type: 'id' | 'created_at' | 'amount') => () => {
+      handleChangeSort({
+        ...orderSort,
+        [type]: sortOperator(orderSort[type])
+      });
+    };
+
+  const renderSortButton = (type: 'id' | 'created_at' | 'amount') => {
+    return (
+      <span>
+        {orderSort[type] === 'asc' ? (
+          <ArrowUpCompactXsIcon fill="#1A8DF9" />
+        ) : (
+          <ArrowUpCompactXsIcon />
+        )}
+        {orderSort[type] === 'desc' ? (
+          <ArrowDownCompactXsIcon fill="#1A8DF9" />
+        ) : (
+          <ArrowDownCompactXsIcon />
+        )}
+      </span>
+    );
+  };
+
   return (
     <>
       <div className="overflowX">
         <table className="table">
           <thead>
             <tr>
-              <td>{t('transactions.table.orderNumber')}</td>
-              <td>{t('transactions.table.date')}</td>
-              <td>{t('transactions.table.amount')}</td>
+              <td onClick={handleSortButtonClick('id')}>
+                <div>
+                  {t('transactions.table.orderNumber')}
+                  {renderSortButton('id')}
+                </div>
+              </td>
+              <td onClick={handleSortButtonClick('created_at')}>
+                <div>
+                  {t('transactions.table.date')}
+                  {renderSortButton('created_at')}
+                </div>
+              </td>
+              <td onClick={handleSortButtonClick('amount')}>
+                <div>
+                  {t('transactions.table.amount')}
+                  {renderSortButton('amount')}
+                </div>
+              </td>
               <td>{t('transaction.data.phoneNumber')}</td>
               <td>{t('transactions.table.status')}</td>
               <td>{t('transactions.table.action')}</td>
@@ -91,13 +144,19 @@ export const OrderList: FC = () => {
                   </tr>
                 );
               })}
-            {isSuccess &&
+            {Array.isArray(data) &&
               data.map((item: IOrder) => {
                 return (
                   <tr key={item.id}>
-                    <td>{item.merchant_order_id}</td>
-                    <td>{format(parseISO(item.created_at), 'dd.MM.yyyy')}</td>
-                    <td>{moneyFormatter.format(item.amount)}</td>
+                    <td className={orderSort.id && 'table__sorted'}>
+                      {item.merchant_order_id}
+                    </td>
+                    <td className={orderSort.created_at && 'table__sorted'}>
+                      {format(parseISO(item.created_at), 'dd.MM.yyyy')}
+                    </td>
+                    <td className={orderSort.amount && 'table__sorted'}>
+                      {moneyFormatter.format(item.amount)}
+                    </td>
                     <td>{phoneNumberFormatter(item.phoneNumber)}</td>
                     <td>
                       {item.app_status && (
