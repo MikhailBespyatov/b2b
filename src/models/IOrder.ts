@@ -6,20 +6,31 @@ export interface IOrder {
   phoneNumber: string;
   created_at: string;
   otp_updated_at: string;
+  fio?: string;
 }
+
+export type IOrderSortFields = 'id' | 'created_at' | 'items_amount' | '';
+export type IOrderSortOptions = 'asc' | 'desc' | '';
 
 export interface IOrderSort {
-  id: 'asc' | 'desc' | '';
-  created_at: 'asc' | 'desc' | '';
-  amount: 'asc' | 'desc' | '';
+  field: IOrderSortFields;
+  sort: IOrderSortOptions;
 }
 
-export interface IOrderFilterFields {
-  merchantId: string | undefined;
-  transactionNumber: string | undefined;
-  phoneNumber: string | undefined;
-  dateCreate: string | undefined;
-  deliveryDate: string | undefined;
-  status: string | undefined;
-  amount: number | undefined;
+export type IOrderFilterFields =
+  | 'merchant_order_id'
+  | 'ph_number'
+  | 'created_at'
+  | 'otp_updated_at'
+  | 'app_status'
+  | 'order_amount'
+  | '';
+
+export interface IOrderFilter {
+  merchant_order_id: number | undefined;
+  ph_number: string | undefined;
+  created_at: string | undefined;
+  otp_updated_at: string | undefined;
+  app_status: string | undefined;
+  order_amount: number | undefined;
 }

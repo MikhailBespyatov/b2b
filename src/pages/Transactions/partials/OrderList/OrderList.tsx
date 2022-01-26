@@ -23,8 +23,12 @@ import {
   CrossHeavyIcon,
   PencilHeavyIcon
 } from '../../../../components/ui/icons';
-import { DeliverOrderOTP, ConfirmOrder } from '../index';
-import { IOrder, IOrderSort } from '../../../../models/IOrder';
+import { DeliverOrderOTP, CancelOrder } from '../index';
+import {
+  IOrder,
+  IOrderSort,
+  IOrderSortFields
+} from '../../../../models/IOrder';
 import { sortOperator } from '../../../../utils/sorts';
 
 type PropTypes = {
@@ -63,7 +67,10 @@ export const OrderList: FC<PropTypes> = ({
       switch (type) {
         case 'CONFIRM_CANCEL':
           return (
-            <ConfirmOrder title={t('transactions.modal.title.confirmCancel')} />
+            <CancelOrder
+              orderId={currentOrder.id}
+              title={t('transactions.modal.title.cancelOrder')}
+            />
           );
         case 'DELIVERY_ORDER_OTP':
           return <DeliverOrderOTP order={currentOrder} />;
@@ -73,29 +80,39 @@ export const OrderList: FC<PropTypes> = ({
     }
   };
 
-  const handleSortButtonClick =
-    (type: 'id' | 'created_at' | 'amount') => () => {
-      handleChangeSort({
-        ...orderSort,
-        [type]: sortOperator(orderSort[type])
-      });
-    };
+  const handleSortButtonClick = (field: IOrderSortFields) => () => {
+    const sortValue = sortOperator(orderSort.sort);
 
-  const renderSortButton = (type: 'id' | 'created_at' | 'amount') => {
-    return (
-      <span>
-        {orderSort[type] === 'asc' ? (
-          <ArrowUpCompactXsIcon fill="#1A8DF9" />
-        ) : (
+    handleChangeSort({
+      field: sortValue ? field : '',
+      sort: orderSort.field === field ? sortValue : 'asc'
+    });
+  };
+
+  const renderSortButton = (field: IOrderSortFields) => {
+    if (field === orderSort.field) {
+      return (
+        <span>
+          {orderSort.sort === 'asc' ? (
+            <ArrowUpCompactXsIcon fill="#1A8DF9" />
+          ) : (
+            <ArrowUpCompactXsIcon />
+          )}
+          {orderSort.sort === 'desc' ? (
+            <ArrowDownCompactXsIcon fill="#1A8DF9" />
+          ) : (
+            <ArrowDownCompactXsIcon />
+          )}
+        </span>
+      );
+    } else {
+      return (
+        <span>
           <ArrowUpCompactXsIcon />
-        )}
-        {orderSort[type] === 'desc' ? (
-          <ArrowDownCompactXsIcon fill="#1A8DF9" />
-        ) : (
           <ArrowDownCompactXsIcon />
-        )}
-      </span>
-    );
+        </span>
+      );
+    }
   };
 
   return (
@@ -116,10 +133,10 @@ export const OrderList: FC<PropTypes> = ({
                   {renderSortButton('created_at')}
                 </div>
               </td>
-              <td onClick={handleSortButtonClick('amount')}>
+              <td onClick={handleSortButtonClick('items_amount')}>
                 <div>
                   {t('transactions.table.amount')}
-                  {renderSortButton('amount')}
+                  {renderSortButton('items_amount')}
                 </div>
               </td>
               <td>{t('transaction.data.phoneNumber')}</td>
@@ -148,13 +165,27 @@ export const OrderList: FC<PropTypes> = ({
               data.map((item: IOrder) => {
                 return (
                   <tr key={item.id}>
-                    <td className={orderSort.id && 'table__sorted'}>
+                    <td
+                      className={
+                        orderSort.field === 'id' ? 'table__sorted' : ''
+                      }
+                    >
                       {item.merchant_order_id}
                     </td>
-                    <td className={orderSort.created_at && 'table__sorted'}>
+                    <td
+                      className={
+                        orderSort.field === 'created_at' ? 'table__sorted' : ''
+                      }
+                    >
                       {format(parseISO(item.created_at), 'dd.MM.yyyy')}
                     </td>
-                    <td className={orderSort.amount && 'table__sorted'}>
+                    <td
+                      className={
+                        orderSort.field === 'items_amount'
+                          ? 'table__sorted'
+                          : ''
+                      }
+                    >
                       {moneyFormatter.format(item.amount)}
                     </td>
                     <td>{phoneNumberFormatter(item.phoneNumber)}</td>
@@ -171,27 +202,32 @@ export const OrderList: FC<PropTypes> = ({
                       )}
                     </td>
                     <td>
-                      <Space direction="horizontal" size={8}>
-                        <Link to={`${TRANSACTIONS}/${item.id}`}>
+                      {item.app_status !== 'cancelled' && (
+                        <Space direction="horizontal" size={8}>
+                          <Link to={`${TRANSACTIONS}/${item.id}`}>
+                            <IconButton
+                              size="xs"
+                              icon={PencilHeavyIcon}
+                              className="icon-button bg-blue"
+                            />
+                          </Link>
                           <IconButton
                             size="xs"
-                            icon={PencilHeavyIcon}
-                            className="icon-button bg-blue"
+                            icon={CheckmarkIcon}
+                            className="icon-button bg-green"
+                            onClick={handleModalOpen(
+                              'DELIVERY_ORDER_OTP',
+                              item
+                            )}
                           />
-                        </Link>
-                        <IconButton
-                          size="xs"
-                          icon={CheckmarkIcon}
-                          className="icon-button bg-green"
-                          onClick={handleModalOpen('DELIVERY_ORDER_OTP', item)}
-                        />
-                        <IconButton
-                          size="xs"
-                          icon={CrossHeavyIcon}
-                          className="icon-button bg-red"
-                          onClick={handleModalOpen('CONFIRM_CANCEL', item)}
-                        />
-                      </Space>
+                          <IconButton
+                            size="xs"
+                            icon={CrossHeavyIcon}
+                            className="icon-button bg-red"
+                            onClick={handleModalOpen('CONFIRM_CANCEL', item)}
+                          />
+                        </Space>
+                      )}
                     </td>
                   </tr>
                 );

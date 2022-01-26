@@ -21,7 +21,7 @@ import {
 } from '../../components/ui/icons';
 import { useGetTransactionByIdQuery } from '../../services/api/transactionAPI';
 import { ModalType } from '../Transactions/Transactions.model';
-import { ConfirmOrder, DeliverOrderOTP } from '../Transactions/partials';
+import { CancelOrder, DeliverOrderOTP } from '../Transactions/partials';
 import './Transaction.css';
 
 export const Transaction: FC = () => {
@@ -47,7 +47,10 @@ export const Transaction: FC = () => {
       switch (type) {
         case 'CONFIRM_CANCEL':
           return (
-            <ConfirmOrder title={t('transactions.modal.title.confirmCancel')} />
+            <CancelOrder
+              orderId={data.id}
+              title={t('transactions.modal.title.cancelOrder')}
+            />
           );
         case 'DELIVERY_ORDER_OTP':
           return <DeliverOrderOTP order={data} />;
@@ -69,28 +72,30 @@ export const Transaction: FC = () => {
     <>
       {isSuccess && (
         <>
-          <Space direction="horizontal" size={8}>
-            <Typography.Title tag="h2" className="transaction__title">
-              {t('transaction.header.title')} №{data.id}
-            </Typography.Title>
-            <IconButton
-              size="xs"
-              icon={PencilHeavyIcon}
-              className="icon-button bg-blue"
-            />
-            <IconButton
-              size="xs"
-              icon={CheckmarkIcon}
-              className="icon-button bg-green"
-              onClick={handleModalOpen('DELIVERY_ORDER_OTP')}
-            />
-            <IconButton
-              size="xs"
-              icon={CrossHeavyIcon}
-              className="icon-button bg-red"
-              onClick={handleModalOpen('CONFIRM_CANCEL')}
-            />
-          </Space>
+          {data.app_status !== 'cancelled' && (
+            <Space direction="horizontal" size={8}>
+              <Typography.Title tag="h2" className="transaction__title">
+                {t('transaction.header.title')} №{data.id}
+              </Typography.Title>
+              <IconButton
+                size="xs"
+                icon={PencilHeavyIcon}
+                className="icon-button bg-blue"
+              />
+              <IconButton
+                size="xs"
+                icon={CheckmarkIcon}
+                className="icon-button bg-green"
+                onClick={handleModalOpen('DELIVERY_ORDER_OTP')}
+              />
+              <IconButton
+                size="xs"
+                icon={CrossHeavyIcon}
+                className="icon-button bg-red"
+                onClick={handleModalOpen('CONFIRM_CANCEL')}
+              />
+            </Space>
+          )}
           <OrderHistory order={data} />
           <BuyerInfo order={data} />
           <OrderComposition />

@@ -63,7 +63,7 @@ export const ChangesHistory: FC<PropTypes> = ({ order }) => {
               <Label className="bold_600">
                 {t('transaction.data.changeResponsibility')}:
               </Label>
-              <span className="collapse__box-value">Name Surname</span>
+              <span className="collapse__box-value">{order.fio}</span>
             </div>
           </Col>
         </Row>

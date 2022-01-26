@@ -27,3 +27,16 @@ export const phoneNumberFormatter = (str: string) => {
 export const calculatePercent = (amount: number, num: number) => {
   return Math.round(Number((num / amount).toFixed(2)) * 100);
 };
+
+export const toSelectOptions = (
+  array: [],
+  valueKey: string,
+  textKey: string
+) => {
+  return array.map(item => {
+    return {
+      value: item[valueKey],
+      text: item[textKey]
+    };
+  });
+};

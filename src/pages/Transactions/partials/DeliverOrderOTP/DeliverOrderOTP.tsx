@@ -25,22 +25,14 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
   const { handleSubmit, control } = useForm();
 
   const lastMutation = useRef<any>(undefined);
-  const [
-    postSendOtp,
-    {
-      isLoading: isSendingOtp,
-      isSuccess: hasSentOtp,
-      isError: isErrorSendOtp,
-      error: errorSendOtp
-    }
-  ] = usePostSendOtpMutation();
+  const [postSendOtp, { isLoading: isSendingOtp, isSuccess: hasSentOtp }] =
+    usePostSendOtpMutation();
   const [
     postCheckOtp,
     {
       isLoading: isCheckingOtp,
       isSuccess: hasCheckedOtp,
-      isError: isErrorCheckOtp,
-      error: errorCheckOtp
+      isError: isErrorCheckOtp
     }
   ] = usePostCheckOtpMutation();
 
@@ -99,6 +91,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
                 label={t('transactions.modal.input.smsCode')}
                 hint={
                   hasSentOtp &&
+                  !isErrorCheckOtp &&
                   t('transactions.modal.hint.confirmDelivery', {
                     phoneNumber: order.phoneNumber
                   })

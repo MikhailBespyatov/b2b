@@ -22,6 +22,7 @@
   "transactions.modal.hint.confirmDelivery": "СМС-код отправлен клиенту, на номер {{phoneNumber}}",
   "transactions.modal.title.confirmAction": "Вы подтверждаете действие?",
   "transactions.modal.title.confirmCancel": "Вы подтверждаете отмену?",
+  "transactions.modal.title.cancelOrder": "Отмена заказа",
   "transactions.modal.button.confirm": "Подтвердить",
   "transactions.modal.button.cancel": "Отменить",
   "transactions.modal.button.resend": "Переотправить",
