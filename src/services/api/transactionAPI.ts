@@ -5,18 +5,14 @@ export const transactionAPI = createApi({
   reducerPath: 'transactionAPI',
   baseQuery,
   endpoints: builder => ({
-    getStatuses: builder.query({
-      query: () => '/accounting/statuses'
-    }),
-    getStatusById: builder.query({
-      query: id => `/accounting/statuses/${id}`
-    }),
     getTransactions: builder.query({
       query: ({
-        merchantId,
-        dateCreate,
-        deliveryDate,
-        status,
+        merchant_order_id,
+        created_at,
+        otp_updated_at,
+        app_status,
+        order_amount,
+        ph_number,
         between,
         sort,
         limit,
@@ -24,10 +20,12 @@ export const transactionAPI = createApi({
       }) => ({
         url: '/accounting/applications',
         params: {
-          merchantId,
-          dateCreate,
-          deliveryDate,
-          status,
+          merchant_order_id,
+          created_at,
+          otp_updated_at,
+          app_status,
+          order_amount,
+          ph_number,
           between,
           sort,
           lim: limit,
@@ -38,8 +36,17 @@ export const transactionAPI = createApi({
     getTransactionById: builder.query({
       query: id => `/accounting/application/${id}`
     }),
+    updateTransactionStatus: builder.mutation({
+      query: body => {
+        return {
+          url: '/changeStatus/json',
+          method: 'PUT',
+          body
+        };
+      }
+    }),
     postSendOtp: builder.mutation({
-      query: ({ merchantOrderId = '121123', merchantId = '1' }) => {
+      query: ({ merchantOrderId, merchantId }) => {
         return {
           url: '/accounting/sendOtp',
           method: 'POST',
@@ -67,9 +74,9 @@ export const transactionAPI = createApi({
 });
 
 export const {
-  useGetStatusesQuery,
   useGetTransactionsQuery,
   useGetTransactionByIdQuery,
   usePostSendOtpMutation,
-  usePostCheckOtpMutation
+  usePostCheckOtpMutation,
+  useUpdateTransactionStatusMutation
 } = transactionAPI;

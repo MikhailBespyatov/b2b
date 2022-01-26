@@ -14,7 +14,7 @@ type PropTypes = {
   orderId: number;
 };
 
-export const ConfirmOrder: FC<PropTypes> = ({ orderId, title }) => {
+export const CancelOrder: FC<PropTypes> = ({ orderId, title }) => {
   const { t } = useTranslation();
 
   const [updateStatus, { isLoading }] = useUpdateTransactionStatusMutation();
@@ -35,7 +35,7 @@ export const ConfirmOrder: FC<PropTypes> = ({ orderId, title }) => {
     <>
       <FormField size="m">
         <Typography.Title tag="h2" view="medium" weight="bold">
-          {title}
+          {title} №{orderId}
         </Typography.Title>
       </FormField>
       <div className="modal-responsive__footer">
