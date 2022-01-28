@@ -29,7 +29,6 @@ import './Transactions.css';
 
 export const Transactions: FC = () => {
   const { t } = useTranslation();
-
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(10);
@@ -216,7 +215,7 @@ export const Transactions: FC = () => {
         orderSort={tableSort}
         handleChangeSort={handleChangeSort}
       />
-      <div className="table-pagination">
+      <div className="mb-20">
         <Pagination
           currentPageIndex={currentPage - 1}
           pagesCount={data?.totalPages}

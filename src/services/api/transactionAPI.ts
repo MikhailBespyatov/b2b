@@ -4,6 +4,7 @@ import { baseQuery } from './baseQuery';
 export const transactionAPI = createApi({
   reducerPath: 'transactionAPI',
   baseQuery,
+  tagTypes: ['Transactions'],
   endpoints: builder => ({
     getTransactions: builder.query({
       query: ({
@@ -31,44 +32,48 @@ export const transactionAPI = createApi({
           lim: limit,
           page
         }
-      })
+      }),
+      providesTags: [{ type: 'Transactions', id: 'LIST' }]
     }),
     getTransactionById: builder.query({
-      query: id => `/accounting/application/${id}`
+      query: id => `/accounting/application/${id}`,
+      providesTags: (result, error, arg) => [{ type: 'Transactions', id: arg }]
     }),
     updateTransactionStatus: builder.mutation({
-      query: body => {
+      query: ({ body }) => {
         return {
           url: '/changeStatus/json',
           method: 'PUT',
           body
         };
-      }
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Transactions', id: arg.id }
+      ]
     }),
     postSendOtp: builder.mutation({
-      query: ({ merchantOrderId, merchantId }) => {
+      query: ({ body }) => {
         return {
           url: '/accounting/sendOtp',
           method: 'POST',
-          body: {
-            merchantOrderId: merchantOrderId,
-            merchantId: merchantId
-          }
+          body
         };
-      }
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Transactions', id: arg.id }
+      ]
     }),
     postCheckOtp: builder.mutation({
-      query: ({ merchantOrderId, merchantId, otpCode }) => {
+      query: ({ body }) => {
         return {
           url: '/accounting/checkOtp',
           method: 'POST',
-          body: {
-            merchantOrderId: merchantOrderId,
-            merchantId: merchantId,
-            otp: otpCode
-          }
+          body
         };
-      }
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Transactions', id: arg.id }
+      ]
     })
   })
 });

@@ -1,40 +1,48 @@
-import React, { FC, useEffect } from 'react';
-import NotificationUI from 'arui-feather/notification';
-import { getNotificationInitValues } from '../../utils/notificationState';
+import React, { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Notification as NotificationUI } from '@alfalab/core-components/notification';
+import { RootStateType } from '../../redux/store';
+import { removeToast } from '../../redux/slices/app-slice';
 
-type PropTypes = {
-  notification: any;
-  setNotification: any;
-};
+export const Notification: FC = () => {
+  const dispatch = useDispatch();
+  const notifications = useSelector(
+    (state: RootStateType) => state.app.notifications
+  );
 
-export const Notification: FC<PropTypes> = ({
-  notification,
-  setNotification
-}) => {
-  useEffect(() => {
-    setNotification(notification);
-  }, [notification]);
-
-  const mapText = () => {
-    return notification.text.map((text: any) => {
-      return <div>{text.message}</div>;
-    });
-  };
+  const hideNotification = React.useCallback(
+    (id: string) => () => {
+      dispatch(removeToast(id));
+    },
+    [dispatch]
+  );
 
   return (
-    <React.Fragment>
-      <NotificationUI
-        visible={notification.show}
-        offset={20}
-        stickTo="right"
-        title={notification.title}
-        status={notification.type}
-        onCloserClick={() => {
-          setNotification(getNotificationInitValues());
-        }}
-      >
-        {Array.isArray(notification.text) ? mapText() : notification.text}
-      </NotificationUI>
-    </React.Fragment>
+    <>
+      {notifications.map((notification, index: number) => {
+        return (
+          <NotificationUI
+            key={notification.id}
+            className="notification"
+            badge={notification.badge}
+            title={notification.title}
+            visible={notification?.show || true}
+            offset={30 + 100 * index}
+            autoCloseDelay={
+              notification?.autoCloseDelay && notification.autoCloseDelay
+            }
+            onClickOutside={
+              notification?.isEnabledOutsideClick
+                ? hideNotification(notification.id)
+                : undefined
+            }
+            onClose={hideNotification(notification.id)}
+            onCloseTimeout={hideNotification(notification.id)}
+          >
+            {notification.text}
+          </NotificationUI>
+        );
+      })}
+    </>
   );
 };

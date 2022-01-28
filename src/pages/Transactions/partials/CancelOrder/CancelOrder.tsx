@@ -1,64 +1,122 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Controller, useForm } from 'react-hook-form';
 import { FormField } from 'arui-feather/form-field';
 import Button from 'arui-feather/button';
+import { Select } from 'arui-feather/select';
 import { Typography } from '@alfalab/core-components/typography';
 import { Col } from '@alfalab/core-components/grid/col';
 import { Row } from '@alfalab/core-components/grid/row';
 import { Spinner } from '@alfalab/core-components/spinner';
 
 import { useUpdateTransactionStatusMutation } from '../../../../services/api/transactionAPI';
+import { OrderStatus } from '../OrderStatus';
 
 type PropTypes = {
   title: string;
-  orderId: number;
+  id: number;
+  merchantOrderId: number;
 };
 
-export const CancelOrder: FC<PropTypes> = ({ orderId, title }) => {
+export const CancelOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
   const { t } = useTranslation();
+  const { handleSubmit, control } = useForm();
 
-  const [updateStatus, { isLoading }] = useUpdateTransactionStatusMutation();
+  const [options] = useState([
+    {
+      text: t('transactions.modal.select.cancel.byTheClient'),
+      value: 'value1'
+    },
+    { text: t('transactions.modal.select.cancel.refused'), value: 'value2' },
+    {
+      text: t('transactions.modal.select.cancel.notDelivery'),
+      value: 'value3'
+    },
+    {
+      text: t('transactions.modal.select.cancel.outOfStock'),
+      value: 'value4'
+    }
+  ]);
 
-  const handleSubmit = () => {
+  const [updateStatus, { isLoading, isSuccess, isError, error }] =
+    useUpdateTransactionStatusMutation();
+
+  const onSubmit = () => {
     updateStatus({
-      merchantId: '121123',
-      orders: [
-        {
-          orderId: orderId,
-          status: 'cancelled'
-        }
-      ]
+      id,
+      body: {
+        merchantId: '1',
+        orders: [
+          {
+            orderId: merchantOrderId,
+            status: 'canceled'
+          }
+        ]
+      }
     });
   };
+
+  if (isSuccess) {
+    return <OrderStatus status="success" title="" />;
+  }
+
+  if (isError) {
+    //@ts-ignore
+    return <OrderStatus status="error" title={error?.data} />;
+  }
 
   return (
     <>
       <FormField size="m">
         <Typography.Title tag="h2" view="medium" weight="bold">
-          {title} №{orderId}
+          {title} №{merchantOrderId}
         </Typography.Title>
+        <p className="modal__subtitle">
+          {t('transactions.modal.subtitle.cancel')}
+        </p>
       </FormField>
-      <div className="modal-responsive__footer">
-        <Row align="middle">
-          <Col>
-            <Button
-              size="l"
-              view="extra"
-              width="available"
-              onClick={handleSubmit}
-              disabled={isLoading}
-              icon={isLoading && <Spinner visible={true} />}
-            >
-              {t('transactions.modal.button.confirm')}
-            </Button>
-          </Col>
-          <Col>
-            <Button size="l" view="default" width="available">
-              {t('transactions.modal.button.cancel')}
-            </Button>
-          </Col>
-        </Row>
-      </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormField size="m">
+          <Controller
+            name="reason"
+            control={control}
+            rules={{
+              required: true
+            }}
+            render={({ field }: any) => (
+              <Select
+                size="m"
+                mode="radio-check"
+                width="available"
+                className="select_theme_alfa-on-white select-button"
+                options={options}
+                {...field}
+              />
+            )}
+          />
+        </FormField>
+        <div className="modal-responsive__footer">
+          <Row align="middle">
+            <Col>
+              <Button
+                size="l"
+                view="extra"
+                type="submit"
+                width="available"
+                disabled={isLoading}
+                icon={isLoading && <Spinner visible={true} />}
+              >
+                {t('transactions.modal.button.confirm')}
+              </Button>
+            </Col>
+            <Col>
+              <Button size="l" view="default" width="available">
+                {t('transactions.modal.button.cancel')}
+              </Button>
+            </Col>
+          </Row>
+        </div>
+      </form>
     </>
   );
 };

@@ -11,23 +11,27 @@ import { useUpdateTransactionStatusMutation } from '../../../../services/api/tra
 
 type PropTypes = {
   title: string;
-  orderId: number;
+  id: number;
+  merchantOrderId: number;
 };
 
-export const ConfirmOrder: FC<PropTypes> = ({ orderId, title }) => {
+export const ConfirmOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
   const { t } = useTranslation();
 
   const [updateStatus, { isLoading }] = useUpdateTransactionStatusMutation();
 
   const handleSubmit = () => {
     updateStatus({
-      merchantId: '121123',
-      orders: [
-        {
-          orderId: orderId,
-          status: 'cancelled'
-        }
-      ]
+      id,
+      body: {
+        merchantId: '1',
+        orders: [
+          {
+            orderId: merchantOrderId,
+            status: 'readyDelivery'
+          }
+        ]
+      }
     });
   };
 
