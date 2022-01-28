@@ -10,7 +10,7 @@ import {
   TRANSACTIONS
 } from './CONSTANTS';
 import { Transaction, Transactions, Statistics, Analytics } from '../pages';
-import { Navbar } from '../components';
+import { Navbar, Notification } from '../components';
 import configs from './../config/enviroments';
 
 const routes = [
@@ -54,6 +54,7 @@ export const RouterConfig: FC = () => {
       location={reactLocation}
       routes={routes}
     >
+      <Notification />
       <Navbar />
       <Container fluid={true}>
         <Outlet />

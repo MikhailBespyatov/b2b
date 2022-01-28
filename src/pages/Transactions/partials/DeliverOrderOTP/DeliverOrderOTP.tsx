@@ -23,10 +23,16 @@ type PropTypes = {
 export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm();
-
   const lastMutation = useRef<any>(undefined);
-  const [postSendOtp, { isLoading: isSendingOtp, isSuccess: hasSentOtp }] =
-    usePostSendOtpMutation();
+  const [
+    postSendOtp,
+    {
+      isLoading: isSendingOtp,
+      isSuccess: hasSentOtp,
+      isError: isFailedOtp,
+      error: errorOtp
+    }
+  ] = usePostSendOtpMutation();
   const [
     postCheckOtp,
     {
@@ -37,19 +43,34 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
   ] = usePostCheckOtpMutation();
 
   useEffect(() => {
-    postSendOtp({ merchantOrderId: '121123', merchantId: '1' });
-  }, [postSendOtp, order.merchant_order_id]);
+    postSendOtp({
+      id: order.id,
+      body: {
+        merchantOrderId: order.merchant_order_id,
+        merchantId: '1'
+      }
+    });
+  }, [postSendOtp, order.id, order.merchant_order_id]);
 
   const handleOtpResend = () => {
-    postSendOtp({ merchantOrderId: '121123', merchantId: '1' });
+    postSendOtp({
+      id: order.id,
+      body: {
+        merchantOrderId: order.merchant_order_id,
+        merchantId: '1'
+      }
+    });
     lastMutation.current?.unsubscribe();
   };
 
-  const onSubmit = ({ otpCode }: { otpCode: string }) => {
+  const onSubmit = ({ otp }: { otp: string }) => {
     lastMutation.current = postCheckOtp({
-      merchantOrderId: '121123',
-      merchantId: '1',
-      otpCode: otpCode
+      id: order.id,
+      body: {
+        merchantOrderId: order.merchant_order_id,
+        merchantId: '1',
+        otp
+      }
     });
   };
 
@@ -60,6 +81,11 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
         title={t('transactions.modal.success.delivered')}
       />
     );
+  }
+  console.log({ isSendingOtp, errorOtp });
+  if (isFailedOtp) {
+    //@ts-ignore
+    return <OrderStatus status="error" title={errorOtp?.data?.message} />;
   }
 
   return (
@@ -77,7 +103,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField size="m">
           <Controller
-            name="otpCode"
+            name="otp"
             control={control}
             rules={{
               required: true

@@ -23,7 +23,7 @@ import {
   CrossHeavyIcon,
   PencilHeavyIcon
 } from '../../../../components/ui/icons';
-import { DeliverOrderOTP, CancelOrder } from '../index';
+import { DeliverOrderOTP, CancelOrder, ConfirmOrder } from '../index';
 import {
   IOrder,
   IOrderSort,
@@ -63,12 +63,23 @@ export const OrderList: FC<PropTypes> = ({
   }, [setOpen]);
 
   const renderModalContent = (type: ModalType) => {
-    if (currentOrder?.id) {
+    if (currentOrder?.merchant_order_id) {
       switch (type) {
+        case 'CONFIRM_ORDER':
+          return (
+            <ConfirmOrder
+              id={currentOrder.id}
+              merchantOrderId={currentOrder.merchant_order_id}
+              title={t('transactions.modal.title.confirmOrder', {
+                orderNumber: currentOrder.id
+              })}
+            />
+          );
         case 'CONFIRM_CANCEL':
           return (
             <CancelOrder
-              orderId={currentOrder.id}
+              id={currentOrder.id}
+              merchantOrderId={currentOrder.merchant_order_id}
               title={t('transactions.modal.title.cancelOrder')}
             />
           );
@@ -202,32 +213,36 @@ export const OrderList: FC<PropTypes> = ({
                       )}
                     </td>
                     <td>
-                      {item.app_status !== 'cancelled' && (
-                        <Space direction="horizontal" size={8}>
-                          <Link to={`${TRANSACTIONS}/${item.id}`}>
+                      {item?.app_status &&
+                        item.app_status !== 'cancelled' &&
+                        item?.merchant_order_id && (
+                          <Space direction="horizontal" size={8}>
+                            <Link to={`${TRANSACTIONS}/${item.id}`}>
+                              <IconButton
+                                size="xs"
+                                icon={PencilHeavyIcon}
+                                className="icon-button bg-blue"
+                              />
+                            </Link>
                             <IconButton
                               size="xs"
-                              icon={PencilHeavyIcon}
-                              className="icon-button bg-blue"
+                              icon={CheckmarkIcon}
+                              className="icon-button bg-green"
+                              onClick={handleModalOpen(
+                                item.app_status === 'new'
+                                  ? 'CONFIRM_ORDER'
+                                  : 'DELIVERY_ORDER_OTP',
+                                item
+                              )}
                             />
-                          </Link>
-                          <IconButton
-                            size="xs"
-                            icon={CheckmarkIcon}
-                            className="icon-button bg-green"
-                            onClick={handleModalOpen(
-                              'DELIVERY_ORDER_OTP',
-                              item
-                            )}
-                          />
-                          <IconButton
-                            size="xs"
-                            icon={CrossHeavyIcon}
-                            className="icon-button bg-red"
-                            onClick={handleModalOpen('CONFIRM_CANCEL', item)}
-                          />
-                        </Space>
-                      )}
+                            <IconButton
+                              size="xs"
+                              icon={CrossHeavyIcon}
+                              className="icon-button bg-red"
+                              onClick={handleModalOpen('CONFIRM_CANCEL', item)}
+                            />
+                          </Space>
+                        )}
                     </td>
                   </tr>
                 );
