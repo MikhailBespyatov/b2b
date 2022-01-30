@@ -3,14 +3,19 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 
 import * as reducer from './reducers';
 import { transactionAPI } from '../services/api/transactionAPI';
+import { directoryAPI } from '../services/api/directoryApi';
 
 const store = configureStore({
   reducer: {
     ...reducer,
-    [transactionAPI.reducerPath]: transactionAPI.reducer
+    [transactionAPI.reducerPath]: transactionAPI.reducer,
+    [directoryAPI.reducerPath]: directoryAPI.reducer
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(transactionAPI.middleware),
+    getDefaultMiddleware().concat(
+      transactionAPI.middleware,
+      directoryAPI.middleware
+    ),
   devTools: process.env.NODE_ENV !== 'production'
 });
 

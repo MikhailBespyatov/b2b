@@ -4,19 +4,16 @@ import { baseQuery } from './baseQuery';
 export const transactionAPI = createApi({
   reducerPath: 'transactionAPI',
   baseQuery,
+  tagTypes: ['Transactions'],
   endpoints: builder => ({
-    getStatuses: builder.query({
-      query: () => '/accounting/statuses'
-    }),
-    getStatusById: builder.query({
-      query: id => `/accounting/statuses/${id}`
-    }),
     getTransactions: builder.query({
       query: ({
-        merchantId,
-        dateCreate,
-        deliveryDate,
-        status,
+        merchant_order_id,
+        created_at,
+        otp_updated_at,
+        app_status,
+        order_amount,
+        ph_number,
         between,
         sort,
         limit,
@@ -24,52 +21,67 @@ export const transactionAPI = createApi({
       }) => ({
         url: '/accounting/applications',
         params: {
-          merchantId,
-          dateCreate,
-          deliveryDate,
-          status,
+          merchant_order_id,
+          created_at,
+          otp_updated_at,
+          app_status,
+          order_amount,
+          ph_number,
           between,
           sort,
           lim: limit,
           page
         }
-      })
+      }),
+      providesTags: [{ type: 'Transactions', id: 'LIST' }]
     }),
     getTransactionById: builder.query({
-      query: id => `/accounting/application/${id}`
+      query: id => `/accounting/application/${id}`,
+      providesTags: (result, error, arg) => [{ type: 'Transactions', id: arg }]
+    }),
+    updateTransactionStatus: builder.mutation({
+      query: ({ body }) => {
+        return {
+          url: '/changeStatus/json',
+          method: 'PUT',
+          body
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Transactions', id: arg.id }
+      ]
     }),
     postSendOtp: builder.mutation({
-      query: ({ merchantOrderId = '121123', merchantId = '1' }) => {
+      query: ({ body }) => {
         return {
           url: '/accounting/sendOtp',
           method: 'POST',
-          body: {
-            merchantOrderId: merchantOrderId,
-            merchantId: merchantId
-          }
+          body
         };
-      }
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Transactions', id: arg.id }
+      ]
     }),
     postCheckOtp: builder.mutation({
-      query: ({ merchantOrderId, merchantId, otpCode }) => {
+      query: ({ body }) => {
         return {
           url: '/accounting/checkOtp',
           method: 'POST',
-          body: {
-            merchantOrderId: merchantOrderId,
-            merchantId: merchantId,
-            otp: otpCode
-          }
+          body
         };
-      }
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Transactions', id: arg.id }
+      ]
     })
   })
 });
 
 export const {
-  useGetStatusesQuery,
   useGetTransactionsQuery,
   useGetTransactionByIdQuery,
   usePostSendOtpMutation,
-  usePostCheckOtpMutation
+  usePostCheckOtpMutation,
+  useUpdateTransactionStatusMutation
 } = transactionAPI;

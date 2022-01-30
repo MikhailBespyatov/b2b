@@ -22,18 +22,30 @@
   "transactions.modal.hint.confirmDelivery": "СМС-код отправлен клиенту, на номер {{phoneNumber}}",
   "transactions.modal.title.confirmAction": "Вы подтверждаете действие?",
   "transactions.modal.title.confirmCancel": "Вы подтверждаете отмену?",
+  "transactions.modal.title.cancelOrder": "Отмена заказа",
   "transactions.modal.button.confirm": "Подтвердить",
   "transactions.modal.button.cancel": "Отменить",
   "transactions.modal.button.resend": "Переотправить",
   "transactions.modal.error.otpNoMatch": "Введенный код не совпадает",
   "transactions.modal.success.confirmed": "Заказ подтвержден и ожидает доставки",
   "transactions.modal.success.delivered": "Заказ подтвержден и доставлен",
+  "transactions.modal.subtitle.cancel": "Выберите причину отмены заказа",
+
+  "transactions.modal.select.cancel.byTheClient": "Отмена клиентом",
+  "transactions.modal.select.cancel.refused": "Клиент отказался",
+  "transactions.modal.select.cancel.notDelivery": "Невозможно осуществить доставку",
+  "transactions.modal.select.cancel.outOfStock": "Товар закончился на складе",
+
+
+  "transactions.status.type.new": "Новый заказ",
+  "transactions.status.type.delivered_w_e": "Доставлено",
+  "transactions.status.type.readyDelivery": "Готов к доставке",
+  "transactions.status.type.delivery": "Доставлено",
 
   "transactions.status.type.paid": "Оплачено",
   "transactions.status.type.refusing": "Отказ",
   "transactions.status.type.refund": "Возврат",
   "transactions.status.type.delivered": "Доставлен",
-  "transactions.status.type.readyDelivery": "В обработке",
   "transactions.status.type.refundRequest": "Запрос возврата",
   "transactions.status.type.refundCompleted": "Возврат совершен",
 

@@ -1,6 +1,32 @@
-import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import configs from './../../config/enviroments';
+import {
+  BaseQueryFn,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError
+} from '@reduxjs/toolkit/query';
+import { addToast } from '../../redux/slices/app-slice';
+import { uuid } from '../../utils/uuid';
 
-export const baseQuery = fetchBaseQuery({
-  baseUrl: configs.SERVER
+const baseQueryBase = fetchBaseQuery({
+  baseUrl: ''
 });
+
+export const baseQuery: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  const result = await baseQueryBase(args, api, extraOptions);
+  if (result.error && result.error.status === 500) {
+    api.dispatch(
+      addToast({
+        id: uuid(),
+        badge: 'negative',
+        text: 'Внутренняя ошибка',
+        title: 'Ошибка'
+      })
+    );
+  }
+
+  return result;
+};

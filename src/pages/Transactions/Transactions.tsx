@@ -15,41 +15,44 @@ import { EyeLineMIcon } from '@alfalab/icons-glyph/EyeLineMIcon';
 import { EyeOffLineMIcon } from '@alfalab/icons-glyph/EyeOffLineMIcon';
 
 import { TableExport, OrderList } from './partials';
-import {
-  useGetStatusesQuery,
-  useGetTransactionsQuery
-} from '../../services/api/transactionAPI';
+import { useGetTransactionsQuery } from '../../services/api/transactionAPI';
+import { useGetStatusesQuery } from '../../services/api/directoryApi';
 import { debounce } from '../../utils/debounce';
-import { IOrderSort } from '../../models/IOrder';
+import {
+  IOrderFilter,
+  IOrderFilterFields,
+  IOrderSort
+} from '../../models/IOrder';
+import { toSelectOptions } from '../../utils/helpers';
+
 import './Transactions.css';
 
 export const Transactions: FC = () => {
   const { t } = useTranslation();
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit] = useState(10);
   const [tableSort, setTableSort] = useState<IOrderSort>({
-    id: '',
-    created_at: '',
-    amount: ''
+    field: '',
+    sort: ''
   });
-  const [watchFields, setWatchFields] = useState({
-    id: undefined,
-    merchantId: undefined,
-    phoneNumber: undefined,
-    dateCreate: undefined,
-    deliveryDate: undefined,
-    status: undefined,
-    amount: undefined
+  const [watchFields, setWatchFields] = useState<IOrderFilter>({
+    merchant_order_id: undefined,
+    ph_number: undefined,
+    created_at: undefined,
+    otp_updated_at: undefined,
+    app_status: undefined,
+    order_amount: undefined
   });
 
   const { data, isFetching } = useGetTransactionsQuery({
     ...watchFields,
+    sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
     page: currentPage,
     limit
   });
 
-  const { data: statuses } = useGetStatusesQuery(undefined);
+  const { data: statusesData } = useGetStatusesQuery('');
 
   const renderTableExport = useMemo(() => {
     return <TableExport />;
@@ -59,25 +62,45 @@ export const Transactions: FC = () => {
     setIsFilterVisible(prev => !prev);
   };
 
-  const handleFieldsChange = (field: string) =>
-    debounce((value: any) => {
-      setWatchFields(prev => ({
-        ...prev,
-        [field]: value
-      }));
+  const handleFieldsChange = (field: IOrderFilterFields) =>
+    debounce((value: string | number) => {
+      if (field) {
+        setWatchFields(prev => ({
+          ...prev,
+          [field]: value
+        }));
+      }
     }, 500);
 
-  const handlePageChange = (value: number) => {
-    setCurrentPage(value);
+  const handleStatusChange = (value: unknown) => {
+    if (Array.isArray(value) && value.length) {
+      setWatchFields(prev => ({
+        ...prev,
+        app_status: value[0]
+      }));
+    }
   };
 
-  const handleLimitChange = (value: number) => {
-    setLimit(value);
+  const handlePageChange = (value: number) => {
+    setCurrentPage(value + 1);
   };
 
   const handleChangeSort = (value: IOrderSort) => {
     setTableSort(value);
   };
+
+  const handleDateChange =
+    (field: string) =>
+    (formattedValue: string | undefined, value?: number | undefined) => {
+      if (value) {
+        let date = new Date(value);
+
+        setWatchFields(prev => ({
+          ...prev,
+          [field]: date.toISOString()
+        }));
+      }
+    };
 
   return (
     <>
@@ -108,7 +131,8 @@ export const Transactions: FC = () => {
                   size="m"
                   width="available"
                   label={t('transactions.filter.orderNumber')}
-                  onChange={handleFieldsChange('id')}
+                  onChange={handleFieldsChange('merchant_order_id')}
+                  defaultValue={watchFields.merchant_order_id?.toString()}
                 />
               </FormField>
               <FormField size="m">
@@ -116,7 +140,6 @@ export const Transactions: FC = () => {
                   size="m"
                   width="available"
                   label={t('transactions.filter.transactionNumber')}
-                  onChange={handleFieldsChange('merchantId')}
                 />
               </FormField>
             </Col>
@@ -126,7 +149,8 @@ export const Transactions: FC = () => {
                   size="m"
                   width="available"
                   label={t('transactions.filter.phoneNumber')}
-                  onChange={handleFieldsChange('phoneNumber')}
+                  onChange={handleFieldsChange('ph_number')}
+                  defaultValue={watchFields.ph_number}
                 />
               </FormField>
               <FormField size="m">
@@ -134,7 +158,8 @@ export const Transactions: FC = () => {
                   size="m"
                   width="available"
                   label={t('transactions.filter.createdDate')}
-                  onChange={handleFieldsChange('dateCreate')}
+                  onChange={handleDateChange('created_at')}
+                  //defaultValue={watchFields.created_at}
                 />
               </FormField>
             </Col>
@@ -144,12 +169,16 @@ export const Transactions: FC = () => {
                   <FormField size="m">
                     <Select
                       size="m"
-                      mode="radio"
+                      mode="radio-check"
                       width="available"
-                      options={statuses}
+                      options={
+                        statusesData &&
+                        toSelectOptions(statusesData, 'name', 'name')
+                      }
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"
-                      onChange={handleFieldsChange('status')}
+                      onChange={value => handleStatusChange(value)}
+                      value={[watchFields.app_status || '']}
                     />
                   </FormField>
                 </Col>
@@ -160,7 +189,8 @@ export const Transactions: FC = () => {
                       currencyCode="KZT"
                       width="available"
                       label={t('transactions.filter.amount')}
-                      onChange={handleFieldsChange('amount')}
+                      onChange={handleFieldsChange('order_amount')}
+                      defaultValue={watchFields.order_amount?.toString()}
                     />
                   </FormField>
                 </Col>
@@ -170,7 +200,8 @@ export const Transactions: FC = () => {
                   size="m"
                   width="available"
                   label={t('transactions.filter.deliveredDate')}
-                  onChange={handleFieldsChange('deliveryDate')}
+                  onChange={handleDateChange('otp_updated_at')}
+                  //defaultValue={watchFields.otp_updated_at}
                 />
               </FormField>
             </Col>
@@ -184,10 +215,10 @@ export const Transactions: FC = () => {
         orderSort={tableSort}
         handleChangeSort={handleChangeSort}
       />
-      <div className="table-pagination">
+      <div className="mb-20">
         <Pagination
-          currentPageIndex={currentPage}
-          pagesCount={data?.lim}
+          currentPageIndex={currentPage - 1}
+          pagesCount={data?.totalPages}
           onPageChange={handlePageChange}
         />
       </div>

@@ -5,7 +5,6 @@
   "dependencies": {
     "@alfalab/core-components": "^23.3.0",
     "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
     "@react-pdf/renderer": "^2.1.0",
     "@reduxjs/toolkit": "^1.7.0",
     "@testing-library/jest-dom": "^5.11.4",
@@ -72,5 +71,5 @@
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
     "react-error-overlay": "6.0.9"
   },
-  "proxy": "https://rancher-test.alfa-bank.kz:30380"
+  "proxy": "https://rancher-test.alfa-bank.kz:30380/"
 }
