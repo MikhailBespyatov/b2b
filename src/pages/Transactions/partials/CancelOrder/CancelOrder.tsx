@@ -16,9 +16,15 @@ type PropTypes = {
   title: string;
   id: number;
   merchantOrderId: number;
+  handleClose: () => void;
 };
 
-export const CancelOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
+export const CancelOrder: FC<PropTypes> = ({
+  id,
+  merchantOrderId,
+  title,
+  handleClose
+}) => {
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm();
 
@@ -110,7 +116,12 @@ export const CancelOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
               </Button>
             </Col>
             <Col>
-              <Button size="l" view="default" width="available">
+              <Button
+                size="l"
+                view="default"
+                width="available"
+                onClick={handleClose}
+              >
                 {t('transactions.modal.button.cancel')}
               </Button>
             </Col>

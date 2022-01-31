@@ -9,7 +9,7 @@ export const PencilHeavyIcon: FC = () => {
       fill="none"
       xmlns="https://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_33_2708)">
+      <g clipPath="url(#clip0_33_2708)">
         <path
           d="M0 16V10.6L7.6 3L13 8.4L5.4 16H0ZM5 15L11.6 8.4L7.6 4.4L1 11.1V15H5Z"
           fill="#007AFF"
