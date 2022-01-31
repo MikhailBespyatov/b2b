@@ -81,6 +81,7 @@ export const OrderList: FC<PropTypes> = ({
               id={currentOrder.id}
               merchantOrderId={currentOrder.merchant_order_id}
               title={t('transactions.modal.title.cancelOrder')}
+              handleClose={handleModalClose}
             />
           );
         case 'DELIVERY_ORDER_OTP':

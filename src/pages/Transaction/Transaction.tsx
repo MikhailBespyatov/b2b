@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { useMatch } from 'react-location';
 import { useTranslation } from 'react-i18next';
 import AlphaIcon from 'arui-feather/icon/brand/bank-2449';
@@ -35,16 +35,14 @@ export const Transaction: FC = () => {
   const [modalType, setModalType] = useState<ModalType>();
   const { data, isLoading, isSuccess } = useGetTransactionByIdQuery(params.id);
 
-  const handleModalOpen =
-    (type: ModalType) =>
-    (e: React.SyntheticEvent): void => {
-      setOpen(true);
-      setModalType(type);
-    };
-
-  const handleModalClose = () => {
-    setOpen(false);
+  const handleModalOpen = (type: ModalType) => (): void => {
+    setOpen(true);
+    setModalType(type);
   };
+
+  const handleModalClose = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
 
   const renderModalContent = (type: ModalType) => {
     switch (type) {
@@ -64,6 +62,7 @@ export const Transaction: FC = () => {
             id={data.id}
             merchantOrderId={data.merchant_order_id}
             title={t('transactions.modal.title.cancelOrder')}
+            handleClose={handleModalClose}
           />
         );
       case 'DELIVERY_ORDER_OTP':
