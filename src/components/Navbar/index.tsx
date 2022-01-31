@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useRouter } from 'react-location';
 import Tabs from 'arui-feather/tabs';
 import TabItem from 'arui-feather/tab-item';
+import configs from './../../config/enviroments';
 
 import { TabsType } from './model';
 import {
@@ -53,7 +54,7 @@ export const Navbar: FC = () => {
         return (
           <TabItem
             key={key}
-            url={tabs[key].url}
+            url={configs.PUBLIC_URL + tabs[key].url}
             onClick={handleClick}
             checked={matches[0]?.id === tabs[key].url}
           >
