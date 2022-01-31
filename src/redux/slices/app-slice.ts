@@ -23,6 +23,15 @@ export const appSlice = createSlice({
     }
   },
   extraReducers: {}
+  // extraReducers: builder => {
+  //   builder.addMatcher(
+  //     directoryAPI.endpoints.getStatuses.matchFulfilled,
+  //     (state, { payload }) => {
+  //       //console.log({ payload });
+  //       return state;
+  //     }
+  //   );
+  // }
 });
 
 export const { resetState, addToast, removeToast, resetToast } =

@@ -15,8 +15,8 @@ import { EyeLineMIcon } from '@alfalab/icons-glyph/EyeLineMIcon';
 import { EyeOffLineMIcon } from '@alfalab/icons-glyph/EyeOffLineMIcon';
 
 import { TableExport, OrderList } from './partials';
-import { useGetTransactionsQuery } from '../../services/api/transactionAPI';
 import { useGetStatusesQuery } from '../../services/api/directoryApi';
+import { useGetTransactionsQuery } from '../../services/api/transactionAPI';
 import { debounce } from '../../utils/debounce';
 import {
   IOrderFilter,
@@ -29,6 +29,8 @@ import './Transactions.css';
 
 export const Transactions: FC = () => {
   const { t } = useTranslation();
+  const { data: statusesData } = useGetStatusesQuery('');
+
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(10);
@@ -51,8 +53,6 @@ export const Transactions: FC = () => {
     page: currentPage,
     limit
   });
-
-  const { data: statusesData } = useGetStatusesQuery('');
 
   const renderTableExport = useMemo(() => {
     return <TableExport />;
@@ -93,7 +93,7 @@ export const Transactions: FC = () => {
     (field: string) =>
     (formattedValue: string | undefined, value?: number | undefined) => {
       if (value) {
-        let date = new Date(value);
+        const date = new Date(value);
 
         setWatchFields(prev => ({
           ...prev,
@@ -173,7 +173,7 @@ export const Transactions: FC = () => {
                       width="available"
                       options={
                         statusesData &&
-                        toSelectOptions(statusesData, 'name', 'name')
+                        toSelectOptions(statusesData, 'name', 'nameRu')
                       }
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"
