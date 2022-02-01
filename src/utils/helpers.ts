@@ -28,12 +28,12 @@ export const calculatePercent = (amount: number, num: number) => {
   return Math.round(Number((num / amount).toFixed(2)) * 100);
 };
 
-export const toSelectOptions = (
-  array: [],
+export const toSelectOptions = <T extends unknown>(
+  array: T[],
   valueKey: string,
   textKey: string
 ) => {
-  return array.map(item => {
+  return array.map((item: any) => {
     return {
       value: item[valueKey],
       text: item[textKey]
