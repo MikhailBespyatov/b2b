@@ -30,7 +30,6 @@ import {
   IOrderSortFields
 } from '../../../../models/IOrder';
 import { sortOperator } from '../../../../utils/sorts';
-import { directoryAPI } from '../../../../services/api/directoryApi';
 
 type PropTypes = {
   data: IOrder[];

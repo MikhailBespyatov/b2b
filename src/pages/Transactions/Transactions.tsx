@@ -1,4 +1,5 @@
 import React, { FC, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Col, Row } from 'react-grid-system';
 import FormField from 'arui-feather/form-field';
@@ -15,7 +16,6 @@ import { EyeLineMIcon } from '@alfalab/icons-glyph/EyeLineMIcon';
 import { EyeOffLineMIcon } from '@alfalab/icons-glyph/EyeOffLineMIcon';
 
 import { TableExport, OrderList } from './partials';
-import { useGetStatusesQuery } from '../../services/api/directoryApi';
 import { useGetTransactionsQuery } from '../../services/api/transactionAPI';
 import { debounce } from '../../utils/debounce';
 import {
@@ -24,12 +24,11 @@ import {
   IOrderSort
 } from '../../models/IOrder';
 import { toSelectOptions } from '../../utils/helpers';
-
+import { RootStateType } from '../../redux/store';
 import './Transactions.css';
 
 export const Transactions: FC = () => {
   const { t } = useTranslation();
-  const { data: statusesData } = useGetStatusesQuery('');
 
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,6 +45,8 @@ export const Transactions: FC = () => {
     app_status: undefined,
     order_amount: undefined
   });
+
+  const statusList = useSelector((state: RootStateType) => state.app.statuses);
 
   const { data, isFetching } = useGetTransactionsQuery({
     ...watchFields,
@@ -172,8 +173,8 @@ export const Transactions: FC = () => {
                       mode="radio-check"
                       width="available"
                       options={
-                        statusesData &&
-                        toSelectOptions(statusesData, 'name', 'nameRu')
+                        statusList &&
+                        toSelectOptions(statusList, 'name', 'nameRu')
                       }
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"
