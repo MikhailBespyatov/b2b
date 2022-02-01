@@ -1,4 +1,5 @@
 import React, { FC, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Col, Row } from 'react-grid-system';
 import FormField from 'arui-feather/form-field';
@@ -16,7 +17,6 @@ import { EyeOffLineMIcon } from '@alfalab/icons-glyph/EyeOffLineMIcon';
 
 import { TableExport, OrderList } from './partials';
 import { useGetTransactionsQuery } from '../../services/api/transactionAPI';
-import { useGetStatusesQuery } from '../../services/api/directoryApi';
 import { debounce } from '../../utils/debounce';
 import {
   IOrderFilter,
@@ -24,11 +24,12 @@ import {
   IOrderSort
 } from '../../models/IOrder';
 import { toSelectOptions } from '../../utils/helpers';
-
+import { RootStateType } from '../../redux/store';
 import './Transactions.css';
 
 export const Transactions: FC = () => {
   const { t } = useTranslation();
+
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(10);
@@ -45,14 +46,14 @@ export const Transactions: FC = () => {
     order_amount: undefined
   });
 
+  const statusList = useSelector((state: RootStateType) => state.app.statuses);
+
   const { data, isFetching } = useGetTransactionsQuery({
     ...watchFields,
     sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
     page: currentPage,
     limit
   });
-
-  const { data: statusesData } = useGetStatusesQuery('');
 
   const renderTableExport = useMemo(() => {
     return <TableExport />;
@@ -93,7 +94,7 @@ export const Transactions: FC = () => {
     (field: string) =>
     (formattedValue: string | undefined, value?: number | undefined) => {
       if (value) {
-        let date = new Date(value);
+        const date = new Date(value);
 
         setWatchFields(prev => ({
           ...prev,
@@ -172,8 +173,8 @@ export const Transactions: FC = () => {
                       mode="radio-check"
                       width="available"
                       options={
-                        statusesData &&
-                        toSelectOptions(statusesData, 'name', 'name')
+                        statusList &&
+                        toSelectOptions(statusList, 'name', 'nameRu')
                       }
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"

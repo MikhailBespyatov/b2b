@@ -46,7 +46,6 @@ export const OrderList: FC<PropTypes> = ({
 }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-
   const [modalType, setModalType] = useState<ModalType>();
   const [currentOrder, setCurrentOrder] = useState<IOrder>();
 

@@ -82,7 +82,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
       />
     );
   }
-  console.log({ isSendingOtp, errorOtp });
+
   if (isFailedOtp) {
     //@ts-ignore
     return <OrderStatus status="error" title={errorOtp?.data?.message} />;
