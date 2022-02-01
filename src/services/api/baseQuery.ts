@@ -11,7 +11,7 @@ const baseQueryBase = fetchBaseQuery({
   baseUrl: ''
 });
 
-export const baseQuery: BaseQueryFn<
+const baseQuery: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
@@ -30,3 +30,5 @@ export const baseQuery: BaseQueryFn<
 
   return result;
 };
+
+export default baseQuery;
