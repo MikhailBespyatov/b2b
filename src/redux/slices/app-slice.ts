@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { INotification } from '../../models/INotification';
+import { IStatus } from '../../models/IStatus';
 
 const initialState = {
-  notifications: [] as INotification[]
+  notifications: [] as INotification[],
+  statuses: [] as IStatus[]
 };
 
 export const appSlice = createSlice({
@@ -15,26 +17,20 @@ export const appSlice = createSlice({
     },
     removeToast: (state, action: { payload: string }) => {
       state.notifications = state.notifications.filter(
-        (n: any) => n.id !== action.payload
+        n => n.id !== action.payload
       );
     },
     resetToast: state => {
       state.notifications = [];
+    },
+    setStatuses: (state, { payload }) => {
+      state.statuses = payload;
     }
   },
   extraReducers: {}
-  // extraReducers: builder => {
-  //   builder.addMatcher(
-  //     directoryAPI.endpoints.getStatuses.matchFulfilled,
-  //     (state, { payload }) => {
-  //       //console.log({ payload });
-  //       return state;
-  //     }
-  //   );
-  // }
 });
 
-export const { resetState, addToast, removeToast, resetToast } =
+export const { resetState, addToast, removeToast, resetToast, setStatuses } =
   appSlice.actions;
 
 export default appSlice.reducer;
