@@ -30,6 +30,8 @@ import {
   IOrderSortFields
 } from '../../../../models/IOrder';
 import { sortOperator } from '../../../../utils/sorts';
+import { useSelector } from 'react-redux';
+import { RootStateType } from '../../../../redux/store';
 
 type PropTypes = {
   data: IOrder[];
@@ -48,6 +50,7 @@ export const OrderList: FC<PropTypes> = ({
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
   const [currentOrder, setCurrentOrder] = useState<IOrder>();
+  const statusList = useSelector((state: RootStateType) => state.app.statuses);
 
   const handleModalOpen =
     (type: ModalType, order: IOrder) => (e: React.SyntheticEvent) => {
@@ -206,9 +209,7 @@ export const OrderList: FC<PropTypes> = ({
                           size="s"
                           className={`status status-${item.app_status}`}
                         >
-                          {t(
-                            `transactions.status.type.${item.app_status}`
-                          ).toUpperCase()}
+                          {statusList[item.app_status]?.toUpperCase()}
                         </TagButton>
                       )}
                     </td>

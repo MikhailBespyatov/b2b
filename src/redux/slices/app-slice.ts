@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { INotification } from '../../models/INotification';
-import { IStatus } from '../../models/IStatus';
 
 const initialState = {
   notifications: [] as INotification[],
-  statuses: [] as IStatus[]
+  statuses: {} as { [key: string]: string }
 };
 
 export const appSlice = createSlice({

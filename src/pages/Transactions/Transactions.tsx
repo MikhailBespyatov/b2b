@@ -29,7 +29,6 @@ import './Transactions.css';
 
 export const Transactions: FC = () => {
   const { t } = useTranslation();
-
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(10);
@@ -174,7 +173,10 @@ export const Transactions: FC = () => {
                       width="available"
                       options={
                         statusList &&
-                        toSelectOptions(statusList, 'name', 'nameRu')
+                        Object.keys(statusList).map((key: string) => ({
+                          value: key,
+                          text: statusList[key]
+                        }))
                       }
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"
