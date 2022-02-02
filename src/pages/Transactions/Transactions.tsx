@@ -23,13 +23,11 @@ import {
   IOrderFilterFields,
   IOrderSort
 } from '../../models/IOrder';
-import { toSelectOptions } from '../../utils/helpers';
 import { RootStateType } from '../../redux/store';
 import './Transactions.css';
 
 export const Transactions: FC = () => {
   const { t } = useTranslation();
-
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(10);
@@ -48,7 +46,7 @@ export const Transactions: FC = () => {
 
   const statusList = useSelector((state: RootStateType) => state.app.statuses);
 
-  const { data, isFetching } = useGetTransactionsQuery({
+  const { currentData, isFetching, isSuccess } = useGetTransactionsQuery({
     ...watchFields,
     sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
     page: currentPage,
@@ -172,10 +170,11 @@ export const Transactions: FC = () => {
                       size="m"
                       mode="radio-check"
                       width="available"
-                      options={
-                        statusList &&
-                        toSelectOptions(statusList, 'name', 'nameRu')
-                      }
+                      options={Object.keys(statusList).map((key: string) => ({
+                        value: key,
+                        text: statusList[key]
+                      }))}
+                      disabled={Object.keys(statusList).length === 0}
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"
                       onChange={value => handleStatusChange(value)}
@@ -211,15 +210,16 @@ export const Transactions: FC = () => {
       )}
       {renderTableExport}
       <OrderList
-        data={data?.orders}
+        data={currentData?.orders}
         isLoading={isFetching}
+        isSuccess={isSuccess}
         orderSort={tableSort}
         handleChangeSort={handleChangeSort}
       />
       <div className="mb-20">
         <Pagination
           currentPageIndex={currentPage - 1}
-          pagesCount={data?.totalPages}
+          pagesCount={currentData?.totalPages}
           onPageChange={handlePageChange}
         />
       </div>

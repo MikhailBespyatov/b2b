@@ -21,6 +21,7 @@ export const transactionAPI = createApi({
       }) => ({
         url: '/accounting/applications',
         params: {
+          merchantId: 1,
           merchant_order_id,
           created_at,
           otp_updated_at,
