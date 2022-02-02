@@ -23,7 +23,6 @@ import {
   IOrderFilterFields,
   IOrderSort
 } from '../../models/IOrder';
-import { toSelectOptions } from '../../utils/helpers';
 import { RootStateType } from '../../redux/store';
 import './Transactions.css';
 
@@ -47,7 +46,7 @@ export const Transactions: FC = () => {
 
   const statusList = useSelector((state: RootStateType) => state.app.statuses);
 
-  const { data, isFetching } = useGetTransactionsQuery({
+  const { currentData, isFetching, isSuccess } = useGetTransactionsQuery({
     ...watchFields,
     sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
     page: currentPage,
@@ -211,15 +210,16 @@ export const Transactions: FC = () => {
       )}
       {renderTableExport}
       <OrderList
-        data={data?.orders}
+        data={currentData?.orders}
         isLoading={isFetching}
+        isSuccess={isSuccess}
         orderSort={tableSort}
         handleChangeSort={handleChangeSort}
       />
       <div className="mb-20">
         <Pagination
           currentPageIndex={currentPage - 1}
-          pagesCount={data?.totalPages}
+          pagesCount={currentData?.totalPages}
           onPageChange={handlePageChange}
         />
       </div>

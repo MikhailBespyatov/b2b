@@ -36,6 +36,7 @@ import { RootStateType } from '../../../../redux/store';
 type PropTypes = {
   data: IOrder[];
   isLoading: boolean;
+  isSuccess: boolean;
   orderSort: IOrderSort;
   handleChangeSort: (value: IOrderSort) => void;
 };
@@ -43,6 +44,7 @@ type PropTypes = {
 export const OrderList: FC<PropTypes> = ({
   data,
   isLoading,
+  isSuccess,
   orderSort,
   handleChangeSort
 }) => {
@@ -175,7 +177,8 @@ export const OrderList: FC<PropTypes> = ({
                   </tr>
                 );
               })}
-            {Array.isArray(data) &&
+            {isSuccess &&
+              Array.isArray(data) &&
               data.map((item: IOrder) => {
                 return (
                   <tr key={item.id}>
