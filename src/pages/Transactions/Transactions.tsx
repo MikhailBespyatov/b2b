@@ -171,13 +171,10 @@ export const Transactions: FC = () => {
                       size="m"
                       mode="radio-check"
                       width="available"
-                      options={
-                        statusList &&
-                        Object.keys(statusList).map((key: string) => ({
-                          value: key,
-                          text: statusList[key]
-                        }))
-                      }
+                      options={Object.keys(statusList).map((key: string) => ({
+                        value: key,
+                        text: statusList[key]
+                      }))}
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"
                       onChange={value => handleStatusChange(value)}

@@ -1,7 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import baseQuery from './baseQuery';
-import { setStatuses } from '../../redux/slices/app-slice';
+import { addToast, setStatuses } from '../../redux/slices/app-slice';
 import { IStatus } from '../../models/IStatus';
+import { uuid } from '../../utils/uuid';
 
 export const directoryAPI = createApi({
   reducerPath: 'directoryAPI',
@@ -18,7 +19,16 @@ export const directoryAPI = createApi({
             transformData[status.value] = status.textRu;
           });
           dispatch(setStatuses(transformData));
-        } catch (err) {}
+        } catch (err) {
+          dispatch(
+            addToast({
+              id: uuid(),
+              badge: 'negative',
+              text: 'Ошибка во время загрузки статусов',
+              title: ''
+            })
+          );
+        }
       },
       providesTags: [{ type: 'Directory', id: 'LIST' }]
     }),
