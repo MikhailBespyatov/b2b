@@ -175,6 +175,7 @@ export const Transactions: FC = () => {
                         value: key,
                         text: statusList[key]
                       }))}
+                      disabled={Object.keys(statusList).length === 0}
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"
                       onChange={value => handleStatusChange(value)}
