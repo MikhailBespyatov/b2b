@@ -5,6 +5,7 @@ import { CalendarRange } from '@alfalab/core-components/calendar-range';
 import { FileCSVIcon, FilePDFIcon } from '../../../../components/ui/icons';
 
 export const TableExport: FC = () => {
+  const today = new Date();
   const [dateCreate, setDateCreate] = useState<string | undefined>();
   const [deliveryDate, setDeliveryDate] = useState<string | undefined>();
 
@@ -35,6 +36,7 @@ export const TableExport: FC = () => {
             calendarPosition="popover"
             onDateFromChange={({ value }) => setDateCreate(value)}
             onDateToChange={({ value }) => setDeliveryDate(value)}
+            maxDate={today.getTime()}
           />
         </Col>
       </Row>
