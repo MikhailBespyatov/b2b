@@ -3,7 +3,10 @@ import { INotification } from '../../models/INotification';
 
 const initialState = {
   notifications: [] as INotification[],
-  statuses: {} as { [key: string]: string }
+  statuses: {
+    list: {} as { [key: string]: string },
+    unique: [] as { value: string; text: string; keys: string[] }[]
+  }
 };
 
 export const appSlice = createSlice({
@@ -23,7 +26,8 @@ export const appSlice = createSlice({
       state.notifications = [];
     },
     setStatuses: (state, { payload }) => {
-      state.statuses = payload;
+      state.statuses.list = payload.list;
+      state.statuses.unique = payload.unique;
     }
   },
   extraReducers: {}

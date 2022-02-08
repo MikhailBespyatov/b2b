@@ -15,10 +15,41 @@ export const directoryAPI = createApi({
         try {
           const { data } = await queryFulfilled;
           const transformData = {} as { [key: string]: string };
+          const transformDataByText = {} as { [key: string]: string[] };
+
           data.forEach((status: IStatus) => {
             transformData[status.value] = status.textRu;
+
+            if (transformDataByText[status.textRu]) {
+              transformDataByText[status.textRu] = [
+                ...transformDataByText[status.textRu],
+                status.value
+              ];
+            } else {
+              transformDataByText[status.textRu] = [status.value];
+            }
           });
-          dispatch(setStatuses(transformData));
+
+          const newUniqueStatusOptions = [] as {
+            value: number;
+            text: string;
+            keys: string[];
+          }[];
+
+          Object.keys(transformDataByText).forEach((key, index) => {
+            newUniqueStatusOptions.push({
+              value: index,
+              text: key,
+              keys: transformDataByText[key]
+            });
+          });
+
+          dispatch(
+            setStatuses({
+              list: transformData,
+              unique: newUniqueStatusOptions
+            })
+          );
         } catch (err) {
           dispatch(
             addToast({

@@ -44,10 +44,15 @@ export const Transactions: FC = () => {
     order_amount: undefined
   });
 
-  const statusList = useSelector((state: RootStateType) => state.app.statuses);
+  const optionValues = useSelector(
+    (state: RootStateType) => state.app.statuses.unique
+  );
 
   const { currentData, isFetching, isSuccess } = useGetTransactionsQuery({
     ...watchFields,
+    app_status: Number(watchFields.app_status)
+      ? optionValues[Number(watchFields.app_status)]?.keys
+      : undefined,
     sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
     page: currentPage,
     limit
@@ -71,7 +76,7 @@ export const Transactions: FC = () => {
       }
     }, 500);
 
-  const handleStatusChange = (value: unknown) => {
+  const handleStatusChange = (value: any) => {
     if (Array.isArray(value) && value.length) {
       setWatchFields(prev => ({
         ...prev,
@@ -170,11 +175,8 @@ export const Transactions: FC = () => {
                       size="m"
                       mode="radio-check"
                       width="available"
-                      options={Object.keys(statusList).map((key: string) => ({
-                        value: key,
-                        text: statusList[key]
-                      }))}
-                      disabled={Object.keys(statusList).length === 0}
+                      options={optionValues}
+                      disabled={optionValues.length === 0}
                       label={t('transactions.filter.orderStatus')}
                       className="select_theme_alfa-on-white select-button"
                       onChange={value => handleStatusChange(value)}
@@ -219,7 +221,7 @@ export const Transactions: FC = () => {
       <div className="mb-20">
         <Pagination
           currentPageIndex={currentPage - 1}
-          pagesCount={currentData?.totalPages}
+          pagesCount={currentData?.totalPages || 1}
           onPageChange={handlePageChange}
         />
       </div>

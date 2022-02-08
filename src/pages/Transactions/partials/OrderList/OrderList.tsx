@@ -52,7 +52,9 @@ export const OrderList: FC<PropTypes> = ({
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
   const [currentOrder, setCurrentOrder] = useState<IOrder>();
-  const statusList = useSelector((state: RootStateType) => state.app.statuses);
+  const statusList = useSelector(
+    (state: RootStateType) => state.app.statuses.list
+  );
 
   const handleModalOpen =
     (type: ModalType, order: IOrder) => (e: React.SyntheticEvent) => {
