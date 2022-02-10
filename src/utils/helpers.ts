@@ -24,6 +24,11 @@ export const phoneNumberFormatter = (str: string) => {
       )}-${nulledStr.slice(7, 9)}-${nulledStr.slice(9, 11)}`;
 };
 
+export const isPhoneNumberValid = (phoneNumber: string) => {
+  const regex: RegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+  return regex.test(phoneNumber);
+};
+
 export const calculatePercent = (amount: number, num: number) => {
   return Math.round(Number((num / amount).toFixed(2)) * 100);
 };
