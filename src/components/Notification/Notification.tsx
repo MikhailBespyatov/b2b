@@ -2,12 +2,12 @@ import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Notification as NotificationUI } from '@alfalab/core-components/notification';
 import { RootStateType } from '../../redux/store';
-import { removeToast } from '../../redux/slices/app-slice';
+import { removeToast, selectNotifications } from '../../redux/slices/app-slice';
 
 export const Notification: FC = () => {
   const dispatch = useDispatch();
-  const notifications = useSelector(
-    (state: RootStateType) => state.app.notifications
+  const notifications = useSelector((state: RootStateType) =>
+    selectNotifications(state)
   );
 
   const hideNotification = React.useCallback(

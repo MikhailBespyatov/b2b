@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import ThemeProvider from 'arui-feather/theme-provider';
 
-import { RouterConfig } from './navigation/RouterConfig';
+import { RouterConfig } from 'navigation/RouterConfig';
 import store from './redux/store';
 import i18n from './i18n';
 import { directoryAPI } from './services/api/directoryApi';

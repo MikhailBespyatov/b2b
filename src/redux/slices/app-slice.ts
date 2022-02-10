@@ -1,13 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { INotification } from '../../models/INotification';
+import { IStatusOption } from '../../models/IStatus';
+import { RootStateType } from '../store';
 
 const initialState = {
   notifications: [] as INotification[],
   statuses: {
-    list: {} as { [key: string]: string },
-    unique: [] as { key: string; content: string; values: string[] }[]
+    list: {} as Record<string, string>,
+    unique: [] as IStatusOption[]
   }
 };
+
+const selectApp = (state: RootStateType) => state.app;
+
+export const selectStatuses = createSelector(
+  selectApp,
+  state => state.statuses
+);
+export const selectNotifications = createSelector(
+  selectApp,
+  state => state.notifications
+);
+
+export const selectStatusesList = createSelector(
+  selectStatuses,
+  state => state.list
+);
+export const selectStatusesUnique = createSelector(
+  selectStatuses,
+  state => state.unique
+);
 
 export const appSlice = createSlice({
   name: 'app',

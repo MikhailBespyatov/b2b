@@ -1,8 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import baseQuery from './baseQuery';
 import { addToast, setStatuses } from '../../redux/slices/app-slice';
-import { IStatus } from '../../models/IStatus';
-import { uuid } from '../../utils/uuid';
+import { IStatus, IStatusOption } from '../../models/IStatus';
+import { uuid } from 'utils/uuid';
 
 export const directoryAPI = createApi({
   reducerPath: 'directoryAPI',
@@ -27,11 +27,7 @@ export const directoryAPI = createApi({
             }
           });
 
-          const newUniqueStatusOptions = [] as {
-            key: string;
-            content: string;
-            values: string[];
-          }[];
+          const newUniqueStatusOptions = [] as IStatusOption[];
 
           Object.keys(transformDataByText).forEach((key, index) => {
             newUniqueStatusOptions.push({

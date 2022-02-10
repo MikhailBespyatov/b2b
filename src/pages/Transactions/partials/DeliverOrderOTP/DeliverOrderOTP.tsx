@@ -108,7 +108,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
             rules={{
               required: true
             }}
-            render={({ field }: any) => (
+            render={({ field }) => (
               <Input
                 type="tel"
                 pattern="[0-9]{4}"
@@ -139,7 +139,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
                 view="extra"
                 width="available"
                 disabled={isErrorCheckOtp || isCheckingOtp}
-                icon={isCheckingOtp && <Spinner visible={true} />}
+                icon={isCheckingOtp && <Spinner visible />}
               >
                 {t('transactions.modal.button.confirm')}
               </Button>
@@ -150,7 +150,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
                 width="available"
                 onClick={handleOtpResend}
                 disabled={isSendingOtp}
-                icon={isSendingOtp && <Spinner visible={true} />}
+                icon={isSendingOtp && <Spinner visible />}
               >
                 {t('transactions.modal.button.resend')}
               </Button>

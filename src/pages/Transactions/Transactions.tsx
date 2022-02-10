@@ -19,11 +19,24 @@ import { Button } from '@alfalab/core-components/button';
 import { Space } from '@alfalab/core-components/space';
 
 import { TableExport, OrderList } from './partials';
-import { useGetTransactionsQuery } from '../../services/api/transactionAPI';
-import { IOrderFilter, IOrderSort } from '../../models/IOrder';
-import { RootStateType } from '../../redux/store';
-import { isPhoneNumberValid } from '../../utils/helpers';
+import { useGetTransactionsQuery } from 'services/api/transactionAPI';
+import { IOrderFilter, IOrderSort } from 'models/IOrder';
+import { IStatusOption } from 'models/IStatus';
+import { RootStateType } from 'redux/store';
+import { isPhoneNumberValid } from 'utils/helpers';
+
+import { selectStatusesUnique } from 'redux/slices/app-slice';
 import './Transactions.css';
+
+type IFormValues = {
+  transactionNumber: string;
+  AppStatus: IStatusOption;
+  merchant_order_id: number;
+  PhoneNumber: string;
+  CreatedAt: string;
+  OTPUpdatedAt: string;
+  order_amount: number;
+};
 
 export const Transactions: FC = () => {
   const today = new Date();
@@ -32,21 +45,21 @@ export const Transactions: FC = () => {
     defaultValues: {
       transactionNumber: '',
       merchant_order_id: '',
-      app_status: null,
+      AppStatus: null,
       order_amount: 0,
-      created_at: '',
-      otp_updated_at: '',
-      ph_number: ''
+      CreatedAt: '',
+      OTPUpdatedAt: '',
+      PhoneNumber: ''
     }
   });
 
   const [queryParams, setQueryParams] = useState<IOrderFilter>({
     merchant_order_id: undefined,
-    app_status: undefined,
+    AppStatus: undefined,
     order_amount: undefined,
-    created_at: undefined,
-    otp_updated_at: undefined,
-    ph_number: undefined
+    CreatedAt: undefined,
+    OTPUpdatedAt: undefined,
+    PhoneNumber: undefined
   });
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,8 +69,8 @@ export const Transactions: FC = () => {
     sort: ''
   });
 
-  const optionValues = useSelector(
-    (state: RootStateType) => state.app.statuses.unique
+  const optionValues = useSelector((state: RootStateType) =>
+    selectStatusesUnique(state)
   );
 
   const { currentData, isFetching, isSuccess } = useGetTransactionsQuery({
@@ -83,32 +96,30 @@ export const Transactions: FC = () => {
     setTableSort(value);
   };
 
-  const onSubmit = handleSubmit((values: any) => {
+  const onSubmit = handleSubmit((values: IFormValues) => {
     const newParams = {
       merchant_order_id: values.merchant_order_id
         ? values.merchant_order_id
         : undefined,
-      app_status: values.app_status?.values
-        ? values.app_status.values
-        : undefined,
+      AppStatus: values.AppStatus?.values ? values.AppStatus.values : undefined,
       order_amount: values.order_amount ? values.order_amount : undefined,
-      created_at: undefined,
-      otp_updated_at: undefined,
-      ph_number: undefined
+      CreatedAt: undefined,
+      OTPUpdatedAt: undefined,
+      PhoneNumber: undefined
     } as IOrderFilter;
 
-    if (values.created_at) {
-      const createdAt = new Date(values.created_at);
-      newParams.created_at = createdAt.toISOString();
+    if (values.CreatedAt) {
+      const createdAt = new Date(values.CreatedAt);
+      newParams.CreatedAt = createdAt.toISOString();
     }
 
-    if (values.otp_updated_at) {
-      const otpUpdatedAt = new Date(values.otp_updated_at);
-      newParams.otp_updated_at = otpUpdatedAt.toISOString();
+    if (values.OTPUpdatedAt) {
+      const otpUpdatedAt = new Date(values.OTPUpdatedAt);
+      newParams.OTPUpdatedAt = otpUpdatedAt.toISOString();
     }
 
-    if (isPhoneNumberValid(values.ph_number)) {
-      newParams.ph_number = values.ph_number;
+    if (values.PhoneNumber && isPhoneNumberValid(values.PhoneNumber)) {
+      newParams.PhoneNumber = values.PhoneNumber;
     }
 
     setQueryParams(newParams);
@@ -143,13 +154,13 @@ export const Transactions: FC = () => {
                   <Controller
                     name="merchant_order_id"
                     control={control}
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                       <Input
+                        {...field}
                         size="s"
                         label={t('transactions.filter.orderNumber')}
                         name="number"
-                        block={true}
-                        {...field}
+                        block
                       />
                     )}
                   />
@@ -158,11 +169,11 @@ export const Transactions: FC = () => {
                   <Controller
                     name="transactionNumber"
                     control={control}
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                       <Input
                         size="s"
                         label={t('transactions.filter.transactionNumber')}
-                        block={true}
+                        block
                         {...field}
                       />
                     )}
@@ -172,16 +183,16 @@ export const Transactions: FC = () => {
               <Col md={4} sm={6} xs={12}>
                 <FormField size="m">
                   <Controller
-                    name="ph_number"
+                    name="PhoneNumber"
                     control={control}
-                    render={({ field: { onChange, value } }: any) => (
+                    render={({ field: { onChange, value } }) => (
                       <IntlPhoneInput
                         size="s"
                         label={t('transactions.filter.phoneNumber')}
                         defaultCountryIso2="KZ"
-                        block={true}
+                        block
                         value={value}
-                        success={isPhoneNumberValid(getValues('ph_number'))}
+                        success={isPhoneNumberValid(getValues('PhoneNumber'))}
                         onChange={value => onChange(value)}
                       />
                     )}
@@ -189,12 +200,12 @@ export const Transactions: FC = () => {
                 </FormField>
                 <FormField size="m">
                   <Controller
-                    name="created_at"
+                    name="CreatedAt"
                     control={control}
-                    render={({ field: { onChange, value } }: any) => (
+                    render={({ field: { onChange, value } }) => (
                       <CalendarInput
                         label={t('transactions.filter.createdDate')}
-                        block={true}
+                        block
                         maxDate={today.getTime()}
                         value={value}
                         onChange={(e, input) => onChange(input.value)}
@@ -208,9 +219,9 @@ export const Transactions: FC = () => {
                   <Col md={6} sm={6} xs={12}>
                     <FormField size="m">
                       <Controller
-                        name="app_status"
+                        name="AppStatus"
                         control={control}
-                        render={({ field: { onChange, value } }: any) => (
+                        render={({ field: { onChange, value } }) => (
                           <Select
                             size="s"
                             optionsListWidth="content"
@@ -218,7 +229,7 @@ export const Transactions: FC = () => {
                             options={optionValues}
                             disabled={optionValues.length === 0}
                             label={t('transactions.filter.orderStatus')}
-                            block={true}
+                            block
                             selected={value}
                             onChange={select => onChange(select.selected)}
                           />
@@ -231,16 +242,15 @@ export const Transactions: FC = () => {
                       <Controller
                         name="order_amount"
                         control={control}
-                        render={({ field: { onChange, value } }: any) => {
+                        render={({ field: { onChange, value } }) => {
                           return (
                             <AmountInput
                               size="s"
                               label={t('transactions.filter.amount')}
-                              bold={false}
                               minority={1}
                               currency="KZT"
-                              block={true}
-                              integersOnly={true}
+                              block
+                              integersOnly
                               value={value.toString().replace(/\s/g, '')}
                               onChange={(e, input) =>
                                 onChange(input.valueString)
@@ -254,12 +264,12 @@ export const Transactions: FC = () => {
                 </Row>
                 <FormField size="m">
                   <Controller
-                    name="otp_updated_at"
+                    name="OTPUpdatedAt"
                     control={control}
-                    render={({ field: { onChange, value } }: any) => (
+                    render={({ field: { onChange, value } }) => (
                       <CalendarInput
                         label={t('transactions.filter.deliveredDate')}
-                        block={true}
+                        block
                         maxDate={today.getTime()}
                         value={value}
                         onChange={(e, input) => onChange(input.value)}
@@ -269,7 +279,7 @@ export const Transactions: FC = () => {
                 </FormField>
               </Col>
             </Row>
-            <div style={{ display: 'flex', justifyContent: 'end' }}>
+            <div className="flex-end">
               <Space direction="horizontal">
                 <Button view="secondary" size="xs" onClick={() => reset()}>
                   Очистить
