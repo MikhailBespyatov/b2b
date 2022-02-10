@@ -5,7 +5,7 @@ const initialState = {
   notifications: [] as INotification[],
   statuses: {
     list: {} as { [key: string]: string },
-    unique: [] as { value: string; text: string; keys: string[] }[]
+    unique: [] as { key: string; content: string; values: string[] }[]
   }
 };
 
