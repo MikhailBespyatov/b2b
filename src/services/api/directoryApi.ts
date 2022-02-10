@@ -31,16 +31,16 @@ export const directoryAPI = createApi({
           });
 
           const newUniqueStatusOptions = [] as {
-            value: number;
-            text: string;
-            keys: string[];
+            key: string;
+            content: string;
+            values: string[];
           }[];
 
           Object.keys(transformDataByText).forEach((key, index) => {
             newUniqueStatusOptions.push({
-              value: index,
-              text: key,
-              keys: transformDataByText[key]
+              key: index.toString(),
+              content: key,
+              values: transformDataByText[key]
             });
           });
 
