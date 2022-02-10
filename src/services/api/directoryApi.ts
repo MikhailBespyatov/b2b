@@ -21,10 +21,7 @@ export const directoryAPI = createApi({
             transformData[status.value] = status.textRu;
 
             if (transformDataByText[status.textRu]) {
-              transformDataByText[status.textRu] = [
-                ...transformDataByText[status.textRu],
-                status.value
-              ];
+              transformDataByText[status.textRu].push(status.value);
             } else {
               transformDataByText[status.textRu] = [status.value];
             }
