@@ -16,7 +16,7 @@ import configs from './../config/enviroments';
 const routes = [
   {
     path: ROOT,
-    element: <Navigate to={ANALYTICS} />
+    element: <Navigate to={TRANSACTIONS} />
   },
   {
     path: TRANSACTIONS,

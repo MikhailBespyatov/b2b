@@ -1,8 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import baseQuery from './baseQuery';
 import { addToast, setStatuses } from '../../redux/slices/app-slice';
-import { IStatus } from '../../models/IStatus';
-import { uuid } from '../../utils/uuid';
+import { IStatus, IStatusOption } from '../../models/IStatus';
+import { uuid } from 'utils/uuid';
 
 export const directoryAPI = createApi({
   reducerPath: 'directoryAPI',
@@ -15,10 +15,34 @@ export const directoryAPI = createApi({
         try {
           const { data } = await queryFulfilled;
           const transformData = {} as { [key: string]: string };
+          const transformDataByText = {} as { [key: string]: string[] };
+
           data.forEach((status: IStatus) => {
             transformData[status.value] = status.textRu;
+
+            if (transformDataByText[status.textRu]) {
+              transformDataByText[status.textRu].push(status.value);
+            } else {
+              transformDataByText[status.textRu] = [status.value];
+            }
           });
-          dispatch(setStatuses(transformData));
+
+          const newUniqueStatusOptions = [] as IStatusOption[];
+
+          Object.keys(transformDataByText).forEach((key, index) => {
+            newUniqueStatusOptions.push({
+              key: index.toString(),
+              content: key,
+              values: transformDataByText[key]
+            });
+          });
+
+          dispatch(
+            setStatuses({
+              list: transformData,
+              unique: newUniqueStatusOptions
+            })
+          );
         } catch (err) {
           dispatch(
             addToast({

@@ -28,9 +28,9 @@ export type IOrderFilterFields =
 
 export interface IOrderFilter {
   merchant_order_id: number | undefined;
-  ph_number: string | undefined;
-  created_at: string | undefined;
-  otp_updated_at: string | undefined;
-  app_status: string | undefined;
+  PhoneNumber: string | undefined;
+  CreatedAt: string | undefined;
+  OTPUpdatedAt: string | undefined;
+  AppStatus: string | undefined;
   order_amount: number | undefined;
 }

@@ -1,5 +1,5 @@
 .table > tbody > tr {
-  cursor: pointer;
+  cursor: default;
 }
 
 .table > tbody > tr:hover {
@@ -61,7 +61,9 @@
 }
 
 .transactions__filter-form {
-  margin-bottom: 22px;
+  margin-bottom: 36px;
+  border: 1px solid #F3F4F5;
+  padding: 24px 16px;
 }
 
 .transactions__btn-group {
@@ -96,10 +98,6 @@
   line-height: 22px;
   color: #6d7986;
   margin: 20px 0;
-}
-
-.transactions__filter-form .input__input-wrapper {
-  width: 100%;
 }
 
 .table-export {

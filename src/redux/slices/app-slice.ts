@@ -1,10 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { INotification } from '../../models/INotification';
+import { IStatusOption } from '../../models/IStatus';
+import { RootStateType } from '../store';
 
 const initialState = {
   notifications: [] as INotification[],
-  statuses: {} as { [key: string]: string }
+  statuses: {
+    list: {} as Record<string, string>,
+    unique: [] as IStatusOption[]
+  }
 };
+
+const selectApp = (state: RootStateType) => state.app;
+
+export const selectStatuses = createSelector(
+  selectApp,
+  state => state.statuses
+);
+export const selectNotifications = createSelector(
+  selectApp,
+  state => state.notifications
+);
+
+export const selectStatusesList = createSelector(
+  selectStatuses,
+  state => state.list
+);
+export const selectStatusesUnique = createSelector(
+  selectStatuses,
+  state => state.unique
+);
 
 export const appSlice = createSlice({
   name: 'app',
@@ -23,7 +48,8 @@ export const appSlice = createSlice({
       state.notifications = [];
     },
     setStatuses: (state, { payload }) => {
-      state.statuses = payload;
+      state.statuses.list = payload.list;
+      state.statuses.unique = payload.unique;
     }
   },
   extraReducers: {}

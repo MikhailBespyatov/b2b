@@ -89,7 +89,7 @@ export const CancelOrder: FC<PropTypes> = ({
             rules={{
               required: true
             }}
-            render={({ field }: any) => (
+            render={({ field }) => (
               <Select
                 size="m"
                 mode="radio-check"
@@ -110,7 +110,7 @@ export const CancelOrder: FC<PropTypes> = ({
                 type="submit"
                 width="available"
                 disabled={isLoading}
-                icon={isLoading && <Spinner visible={true} />}
+                icon={isLoading && <Spinner visible />}
               >
                 {t('transactions.modal.button.confirm')}
               </Button>
