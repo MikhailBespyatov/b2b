@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Notification as NotificationUI } from '@alfalab/core-components/notification';
-import { RootStateType } from '../../redux/store';
-import { removeToast, selectNotifications } from '../../redux/slices/app-slice';
+import { RootStateType } from 'redux/store';
+import { removeToast, selectNotifications } from 'redux/slices/app-slice';
+import { INotification } from 'models/INotification';
 
 export const Notification: FC = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export const Notification: FC = () => {
 
   return (
     <>
-      {notifications.map((notification, index: number) => {
+      {notifications.map((notification: INotification, index: number) => {
         return (
           <NotificationUI
             key={notification.id}

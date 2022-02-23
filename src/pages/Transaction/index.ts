@@ -1,1 +1,1 @@
-export { Transaction } from './Transaction';
+export { default as TransactionPage } from './Transaction';

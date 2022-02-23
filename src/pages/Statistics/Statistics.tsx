@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { BarChartItem } from './partials';
 import './Statistics.css';
 
-export const Statistics: FC = () => {
+const Statistics: FC = () => {
   const { t } = useTranslation();
   const moneyTurnoverData = useMemo(() => {
     return [
@@ -55,3 +55,5 @@ export const Statistics: FC = () => {
     </>
   );
 };
+
+export default Statistics;

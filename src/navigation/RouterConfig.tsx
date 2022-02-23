@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { ReactLocation, Router, Outlet, Navigate } from 'react-location';
 import { Container } from 'react-grid-system';
 
+import configs from 'config/enviroments';
 import {
   ANALYTICS,
   ROOT,
@@ -9,9 +10,13 @@ import {
   STATISTICS,
   TRANSACTIONS
 } from './CONSTANTS';
-import { Transaction, Transactions, Statistics, Analytics } from '../pages';
+import {
+  TransactionPage,
+  TransactionsPage,
+  StatisticsPage,
+  AnalyticsPage
+} from '../pages';
 import { Navbar, Notification } from '../components';
-import configs from './../config/enviroments';
 
 const routes = [
   {
@@ -23,21 +28,21 @@ const routes = [
     children: [
       {
         path: '/',
-        element: <Transactions />
+        element: <TransactionsPage />
       },
       {
         path: `:id`,
-        element: <Transaction />
+        element: <TransactionPage />
       }
     ]
   },
   {
     path: ANALYTICS,
-    element: <Analytics />
+    element: <AnalyticsPage />
   },
   {
     path: STATISTICS,
-    element: <Statistics />
+    element: <StatisticsPage />
   },
   {
     path: SETTLEMENTS,
@@ -47,7 +52,7 @@ const routes = [
 
 const reactLocation = new ReactLocation();
 
-export const RouterConfig: FC = () => {
+const RouterConfig: FC = () => {
   return (
     <Router
       basepath={configs.PUBLIC_URL}
@@ -56,9 +61,11 @@ export const RouterConfig: FC = () => {
     >
       <Notification />
       <Navbar />
-      <Container fluid={true}>
+      <Container fluid>
         <Outlet />
       </Container>
     </Router>
   );
 };
+
+export default RouterConfig;

@@ -1,11 +1,12 @@
 import {
   BaseQueryFn,
+  createApi,
   FetchArgs,
   fetchBaseQuery,
   FetchBaseQueryError
-} from '@reduxjs/toolkit/query';
-import { addToast } from '../../redux/slices/app-slice';
-import { uuid } from '../../utils/uuid';
+} from '@reduxjs/toolkit/query/react';
+import { uuid } from 'utils/uuid';
+import { addToast } from 'redux/slices/app-slice';
 
 const baseQueryBase = fetchBaseQuery({
   baseUrl: ''
@@ -31,4 +32,8 @@ const baseQuery: BaseQueryFn<
   return result;
 };
 
-export default baseQuery;
+export const baseEmptyAPI = createApi({
+  tagTypes: ['Directory', 'Transactions'],
+  baseQuery,
+  endpoints: () => ({})
+});

@@ -29,7 +29,7 @@ export const OrderComposition: FC = () => {
                 <td>{t('transaction.data.orderAmount')}</td>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>Empty</tbody>
           </table>
         </div>
       </Collapse>

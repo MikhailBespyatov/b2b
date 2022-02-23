@@ -3,7 +3,7 @@ import { IconProps } from '../Icon/model';
 import { Icon } from '../Icon';
 
 export const CheckmarkCircle: FC<IconProps> = ({
-  color = '#fff',
+  color = '#ffffff',
   width = 48,
   height = 48,
   ...props
@@ -15,7 +15,7 @@ export const CheckmarkCircle: FC<IconProps> = ({
     />
     <path
       d="M20.2726 29.7518L13.587 23.0056L12.0908 24.4545L20.2726 32.6363L36.4545 16.4545L34.9381 14.9482L20.2726 29.7518Z"
-      fill="white"
+      fill={color}
     />
   </Icon>
 );

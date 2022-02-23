@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Typography } from '@alfalab/core-components/typography';
-
-import { CheckmarkCircle } from '../../../../components/ui/icons';
 import { CrossCircleMIcon } from '@alfalab/icons-glyph/CrossCircleMIcon';
+
+import { CheckmarkCircle } from 'components/ui/icons';
 
 type PropTypes = {
   status: 'success' | 'error';

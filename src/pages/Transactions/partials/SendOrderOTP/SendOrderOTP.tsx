@@ -11,7 +11,7 @@ type PropTypes = {
   order: IOrder;
 };
 
-export const SendOrderOTP: FC<PropTypes> = ({ order }) => {
+export const SendOrderOTP: FC<PropTypes> = () => {
   const { t } = useTranslation();
 
   return (

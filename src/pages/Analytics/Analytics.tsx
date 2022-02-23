@@ -7,7 +7,7 @@ import { AreaChartItem, PieChartItem } from './partials';
 import { RangePicker } from '../../components/DatePicker';
 import './Analytics.css';
 
-export const Analytics: FC = () => {
+const Analytics: FC = () => {
   const { t } = useTranslation();
 
   const data = [
@@ -118,3 +118,5 @@ export const Analytics: FC = () => {
     </>
   );
 };
+
+export default Analytics;

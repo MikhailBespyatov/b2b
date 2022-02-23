@@ -1,10 +1,6 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import baseQuery from './baseQuery';
+import { baseEmptyAPI } from './baseQuery';
 
-export const transactionAPI = createApi({
-  reducerPath: 'transactionAPI',
-  baseQuery,
-  tagTypes: ['Transactions'],
+export const transactionAPI = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
     getTransactions: builder.query({
       query: ({
@@ -76,7 +72,8 @@ export const transactionAPI = createApi({
         { type: 'Transactions', id: arg.id }
       ]
     })
-  })
+  }),
+  overrideExisting: false
 });
 
 export const {
