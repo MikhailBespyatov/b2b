@@ -4,7 +4,7 @@ import { CalendarInput } from '@alfalab/core-components/calendar-input';
 
 import s from './RangePicker.module.css';
 
-export const RangePicker: FC = () => {
+const RangePicker: FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -16,3 +16,5 @@ export const RangePicker: FC = () => {
     </div>
   );
 };
+
+export default RangePicker;

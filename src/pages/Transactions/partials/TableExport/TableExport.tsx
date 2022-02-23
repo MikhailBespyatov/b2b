@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Col, Container, Row } from 'react-grid-system';
 import { CalendarRange } from '@alfalab/core-components/calendar-range';
 
@@ -6,19 +6,17 @@ import { FileCSVIcon, FilePDFIcon } from '../../../../components/ui/icons';
 
 export const TableExport: FC = () => {
   const today = new Date();
-  const [dateCreate, setDateCreate] = useState<string | undefined>();
-  const [deliveryDate, setDeliveryDate] = useState<string | undefined>();
 
   return (
-    <Container fluid={true} className="table-export">
+    <Container fluid className="table-export">
       <Row>
         <Col className="p-0">
           <div className="transactions__btn-group">
-            <button>
+            <button type="button">
               <FileCSVIcon width={23} height={24} />
             </button>
             <div className="divider" />
-            <button>
+            <button type="button">
               <FilePDFIcon width={23} height={24} />
             </button>
           </div>
@@ -32,12 +30,7 @@ export const TableExport: FC = () => {
           xs={12}
           className="p-0"
         >
-          <CalendarRange
-            calendarPosition="popover"
-            onDateFromChange={({ value }) => setDateCreate(value)}
-            onDateToChange={({ value }) => setDeliveryDate(value)}
-            maxDate={today.getTime()}
-          />
+          <CalendarRange calendarPosition="popover" maxDate={today.getTime()} />
         </Col>
       </Row>
     </Container>

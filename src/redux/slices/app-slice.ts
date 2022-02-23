@@ -1,7 +1,7 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { INotification } from '../../models/INotification';
-import { IStatusOption } from '../../models/IStatus';
-import { RootStateType } from '../store';
+import { createSelector, createSlice, Reducer } from '@reduxjs/toolkit';
+import { INotification } from 'models/INotification';
+import { IStatusOption } from 'models/IStatus';
+import type { RootStateType } from '../store';
 
 const initialState = {
   notifications: [] as INotification[],
@@ -10,6 +10,7 @@ const initialState = {
     unique: [] as IStatusOption[]
   }
 };
+type InitialStateType = typeof initialState;
 
 const selectApp = (state: RootStateType) => state.app;
 
@@ -31,7 +32,7 @@ export const selectStatusesUnique = createSelector(
   state => state.unique
 );
 
-export const appSlice = createSlice({
+const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
@@ -58,4 +59,4 @@ export const appSlice = createSlice({
 export const { resetState, addToast, removeToast, resetToast, setStatuses } =
   appSlice.actions;
 
-export default appSlice.reducer;
+export default appSlice.reducer as Reducer<InitialStateType>;

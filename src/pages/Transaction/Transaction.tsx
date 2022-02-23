@@ -28,7 +28,7 @@ import {
 } from '../Transactions/partials';
 import './Transaction.css';
 
-export const Transaction: FC = () => {
+const Transaction: FC = () => {
   const { params } = useMatch();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -75,62 +75,61 @@ export const Transaction: FC = () => {
   if (isLoading) {
     return (
       <div className="absolute-center">
-        <Spinner visible={true} size="m" />
+        <Spinner visible size="m" />
       </div>
     );
   }
 
-  return (
-    <>
-      {isSuccess && (
-        <>
-          {data?.app_status &&
-            data.app_status !== 'cancelled' &&
-            data?.merchant_order_id && (
-              <Space direction="horizontal" size={8}>
-                <Typography.Title tag="h2" className="transaction__title">
-                  {t('transaction.header.title')} №{data.id}
-                </Typography.Title>
-                <IconButton
-                  size="xs"
-                  icon={PencilHeavyIcon}
-                  className="icon-button bg-blue"
-                />
-                <IconButton
-                  size="xs"
-                  icon={CheckmarkIcon}
-                  className="icon-button bg-green"
-                  onClick={handleModalOpen(
-                    data.app_status === 'new'
-                      ? 'CONFIRM_ORDER'
-                      : 'DELIVERY_ORDER_OTP'
-                  )}
-                />
-                <IconButton
-                  size="xs"
-                  icon={CrossHeavyIcon}
-                  className="icon-button bg-red"
-                  onClick={handleModalOpen('CONFIRM_CANCEL')}
-                />
-              </Space>
-            )}
-          <OrderHistory order={data} />
-          <BuyerInfo order={data} />
-          <OrderComposition />
-          <ChangesHistory order={data} />
-          <ModalResponsive open={open} onClose={handleModalClose} size="m">
-            <ModalResponsive.Header
-              size="m"
-              className="modal-responsive__header"
-            >
-              <AlphaIcon size="m" colored={true} />
-            </ModalResponsive.Header>
-            <ModalResponsive.Content>
-              {renderModalContent(modalType)}
-            </ModalResponsive.Content>
-          </ModalResponsive>
-        </>
-      )}
-    </>
-  );
+  if (isSuccess) {
+    return (
+      <>
+        {data?.app_status &&
+          data.app_status !== 'cancelled' &&
+          data?.merchant_order_id && (
+            <Space direction="horizontal" size={8}>
+              <Typography.Title tag="h2" className="transaction__title">
+                {t('transaction.header.title')} №{data.id}
+              </Typography.Title>
+              <IconButton
+                size="xs"
+                icon={PencilHeavyIcon}
+                className="icon-button bg-blue"
+              />
+              <IconButton
+                size="xs"
+                icon={CheckmarkIcon}
+                className="icon-button bg-green"
+                onClick={handleModalOpen(
+                  data.app_status === 'new'
+                    ? 'CONFIRM_ORDER'
+                    : 'DELIVERY_ORDER_OTP'
+                )}
+              />
+              <IconButton
+                size="xs"
+                icon={CrossHeavyIcon}
+                className="icon-button bg-red"
+                onClick={handleModalOpen('CONFIRM_CANCEL')}
+              />
+            </Space>
+          )}
+        <OrderHistory order={data} />
+        <BuyerInfo order={data} />
+        <OrderComposition />
+        <ChangesHistory order={data} />
+        <ModalResponsive open={open} onClose={handleModalClose} size="m">
+          <ModalResponsive.Header size="m" className="modal-responsive__header">
+            <AlphaIcon size="m" colored />
+          </ModalResponsive.Header>
+          <ModalResponsive.Content>
+            {renderModalContent(modalType)}
+          </ModalResponsive.Content>
+        </ModalResponsive>
+      </>
+    );
+  }
+
+  return null;
 };
+
+export default Transaction;

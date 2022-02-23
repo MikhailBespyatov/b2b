@@ -67,7 +67,7 @@ export const CancelOrder: FC<PropTypes> = ({
   }
 
   if (isError) {
-    //@ts-ignore
+    // @ts-ignore
     return <OrderStatus status="error" title={error?.data} />;
   }
 

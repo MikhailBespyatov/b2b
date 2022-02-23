@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-location';
 import format from 'date-fns/format';
@@ -30,9 +31,9 @@ import {
   IOrderSortFields
 } from '../../../../models/IOrder';
 import { sortOperator } from '../../../../utils/sorts';
-import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../../redux/store';
 import { selectStatusesList } from '../../../../redux/slices/app-slice';
+import { uuid } from '../../../../utils/uuid';
 
 type PropTypes = {
   data: IOrder[];
@@ -97,6 +98,8 @@ export const OrderList: FC<PropTypes> = ({
           return null;
       }
     }
+
+    return null;
   };
 
   const handleSortButtonClick = (field: IOrderSortFields) => () => {
@@ -124,14 +127,13 @@ export const OrderList: FC<PropTypes> = ({
           )}
         </span>
       );
-    } else {
-      return (
-        <span>
-          <ArrowUpCompactXsIcon />
-          <ArrowDownCompactXsIcon />
-        </span>
-      );
     }
+    return (
+      <span>
+        <ArrowUpCompactXsIcon />
+        <ArrowDownCompactXsIcon />
+      </span>
+    );
   };
 
   return (
@@ -140,19 +142,22 @@ export const OrderList: FC<PropTypes> = ({
         <table className="table">
           <thead>
             <tr>
-              <td onClick={handleSortButtonClick('id')}>
+              <td role="gridcell" onClick={handleSortButtonClick('id')}>
                 <div>
                   {t('transactions.table.orderNumber')}
                   {renderSortButton('id')}
                 </div>
               </td>
-              <td onClick={handleSortButtonClick('created_at')}>
+              <td role="gridcell" onClick={handleSortButtonClick('created_at')}>
                 <div>
                   {t('transactions.table.date')}
                   {renderSortButton('created_at')}
                 </div>
               </td>
-              <td onClick={handleSortButtonClick('items_amount')}>
+              <td
+                role="gridcell"
+                onClick={handleSortButtonClick('items_amount')}
+              >
                 <div>
                   {t('transactions.table.amount')}
                   {renderSortButton('items_amount')}
@@ -168,10 +173,10 @@ export const OrderList: FC<PropTypes> = ({
               Array.from({ length: 15 }, (_, index) => {
                 return (
                   <tr key={index}>
-                    {Array.from({ length: 6 }, (_, j) => {
+                    {Array.from({ length: 6 }, () => {
                       return (
-                        <td key={'td_' + j}>
-                          <Skeleton visible={true} animate={true}>
+                        <td key={uuid()}>
+                          <Skeleton visible animate>
                             -
                           </Skeleton>
                         </td>
@@ -259,7 +264,7 @@ export const OrderList: FC<PropTypes> = ({
       </div>
       <ModalResponsive open={open} onClose={handleModalClose} size="m">
         <ModalResponsive.Header size="m" className="modal-responsive__header">
-          <AlphaIcon size="m" colored={true} />
+          <AlphaIcon size="m" colored />
         </ModalResponsive.Header>
         <ModalResponsive.Content>
           {renderModalContent(modalType)}

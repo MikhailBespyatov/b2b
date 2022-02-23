@@ -11,7 +11,6 @@ npm-debug.log
 .idea
 .npmrc
 yarn-error.log
-.scannerwork
 
 # IDE - VSCode
 .vscode/*
@@ -26,5 +25,4 @@ Dockerfile.test
 
 .vscode/
 
-db.json
 db.json

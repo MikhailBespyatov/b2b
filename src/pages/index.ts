@@ -1,5 +1,5 @@
 export { MainPage } from './Main';
-export { Transaction } from './Transaction';
-export { Transactions } from './Transactions';
-export { Statistics } from './Statistics';
-export { Analytics } from './Analytics';
+export { TransactionPage } from './Transaction';
+export { TransactionsPage } from './Transactions';
+export { StatisticsPage } from './Statistics';
+export { AnalyticsPage } from './Analytics';

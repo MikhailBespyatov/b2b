@@ -18,15 +18,15 @@ import { Input } from '@alfalab/core-components/input';
 import { Button } from '@alfalab/core-components/button';
 import { Space } from '@alfalab/core-components/space';
 
-import { TableExport, OrderList } from './partials';
+import { selectStatusesUnique } from 'redux/slices/app-slice';
+import { isPhoneNumberValid } from 'utils/helpers';
 import { useGetTransactionsQuery } from 'services/api/transactionAPI';
 import { IOrderFilter, IOrderSort } from 'models/IOrder';
 import { IStatusOption } from 'models/IStatus';
-import { RootStateType } from 'redux/store';
-import { isPhoneNumberValid } from 'utils/helpers';
+import { TableExport, OrderList } from './partials';
 
-import { selectStatusesUnique } from 'redux/slices/app-slice';
 import './Transactions.css';
+import { RootStateType } from '../../redux/store';
 
 type IFormValues = {
   transactionNumber: string;
@@ -38,7 +38,7 @@ type IFormValues = {
   order_amount: number;
 };
 
-export const Transactions: FC = () => {
+const Transactions: FC = () => {
   const today = new Date();
   const { t } = useTranslation();
   const { handleSubmit, control, reset, getValues } = useForm({
@@ -193,7 +193,7 @@ export const Transactions: FC = () => {
                         block
                         value={value}
                         success={isPhoneNumberValid(getValues('PhoneNumber'))}
-                        onChange={value => onChange(value)}
+                        onChange={inputValue => onChange(inputValue)}
                       />
                     )}
                   />
@@ -310,3 +310,5 @@ export const Transactions: FC = () => {
     </>
   );
 };
+
+export default Transactions;

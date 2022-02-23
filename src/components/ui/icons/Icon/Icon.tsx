@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IconProps } from './model';
 
-const getSize = (width: number = 13, height: number = 13, ratio: number) => {
+const getSize = (width: number, height: number, ratio: number) => {
   return {
     ...(width && { width, height: width / ratio }),
     ...(height && { width: height * ratio, height })
@@ -17,8 +17,8 @@ const getViewBox = (
 export const Icon: FC<IconProps> = ({
   originalWidth,
   originalHeight,
-  width,
-  height,
+  width = 13,
+  height = 13,
   fill = '#000',
   stroke = '',
   children,

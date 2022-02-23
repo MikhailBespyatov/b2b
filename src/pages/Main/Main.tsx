@@ -1,10 +1,8 @@
 import React, { FC } from 'react';
-import { Navbar } from '../../components/Navbar';
+import { Navbar } from 'components';
 
-export const MainPage: FC = () => {
-  return (
-    <>
-      <Navbar />
-    </>
-  );
+const Main: FC = () => {
+  return <Navbar />;
 };
+
+export default Main;

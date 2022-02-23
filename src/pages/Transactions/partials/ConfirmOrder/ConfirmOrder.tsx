@@ -51,7 +51,7 @@ export const ConfirmOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
               width="available"
               onClick={handleSubmit}
               disabled={isLoading}
-              icon={isLoading && <Spinner visible={true} />}
+              icon={isLoading && <Spinner visible />}
             >
               {t('transactions.modal.button.confirm')}
             </Button>

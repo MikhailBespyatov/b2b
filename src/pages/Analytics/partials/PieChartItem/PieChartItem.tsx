@@ -7,7 +7,7 @@ import {
   Cell,
   Legend
 } from 'recharts';
-import { calculatePercent } from '../../../../utils/helpers';
+import { calculatePercent } from 'utils/helpers';
 
 type PropTypes = {
   title: string;
@@ -45,10 +45,7 @@ export const PieChartItem: FC<PropTypes> = ({ title }) => {
             fill="#8884d8"
           >
             {data01.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
+              <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
           <Legend

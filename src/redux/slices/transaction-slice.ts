@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, Reducer } from '@reduxjs/toolkit';
 import { IOrder } from '../../models/IOrder';
 
 const initialState = {
@@ -16,4 +16,4 @@ export const transactionSlice = createSlice({
 
 export const { resetState } = transactionSlice.actions;
 
-export default transactionSlice.reducer;
+export default transactionSlice.reducer as Reducer<typeof initialState>;

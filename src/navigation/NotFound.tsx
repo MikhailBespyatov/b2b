@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { TRANSACTIONS } from './CONSTANTS';
 
-export const NotFound = () => {
+const NotFound = () => {
   const { t } = useTranslation();
 
   return (
@@ -14,3 +14,5 @@ export const NotFound = () => {
     </>
   );
 };
+
+export default NotFound;

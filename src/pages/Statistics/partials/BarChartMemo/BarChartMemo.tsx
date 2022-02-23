@@ -33,7 +33,7 @@ export const BarChartMemo: FC<PropTypes> = React.memo(({ data }) => {
         <CartesianGrid
           stroke="#D0D4D8"
           vertical={false}
-          horizontal={true}
+          horizontal
           strokeDasharray="3 3"
         />
         <XAxis
@@ -48,7 +48,6 @@ export const BarChartMemo: FC<PropTypes> = React.memo(({ data }) => {
           axisLine={false}
           tickLine={false}
           tick={{ fontSize: 13 }}
-          //ticks={[2000, 3000, 4000, 2400000]}
           tickFormatter={value => moneyFormatter.format(value)}
         />
         <Tooltip />

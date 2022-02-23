@@ -1,13 +1,9 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import baseQuery from './baseQuery';
-import { addToast, setStatuses } from '../../redux/slices/app-slice';
-import { IStatus, IStatusOption } from '../../models/IStatus';
 import { uuid } from 'utils/uuid';
+import { addToast, setStatuses } from 'redux/slices/app-slice';
+import { IStatus, IStatusOption } from 'models/IStatus';
+import { baseEmptyAPI } from './baseQuery';
 
-export const directoryAPI = createApi({
-  reducerPath: 'directoryAPI',
-  baseQuery,
-  tagTypes: ['Directory'],
+export const directoryAPI = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
     getStatuses: builder.query({
       query: () => '/directory/statuses',
@@ -59,7 +55,8 @@ export const directoryAPI = createApi({
     getStatusById: builder.query({
       query: id => `/directory/statuses/${id}`
     })
-  })
+  }),
+  overrideExisting: false
 });
 
 export const { useGetStatusesQuery } = directoryAPI;
