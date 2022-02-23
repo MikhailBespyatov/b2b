@@ -303,7 +303,7 @@ const Transactions: FC = () => {
       <div className="mb-20">
         <Pagination
           currentPageIndex={currentPage - 1}
-          pagesCount={currentData?.totalPages || 1}
+          pagesCount={currentData?.totalPages ?? 1}
           onPageChange={handlePageChange}
         />
       </div>

@@ -33,6 +33,7 @@ const baseQuery: BaseQueryFn<
 };
 
 export const baseEmptyAPI = createApi({
+  reducerPath: 'api',
   tagTypes: ['Directory', 'Transactions'],
   baseQuery,
   endpoints: () => ({})
