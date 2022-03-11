@@ -11,7 +11,7 @@ RUN <<eot
 eot
 FROM registry-proxy.alfa-bank.kz/nginxinc/nginx-unprivileged:1.20-alpine
 COPY --from=builder /srv/build/ /app/
-COPY <<-eot /etc/nginx/conf.d/default.conf
+COPY <<-'eot' /etc/nginx/conf.d/default.conf
   server {
     listen 8080;
     server_name localhost;
