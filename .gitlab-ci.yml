@@ -10,3 +10,6 @@ include:
     file: "containerize/docker-ucrb-yarn.yml"
   - project: "cicd/gitlab-ci-templates"
     file: "deploy/deploy-universal.yml"
+
+dockerize_test:
+  image: registry-proxy.alfa-bank.kz/docker:20.10
