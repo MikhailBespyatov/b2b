@@ -1,7 +1,9 @@
 stages:
-  - build
   - containerize
   - deploy
+
+variables:
+  DOCKER_BUILDKIT: 1
 
 include:
   - project: "cicd/gitlab-ci-templates"
@@ -9,22 +11,5 @@ include:
   - project: "cicd/gitlab-ci-templates"
     file: "deploy/deploy-universal.yml"
 
-build:
-  stage: build
-  image: registry-test.alfa-bank.kz/bnpl/node16.13.1-yarn1.22.17
-  cache:
-    paths:
-      - node_modules/
-  artifacts:
-    when: always
-    expire_in: 20 minute
-    paths:
-      - build/*
-  script:
-    - echo '[BUILD PREPARE] git version' $(git describe --always)
-    - export REACT_APP_VERSION=$(git describe --always)
-    - echo '[BUILD] Run yarn to install packages'
-    - yarn install --network-timeout 100000 --non-interactive --pure-lockfile
-    - echo '[BUILD STARTED]'
-    - echo '[BUILD] Run yarn to generate frontend'
-    - PUBLIC_URL=/b2b CI=false yarn run build
+dockerize_test:
+  image: registry-proxy.alfa-bank.kz/docker:20.10
