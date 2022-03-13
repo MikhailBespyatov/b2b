@@ -6,8 +6,8 @@ import { Link } from 'arui-feather/link';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
-import { IOrder } from '../../../../models/IOrder';
-import { phoneNumberFormatter } from '../../../../utils/helpers';
+import { IOrder } from 'models/IOrder';
+import { phoneNumberFormatter } from 'utils/helpers';
 
 type PropTypes = {
   order: IOrder;

@@ -7,9 +7,19 @@ import {
 } from '@reduxjs/toolkit/query/react';
 import { uuid } from 'utils/uuid';
 import { addToast } from 'redux/slices/app-slice';
+import { RootStateType } from 'redux/store';
 
 const baseQueryBase = fetchBaseQuery({
-  baseUrl: ''
+  baseUrl: '',
+  prepareHeaders: (headers, { getState }) => {
+    const { token } = (getState() as RootStateType).app;
+
+    if (token) {
+      headers.set('token', token);
+    }
+
+    return headers;
+  }
 });
 
 const baseQuery: BaseQueryFn<

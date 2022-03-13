@@ -4,6 +4,7 @@ import { IStatusOption } from 'models/IStatus';
 import type { RootStateType } from '../store';
 
 const initialState = {
+  token: '',
   notifications: [] as INotification[],
   statuses: {
     list: {} as Record<string, string>,
@@ -37,6 +38,9 @@ const appSlice = createSlice({
   initialState,
   reducers: {
     resetState: () => initialState,
+    setToken: (state, { payload }) => {
+      state.token = payload;
+    },
     addToast: (state, action: { payload: INotification }) => {
       state.notifications.push(action.payload);
     },
@@ -56,7 +60,13 @@ const appSlice = createSlice({
   extraReducers: {}
 });
 
-export const { resetState, addToast, removeToast, resetToast, setStatuses } =
-  appSlice.actions;
+export const {
+  resetState,
+  setToken,
+  addToast,
+  removeToast,
+  resetToast,
+  setStatuses
+} = appSlice.actions;
 
 export default appSlice.reducer as Reducer<InitialStateType>;
