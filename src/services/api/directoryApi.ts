@@ -10,8 +10,8 @@ export const directoryAPI = baseEmptyAPI.injectEndpoints({
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          const transformData = {} as { [key: string]: string };
-          const transformDataByText = {} as { [key: string]: string[] };
+          const transformData = {} as Record<string, string>;
+          const transformDataByText = {} as Record<string, string[]>;
 
           data.forEach((status: IStatus) => {
             transformData[status.value] = status.textRu;

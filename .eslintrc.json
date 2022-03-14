@@ -1,76 +1,75 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "airbnb",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:react-hooks/recommended",
-        "plugin:react/recommended",
-        "plugin:import/errors",
-        "plugin:import/warnings",
-        "plugin:import/typescript",
-        "airbnb",
-        "plugin:prettier/recommended",
-        "prettier"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "@typescript-eslint",
-        "prettier"
-    ],
-    "settings": {
-      "import/resolver": {
-        "node": {
-          "extensions": [".js", ".jsx", ".ts", ".tsx"]
-        }
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
-    },
-    "rules": {
-      "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/ban-types": "off",
-      "@typescript-eslint/ban-ts-ignore": "off",
-      "@typescript-eslint/no-use-before-define": ["error"],
-      "no-use-before-define": "off",
-      "react/jsx-props-no-spreading": "off",
-      "react/prop-types": 0,
-      "camelcase": 0,
-      "@typescript-eslint/camelcase": 0,
-      "@typescript-eslint/no-explicit-any": "off",
-      "import/prefer-default-export": "off",
-      //"import/no-default-export": "error",
-      "import/no-unresolved": 0,
-      "jsx-a11y/anchor-is-valid": 0,
-      "no-underscore-dangle": ["error", { "allow": ["__typename"] }],
-      "@typescript-eslint/no-unused-vars": [2, { "args": "none" }],
-      "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "never",
-          "jsx": "never",
-          "ts": "never",
-          "tsx": "never"
-        }
-      ],
-      "react/function-component-definition": [
-        2,
-        {
-          "namedComponents": "arrow-function",
-          "unnamedComponents": "arrow-function"
-        }
-      ],
-      "no-param-reassign": 0,
-      "spaced-comment": ["error", "always", {
+    }
+  },
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "no-use-before-define": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": 0,
+    "camelcase": 0,
+    "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/no-explicit-any": "off",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "no-underscore-dangle": ["error", { "allow": ["__typename"] }],
+    "@typescript-eslint/no-unused-vars": [2, { "args": "none" }],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "no-param-reassign": 0,
+    "spaced-comment": [
+      "error",
+      "always",
+      {
         "line": {
           "markers": ["/"],
           "exceptions": ["-", "+"]
@@ -80,6 +79,7 @@
           "exceptions": ["*"],
           "balanced": true
         }
-      }]
-    }
+      }
+    ]
+  }
 }
