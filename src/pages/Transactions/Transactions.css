@@ -9,61 +9,34 @@
 .status {
   border: none;
   font-size: 11px;
-  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 0 12px;
+  color: #6d7986;
+}
+
+.status-new {
+  background-color: #e5f1ff;
+  color: #3481d6;
 }
 
 .status-delivery,
 .status-delivered_w_e {
-  background-color: #e5f1ff !important;
-  color: #3481d6;
-}
-
-.status-new {
-  background-color: #2fc26e33 !important;
+  background-color: #2fc26e33;
   color: #5fae50;
 }
 
 .status-refusing {
-  background-color: #ef31241a !important;
+  background-color: #ef31241a;
   color: #ff5c5cf2;
-}
-
-.status-readyDelivery {
-  background-color: #e9f6f5 !important;
-  color: #20a69a;
-}
-
-.status-refund {
-  background-color: #f0ebf8 !important;
-  color: #673ab4;
-}
-
-.status-refundRequest {
-  background-color: #fef2e6 !important;
-  color: #de6b00;
 }
 
 .transactions__title {
   margin-bottom: 22px;
 }
 
-.transactions__filter-head {
-  margin-bottom: 22px;
-}
-
-.transactions__filter-head > button {
-  margin-left: 10px;
-}
-
-.transactions__filter-head svg {
-  width: 14px;
-  height: 12px;
-}
-
 .transactions__filter-form {
-  margin-bottom: 36px;
-  border: 1px solid #F3F4F5;
-  padding: 24px 16px;
+  margin-top: 32px;
+  margin-bottom: 40px;
 }
 
 .transactions__btn-group {

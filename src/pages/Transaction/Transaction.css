@@ -1,29 +1,19 @@
-.transaction__title {
-  margin-bottom: 38px;
-}
-
 .collapsible {
   font-weight: bold;
-  padding-bottom: 16px;
   width: 100%;
   text-align: left;
   border: none;
-  border-bottom: 1px solid #d8dcde;
   background-color: inherit;
+  display: flex;
+  align-items: center;
 }
 
 .collapsible > svg {
-  position: absolute;
-  right: 10px;
-}
-
-.collapse {
-  background-color: #f3f4f5;
-  margin-bottom: 40px;
+  margin-left: 20px;
 }
 
 .collapse__box-item {
-  margin: 15px 20px;
+  margin-bottom: 16px;
 }
 
 .collapse__box-item > .collapse__box-value {

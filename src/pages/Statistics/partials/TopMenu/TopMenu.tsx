@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Col, Row } from 'react-grid-system';
+import { Grid } from '@alfalab/core-components/grid';
 import { Label } from 'arui-feather/label';
 import { Select } from 'arui-feather/select';
 
 import { DashboardIcon, ReportIcon } from 'components/ui/icons';
-import { RangePicker } from 'components/DatePicker';
 
 export const TopMenu: FC = () => {
   const { t } = useTranslation();
@@ -16,39 +15,29 @@ export const TopMenu: FC = () => {
   ];
 
   return (
-    <Row className="top-menu" gutterWidth={8}>
-      <Col xl={3} lg={3} md={6} sm={12} xs={12}>
+    <Grid.Row className="top-menu">
+      <Grid.Col width={{ desktop: { s: 12, m: 6, l: 3 } }}>
         <button type="button" className="btn curved-btn-blue">
           <DashboardIcon width={14} height={14} />
-          <Label size="m" isNoWrap className="bold_300">
+          <Label size="m" isNoWrap className="bold-300">
             {t('statistics.button.dashboard')}
           </Label>
         </button>
         <button type="button" className="btn curved-btn-red">
           <ReportIcon width={14} height={16} />
-          <Label size="m" isNoWrap className="bold_300">
+          <Label size="m" isNoWrap className="bold-300">
             {t('statistics.button.report')}
           </Label>
         </button>
-      </Col>
-      <Col
-        xl={5}
-        lg={4}
-        md={6}
-        style={{
-          textAlign: 'right'
-        }}
-      >
+      </Grid.Col>
+      <Grid.Col width={{ desktop: { s: 12, m: 6, l: 3 } }}>
         <Select
           size="m"
           mode="radio"
           options={options}
           className="select_theme_alfa-on-white select-button"
         />
-      </Col>
-      <Col xl={4} lg={5} md={6}>
-        <RangePicker />
-      </Col>
-    </Row>
+      </Grid.Col>
+    </Grid.Row>
   );
 };

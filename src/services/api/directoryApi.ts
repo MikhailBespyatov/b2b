@@ -27,8 +27,8 @@ export const directoryAPI = baseEmptyAPI.injectEndpoints({
 
           Object.keys(transformDataByText).forEach((key, index) => {
             newUniqueStatusOptions.push({
-              key: index.toString(),
-              content: key,
+              value: index.toString(),
+              text: key,
               values: transformDataByText[key]
             });
           });

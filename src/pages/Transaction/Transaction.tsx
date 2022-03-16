@@ -9,17 +9,17 @@ import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Spinner } from '@alfalab/core-components/spinner';
 
 import {
+  CheckmarkIcon,
+  CrossHeavyIcon,
+  PencilHeavyIcon
+} from 'components/ui/icons';
+import { useGetTransactionByIdQuery } from 'services/api/transactionAPI';
+import {
   OrderHistory,
   BuyerInfo,
   OrderComposition,
   ChangesHistory
 } from './partials';
-import {
-  CheckmarkIcon,
-  CrossHeavyIcon,
-  PencilHeavyIcon
-} from '../../components/ui/icons';
-import { useGetTransactionByIdQuery } from '../../services/api/transactionAPI';
 import { ModalType } from '../Transactions/Transactions.model';
 import {
   CancelOrder,
@@ -86,8 +86,8 @@ const Transaction: FC = () => {
         {data?.app_status &&
           data.app_status !== 'cancelled' &&
           data?.merchant_order_id && (
-            <Space direction="horizontal" size={8}>
-              <Typography.Title tag="h2" className="transaction__title">
+            <Space direction="horizontal" size={8} className="mb-32">
+              <Typography.Title tag="h2">
                 {t('transaction.header.title')} №{data.id}
               </Typography.Title>
               <IconButton

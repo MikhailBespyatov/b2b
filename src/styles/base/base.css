@@ -14,6 +14,12 @@ button {
   cursor: pointer;
 }
 
+hr {
+  border: none;
+  background-color: #dbdee1;
+  height: 1px;
+}
+
 .navbar {
   margin-bottom: 32px;
 }
@@ -25,15 +31,40 @@ button {
 .mb-20 {
   margin-bottom: 20px;
 }
+.mb-24 {
+  margin-bottom: 24px;
+}
+.mb-32 {
+  margin-bottom: 32px;
+}
+.mb-34 {
+  margin-bottom: 34px;
+}
 
-.bold_700 {
+.mr-32 {
+  margin-right: 32px;
+}
+
+.bold-700 {
   font-weight: 700;
 }
-.bold_600 {
+.bold-600 {
   font-weight: 600;
 }
-.bold_300 {
+.bold-300 {
   font-weight: 300;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-end {
+  align-items: end;
 }
 
 .overflowX {
@@ -57,8 +88,8 @@ button {
   line-height: 36px;
   color: #172a3f;
 }
-.title-2 {
-  font-size: 22px;
+.title-3 {
+  font-size: 18px;
   line-height: 26px;
   color: #172a3f;
 }
@@ -77,10 +108,6 @@ button {
 .top-menu > div {
   padding: 0 !important;
   margin-bottom: 4px;
-}
-
-.icon-button {
-  color: #fff;
 }
 
 .icon-button.bg-green {
@@ -112,5 +139,5 @@ button {
 
 .flex-end {
   display: flex;
-  justify-content: end
+  justify-content: end;
 }

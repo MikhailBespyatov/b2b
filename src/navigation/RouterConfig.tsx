@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { ReactLocation, Router, Outlet, Navigate } from 'react-location';
-import { Container } from 'react-grid-system';
 
 import configs from 'config/enviroments';
 import {
@@ -61,9 +60,9 @@ const RouterConfig: FC = () => {
     >
       <Notification />
       <Navbar />
-      <Container fluid>
+      <div className="container">
         <Outlet />
-      </Container>
+      </div>
     </Router>
   );
 };
