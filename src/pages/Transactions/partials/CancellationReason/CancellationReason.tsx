@@ -9,8 +9,8 @@ import { Col } from '@alfalab/core-components/grid/col';
 import { Row } from '@alfalab/core-components/grid/row';
 import { Spinner } from '@alfalab/core-components/spinner';
 
-import { useUpdateTransactionStatusMutation } from '../../../../services/api/transactionAPI';
-import { OrderStatus } from '../OrderStatus';
+import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
+import { StatusMessage } from '../index';
 
 type PropTypes = {
   title: string;
@@ -19,7 +19,7 @@ type PropTypes = {
   handleClose: () => void;
 };
 
-export const CancelOrder: FC<PropTypes> = ({
+const CancellationReason: FC<PropTypes> = ({
   id,
   merchantOrderId,
   title,
@@ -63,12 +63,12 @@ export const CancelOrder: FC<PropTypes> = ({
   };
 
   if (isSuccess) {
-    return <OrderStatus status="success" title="" />;
+    return <StatusMessage status="success" title="" />;
   }
 
   if (isError) {
     // @ts-ignore
-    return <OrderStatus status="error" title={error?.data} />;
+    return <StatusMessage status="error" title={error?.data} />;
   }
 
   return (
@@ -112,7 +112,7 @@ export const CancelOrder: FC<PropTypes> = ({
                 disabled={isLoading}
                 icon={isLoading && <Spinner visible />}
               >
-                {t('transactions.modal.button.confirm')}
+                {t('button.confirm')}
               </Button>
             </Col>
             <Col>
@@ -122,7 +122,7 @@ export const CancelOrder: FC<PropTypes> = ({
                 width="available"
                 onClick={handleClose}
               >
-                {t('transactions.modal.button.cancel')}
+                {t('button.cancel')}
               </Button>
             </Col>
           </Row>
@@ -131,3 +131,5 @@ export const CancelOrder: FC<PropTypes> = ({
     </>
   );
 };
+
+export default CancellationReason;

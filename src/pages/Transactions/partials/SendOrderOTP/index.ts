@@ -1,1 +1,0 @@
-export { SendOrderOTP } from './SendOrderOTP';

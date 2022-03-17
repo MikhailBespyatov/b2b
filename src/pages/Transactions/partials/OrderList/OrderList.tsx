@@ -26,7 +26,12 @@ import { RootStateType } from 'redux/store';
 import { selectStatusesList } from 'redux/slices/app-slice';
 import { uuid } from 'utils/uuid';
 import { ModalType } from '../../Transactions.model';
-import { DeliverOrderOTP, CancelOrder, ConfirmOrder } from '../index';
+import {
+  OrderCancel,
+  DeliveryToCourier,
+  PopConfirm,
+  SmsConfirm
+} from '../index';
 
 type PropTypes = {
   data: IOrder[];
@@ -70,17 +75,17 @@ export const OrderList: FC<PropTypes> = ({
       switch (type) {
         case 'CONFIRM_ORDER':
           return (
-            <ConfirmOrder
+            <DeliveryToCourier
               id={currentOrder.id}
               merchantOrderId={currentOrder.merchant_order_id}
-              title={t('transactions.modal.title.confirmOrder', {
-                orderNumber: currentOrder.id
-              })}
+              title={t('transactions.modal.title.sendForDelivery')}
+              text={t('transactions.modal.text.sendForDelivery')}
+              successMessage={t('transactions.modal.title.sentForDelivery')}
             />
           );
         case 'CONFIRM_CANCEL':
           return (
-            <CancelOrder
+            <OrderCancel
               id={currentOrder.id}
               merchantOrderId={currentOrder.merchant_order_id}
               title={t('transactions.modal.title.cancelOrder')}
@@ -88,7 +93,19 @@ export const OrderList: FC<PropTypes> = ({
             />
           );
         case 'DELIVERY_ORDER_OTP':
-          return <DeliverOrderOTP order={currentOrder} />;
+          return (
+            <PopConfirm
+              title={t('transactions.modal.title.sendForDelivery')}
+              text={t('transactions.modal.text.sendForDelivery')}
+              okText={t('button.send')}
+              cancelText={t('button.cancel')}
+            >
+              <SmsConfirm
+                order={currentOrder}
+                successMessage={t('transactions.modal.success.delivered')}
+              />
+            </PopConfirm>
+          );
         default:
           return null;
       }
