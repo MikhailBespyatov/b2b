@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
-import { Col, Row } from 'react-grid-system';
+import { Grid } from '@alfalab/core-components/grid';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@alfalab/core-components/typography';
 
 import { AreaChartItem, PieChartItem } from './partials';
-import { RangePicker } from '../../components/DatePicker';
 import './Analytics.css';
 
 const Analytics: FC = () => {
@@ -61,60 +60,38 @@ const Analytics: FC = () => {
 
   return (
     <>
-      <Row className="mb-20" align="center">
-        <Col>
-          <Typography.Title tag="h2" font="system" className="title-1">
-            {t('analytics.category.mainResults')}
-          </Typography.Title>
-        </Col>
-        <Col
-          xxl="content"
-          xl="content"
-          lg="content"
-          md="content"
-          sm="content"
-          xs="content"
-        >
-          <RangePicker />
-        </Col>
-      </Row>
-      <Row gutterWidth={20} className="mb-20">
+      <Typography.Title tag="h2" font="system" className="title-1 mb-20">
+        {t('analytics.category.mainResults')}
+      </Typography.Title>
+      <Grid.Row className="mb-20">
         {data.map(item => {
           return (
-            <Col
+            <Grid.Col
               key={item.id}
-              xl={4}
-              lg={4}
-              md={6}
-              sm={6}
-              xs={12}
+              width={{ desktop: { s: 4, m: 4 } }}
               className="mb-20"
             >
               <AreaChartItem title={item.title} value={item.value} />
-            </Col>
+            </Grid.Col>
           );
         })}
-      </Row>
+      </Grid.Row>
       <Typography.Title tag="h2" font="system" className="title-1 mb-20">
         {t('analytics.category.statisticalResults')}
       </Typography.Title>
-      <Row gutterWidth={20} className="mb-20">
+      <Grid.Row className="mb-20">
         {data2.map(item => {
           return (
-            <Col
+            <Grid.Col
               key={item.id}
-              xl={4}
-              lg={4}
-              md={6}
-              sm={6}
-              xs={12}
+              width={{ desktop: { s: 4, m: 4 } }}
               className="mb-20"
             >
               <PieChartItem title={item.title} />
-            </Col>
+            </Grid.Col>
           );
         })}
-      </Row>
+      </Grid.Row>
     </>
   );
 };

@@ -16,7 +16,7 @@ type PropTypes = {
   order: IOrder;
 };
 
-export const OrderHistory: FC<PropTypes> = ({ order }) => {
+const OrderInfo: FC<PropTypes> = ({ order }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
 
@@ -31,18 +31,46 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
         {expanded ? <ChevronDownMIcon /> : <ChevronForwardExtraMIcon />}
       </button>
       <Collapse expanded={expanded} className="mb-32">
-        <Grid.Row className="collapse">
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
+        <Grid.Row className="collapse" justify="left">
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
               <Label className="bold-600">
                 {t('transaction.data.registrationDate')}:
               </Label>
               <span className="collapse__box-value">
-                {format(parseISO(order.created_at), 'dd.MM.yyyy')}
+                {format(parseISO(order.created_at), 'dd.MM.yyyy HH:mm')}
               </span>
             </div>
           </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
+            <div className="collapse__box-item">
+              <Label className="bold-600">
+                {t('transactions.filter.deliveredDate')}:
+              </Label>
+              <span className="collapse__box-value">
+                {format(parseISO(order.created_at), 'dd.MM.yyyy HH:mm')}
+              </span>
+            </div>
+          </Grid.Col>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
               <Label className="bold-600">
                 {t('transaction.data.orderStatus')}:
@@ -59,7 +87,13 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
               </span>
             </div>
           </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
               <Label className="bold-600">
                 {t('transaction.data.orderAmount')}:
@@ -69,7 +103,13 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
               </span>
             </div>
           </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
               <Label className="bold-600">
                 {t('transaction.data.bankCommission')}:
@@ -79,7 +119,13 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
               </span>
             </div>
           </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
               <Label className="bold-600">
                 {t('transaction.data.amountToBePaid')}:
@@ -89,7 +135,27 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
               </span>
             </div>
           </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
+            <div className="collapse__box-item">
+              <Label className="bold-600">
+                {t('transaction.data.installmentType')}:
+              </Label>
+              <span className="collapse__box-value">0-0-12</span>
+            </div>
+          </Grid.Col>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
               <Label className="bold-600">
                 {t('transaction.data.paymentTerms')}:
@@ -110,3 +176,5 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
     </>
   );
 };
+
+export default OrderInfo;

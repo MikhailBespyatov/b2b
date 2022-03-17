@@ -1,38 +1,31 @@
 import React, { FC } from 'react';
-import { Col, Container, Row } from 'react-grid-system';
-import { CalendarRange } from '@alfalab/core-components/calendar-range';
-
-import { FileCSVIcon, FilePDFIcon } from '../../../../components/ui/icons';
+import CalendarInput from 'arui-feather/calendar-input';
+import { useTranslation } from 'react-i18next';
+import { FileCSVIcon, FilePDFIcon } from 'components/ui/icons';
+import IconButton from 'arui-feather/icon-button';
+import { Space } from '@alfalab/core-components/space';
 
 export const TableExport: FC = () => {
-  const today = new Date();
+  const { t } = useTranslation();
 
   return (
-    <Container fluid className="table-export">
-      <Row>
-        <Col className="p-0">
-          <div className="transactions__btn-group">
-            <button type="button">
-              <FileCSVIcon width={23} height={24} />
-            </button>
-            <div className="divider" />
-            <button type="button">
-              <FilePDFIcon width={23} height={24} />
-            </button>
-          </div>
-        </Col>
-        <Col
-          xxl="content"
-          xl="content"
-          lg="content"
-          md="content"
-          sm="content"
-          xs={12}
-          className="p-0"
-        >
-          <CalendarRange calendarPosition="popover" maxDate={today.getTime()} />
-        </Col>
-      </Row>
-    </Container>
+    <div className="mb-32 d-flex align-end">
+      <Space direction="horizontal" size={30} className="mr-32">
+        <CalendarInput
+          size="s"
+          label={t('transactions.table.export.startDate')}
+        />
+        <CalendarInput
+          size="s"
+          label={t('transactions.table.export.endDate')}
+        />
+      </Space>
+      <IconButton size="s">
+        <FileCSVIcon width={18} height={22} />
+      </IconButton>
+      <IconButton size="s">
+        <FilePDFIcon width={18} height={22} />
+      </IconButton>
+    </div>
   );
 };

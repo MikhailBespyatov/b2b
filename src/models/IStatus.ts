@@ -1,11 +1,11 @@
-import { OptionShape } from '@alfalab/core-components/select';
-
 export interface IStatus {
   id: number;
   value: string;
   textRu: string;
 }
 
-export interface IStatusOption extends OptionShape {
+export interface IStatusOption {
+  value: string;
+  text: string;
   values: string[];
 }

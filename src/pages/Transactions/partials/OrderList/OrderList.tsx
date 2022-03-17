@@ -13,30 +13,29 @@ import { ArrowDownCompactXsIcon } from '@alfalab/icons-glyph/ArrowDownCompactXsI
 import { ArrowUpCompactXsIcon } from '@alfalab/icons-glyph/ArrowUpCompactXsIcon';
 import { Skeleton } from '@alfalab/core-components/skeleton';
 
-import { TRANSACTIONS } from '../../../../navigation/CONSTANTS';
-import { ModalType } from '../../Transactions.model';
-import {
-  moneyFormatter,
-  phoneNumberFormatter
-} from '../../../../utils/helpers';
+import { TRANSACTIONS } from 'navigation/CONSTANTS';
+import { moneyFormatter, phoneNumberFormatter } from 'utils/helpers';
 import {
   CheckmarkIcon,
   CrossHeavyIcon,
   PencilHeavyIcon
-} from '../../../../components/ui/icons';
-import { DeliverOrderOTP, CancelOrder, ConfirmOrder } from '../index';
+} from 'components/ui/icons';
+import { IOrder, IOrderSort, IOrderSortFields } from 'models/IOrder';
+import { sortOperator } from 'utils/sorts';
+import { RootStateType } from 'redux/store';
+import { selectStatusesList } from 'redux/slices/app-slice';
+import { uuid } from 'utils/uuid';
+import { ModalType } from '../../Transactions.model';
 import {
-  IOrder,
-  IOrderSort,
-  IOrderSortFields
-} from '../../../../models/IOrder';
-import { sortOperator } from '../../../../utils/sorts';
-import { RootStateType } from '../../../../redux/store';
-import { selectStatusesList } from '../../../../redux/slices/app-slice';
-import { uuid } from '../../../../utils/uuid';
+  OrderCancel,
+  DeliveryToCourier,
+  PopConfirm,
+  SmsConfirm
+} from '../index';
 
 type PropTypes = {
   data: IOrder[];
+  limit: number;
   isLoading: boolean;
   isSuccess: boolean;
   orderSort: IOrderSort;
@@ -45,6 +44,7 @@ type PropTypes = {
 
 export const OrderList: FC<PropTypes> = ({
   data,
+  limit,
   isLoading,
   isSuccess,
   orderSort,
@@ -75,17 +75,17 @@ export const OrderList: FC<PropTypes> = ({
       switch (type) {
         case 'CONFIRM_ORDER':
           return (
-            <ConfirmOrder
+            <DeliveryToCourier
               id={currentOrder.id}
               merchantOrderId={currentOrder.merchant_order_id}
-              title={t('transactions.modal.title.confirmOrder', {
-                orderNumber: currentOrder.id
-              })}
+              title={t('transactions.modal.title.sendForDelivery')}
+              text={t('transactions.modal.text.sendForDelivery')}
+              successMessage={t('transactions.modal.title.sentForDelivery')}
             />
           );
         case 'CONFIRM_CANCEL':
           return (
-            <CancelOrder
+            <OrderCancel
               id={currentOrder.id}
               merchantOrderId={currentOrder.merchant_order_id}
               title={t('transactions.modal.title.cancelOrder')}
@@ -93,7 +93,19 @@ export const OrderList: FC<PropTypes> = ({
             />
           );
         case 'DELIVERY_ORDER_OTP':
-          return <DeliverOrderOTP order={currentOrder} />;
+          return (
+            <PopConfirm
+              title={t('transactions.modal.title.sendForDelivery')}
+              text={t('transactions.modal.text.sendForDelivery')}
+              okText={t('button.send')}
+              cancelText={t('button.cancel')}
+            >
+              <SmsConfirm
+                order={currentOrder}
+                successMessage={t('transactions.modal.success.delivered')}
+              />
+            </PopConfirm>
+          );
         default:
           return null;
       }
@@ -138,7 +150,7 @@ export const OrderList: FC<PropTypes> = ({
 
   return (
     <>
-      <div className="overflowX">
+      <div className="overflowX mb-24">
         <table className="table">
           <thead>
             <tr>
@@ -150,7 +162,13 @@ export const OrderList: FC<PropTypes> = ({
               </td>
               <td role="gridcell" onClick={handleSortButtonClick('created_at')}>
                 <div>
-                  {t('transactions.table.date')}
+                  {t('transactions.filter.createdDate')}
+                  {renderSortButton('created_at')}
+                </div>
+              </td>
+              <td role="gridcell" onClick={handleSortButtonClick('created_at')}>
+                <div>
+                  {t('transactions.filter.deliveredDate')}
                   {renderSortButton('created_at')}
                 </div>
               </td>
@@ -164,16 +182,17 @@ export const OrderList: FC<PropTypes> = ({
                 </div>
               </td>
               <td>{t('transaction.data.phoneNumber')}</td>
+              <td>{t('transactions.table.address')}</td>
               <td>{t('transactions.table.status')}</td>
               <td>{t('transactions.table.action')}</td>
             </tr>
           </thead>
           <tbody>
             {isLoading &&
-              Array.from({ length: 15 }, (_, index) => {
+              Array.from({ length: limit }, (_, index) => {
                 return (
                   <tr key={index}>
-                    {Array.from({ length: 6 }, () => {
+                    {Array.from({ length: 8 }, () => {
                       return (
                         <td key={uuid()}>
                           <Skeleton visible animate>
@@ -206,6 +225,13 @@ export const OrderList: FC<PropTypes> = ({
                     </td>
                     <td
                       className={
+                        orderSort.field === 'created_at' ? 'table__sorted' : ''
+                      }
+                    >
+                      {format(parseISO(item.created_at), 'dd.MM.yyyy')}
+                    </td>
+                    <td
+                      className={
                         orderSort.field === 'items_amount'
                           ? 'table__sorted'
                           : ''
@@ -214,30 +240,31 @@ export const OrderList: FC<PropTypes> = ({
                       {moneyFormatter.format(item.amount)}
                     </td>
                     <td>{phoneNumberFormatter(item.phoneNumber)}</td>
+                    <td> </td>
                     <td>
-                      {item.app_status && (
+                      {item.app_status ? (
                         <TagButton
                           size="s"
-                          className={`status status-${item.app_status}`}
+                          className={`status status-${item.app_status} bold-700`}
                         >
                           {statusList[item.app_status]?.toUpperCase()}
                         </TagButton>
-                      )}
+                      ) : null}
                     </td>
                     <td>
-                      {item?.app_status &&
+                      {item.app_status &&
                         item.app_status !== 'cancelled' &&
                         item?.merchant_order_id && (
                           <Space direction="horizontal" size={8}>
                             <Link to={`${TRANSACTIONS}/${item.id}`}>
                               <IconButton
-                                size="xs"
+                                size="xxs"
                                 icon={PencilHeavyIcon}
                                 className="icon-button bg-blue"
                               />
                             </Link>
                             <IconButton
-                              size="xs"
+                              size="xxs"
                               icon={CheckmarkIcon}
                               className="icon-button bg-green"
                               onClick={handleModalOpen(
@@ -248,7 +275,7 @@ export const OrderList: FC<PropTypes> = ({
                               )}
                             />
                             <IconButton
-                              size="xs"
+                              size="xxs"
                               icon={CrossHeavyIcon}
                               className="icon-button bg-red"
                               onClick={handleModalOpen('CONFIRM_CANCEL', item)}

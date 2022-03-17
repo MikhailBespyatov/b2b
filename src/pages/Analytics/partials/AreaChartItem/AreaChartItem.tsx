@@ -23,7 +23,7 @@ export const AreaChartItem: FC<PropTypes> = ({ title, value }) => {
         width="100%"
         height="auto"
       />
-      <Label size="xl" isNoWrap className="bold_700">
+      <Label size="xl" isNoWrap className="bold-700">
         {moneyFormatter.format(value)}
       </Label>
       <div className="thumbnail__footer">

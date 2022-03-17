@@ -9,24 +9,21 @@ import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Spinner } from '@alfalab/core-components/spinner';
 
 import {
-  OrderHistory,
-  BuyerInfo,
-  OrderComposition,
-  ChangesHistory
-} from './partials';
-import {
   CheckmarkIcon,
   CrossHeavyIcon,
   PencilHeavyIcon
-} from '../../components/ui/icons';
-import { useGetTransactionByIdQuery } from '../../services/api/transactionAPI';
+} from 'components/ui/icons';
+import { useGetTransactionByIdQuery } from 'services/api/transactionAPI';
+import { BuyerInfo, OrderComposition, ChangesHistory } from './partials';
 import { ModalType } from '../Transactions/Transactions.model';
 import {
-  CancelOrder,
-  ConfirmOrder,
-  DeliverOrderOTP
+  OrderCancel,
+  DeliveryToCourier,
+  PopConfirm,
+  SmsConfirm
 } from '../Transactions/partials';
 import './Transaction.css';
+import { OrderInfo } from './partials/OrderInfo';
 
 const Transaction: FC = () => {
   const { params } = useMatch();
@@ -48,17 +45,17 @@ const Transaction: FC = () => {
     switch (type) {
       case 'CONFIRM_ORDER':
         return (
-          <ConfirmOrder
+          <DeliveryToCourier
             id={data.id}
             merchantOrderId={data.merchant_order_id}
-            title={t('transactions.modal.title.confirmOrder', {
-              orderNumber: data.id
-            })}
+            title={t('transactions.modal.title.sendForDelivery')}
+            text={t('transactions.modal.text.sendForDelivery')}
+            successMessage={t('transactions.modal.title.sentForDelivery')}
           />
         );
       case 'CONFIRM_CANCEL':
         return (
-          <CancelOrder
+          <OrderCancel
             id={data.id}
             merchantOrderId={data.merchant_order_id}
             title={t('transactions.modal.title.cancelOrder')}
@@ -66,7 +63,19 @@ const Transaction: FC = () => {
           />
         );
       case 'DELIVERY_ORDER_OTP':
-        return <DeliverOrderOTP order={data} />;
+        return (
+          <PopConfirm
+            title={t('transactions.modal.title.sendForDelivery')}
+            text={t('transactions.modal.text.sendForDelivery')}
+            okText={t('button.send')}
+            cancelText={t('button.cancel')}
+          >
+            <SmsConfirm
+              order={data}
+              successMessage={t('transactions.modal.success.delivered')}
+            />
+          </PopConfirm>
+        );
       default:
         return null;
     }
@@ -86,8 +95,8 @@ const Transaction: FC = () => {
         {data?.app_status &&
           data.app_status !== 'cancelled' &&
           data?.merchant_order_id && (
-            <Space direction="horizontal" size={8}>
-              <Typography.Title tag="h2" className="transaction__title">
+            <Space direction="horizontal" size={8} className="mb-32">
+              <Typography.Title tag="h2">
                 {t('transaction.header.title')} №{data.id}
               </Typography.Title>
               <IconButton
@@ -113,7 +122,7 @@ const Transaction: FC = () => {
               />
             </Space>
           )}
-        <OrderHistory order={data} />
+        <OrderInfo order={data} />
         <BuyerInfo order={data} />
         <OrderComposition />
         <ChangesHistory order={data} />

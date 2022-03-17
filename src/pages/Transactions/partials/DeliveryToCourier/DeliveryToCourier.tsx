@@ -7,18 +7,28 @@ import { Col } from '@alfalab/core-components/grid/col';
 import { Row } from '@alfalab/core-components/grid/row';
 import { Spinner } from '@alfalab/core-components/spinner';
 
-import { useUpdateTransactionStatusMutation } from '../../../../services/api/transactionAPI';
+import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
+import { StatusMessage } from '../index';
 
 type PropTypes = {
-  title: string;
   id: number;
+  title: string;
+  text: string;
+  successMessage: string;
   merchantOrderId: number;
 };
 
-export const ConfirmOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
+const DeliveryToCourier: FC<PropTypes> = ({
+  id,
+  title,
+  text,
+  successMessage,
+  merchantOrderId
+}) => {
   const { t } = useTranslation();
 
-  const [updateStatus, { isLoading }] = useUpdateTransactionStatusMutation();
+  const [updateStatus, { isLoading, isSuccess }] =
+    useUpdateTransactionStatusMutation();
 
   const handleSubmit = () => {
     updateStatus({
@@ -35,13 +45,18 @@ export const ConfirmOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
     });
   };
 
+  if (isSuccess) {
+    return <StatusMessage status="success" title={successMessage} />;
+  }
+
   return (
     <>
       <FormField size="m">
-        <Typography.Title tag="h2" view="medium" weight="bold">
+        <Typography.Title tag="h4" view="medium" weight="bold">
           {title}
         </Typography.Title>
       </FormField>
+      <Typography.Text view="primary-medium">{text}</Typography.Text>
       <div className="modal-responsive__footer">
         <Row align="middle">
           <Col>
@@ -53,12 +68,12 @@ export const ConfirmOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
               disabled={isLoading}
               icon={isLoading && <Spinner visible />}
             >
-              {t('transactions.modal.button.confirm')}
+              {t('button.send')}
             </Button>
           </Col>
           <Col>
             <Button size="l" view="default" width="available">
-              {t('transactions.modal.button.cancel')}
+              {t('button.cancel')}
             </Button>
           </Col>
         </Row>
@@ -66,3 +81,5 @@ export const ConfirmOrder: FC<PropTypes> = ({ id, merchantOrderId, title }) => {
     </>
   );
 };
+
+export default DeliveryToCourier;

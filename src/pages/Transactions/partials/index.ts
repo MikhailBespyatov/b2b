@@ -1,7 +1,8 @@
 export { TableExport } from './TableExport';
 export { OrderList } from './OrderList';
-export { SendOrderOTP } from './SendOrderOTP';
-export { DeliverOrderOTP } from './DeliverOrderOTP';
-export { OrderStatus } from './OrderStatus';
-export { ConfirmOrder } from './ConfirmOrder';
-export { CancelOrder } from './CancelOrder';
+export { StatusMessage } from './StatusMessage';
+export { OrderCancel } from './OrderCancel';
+export { PopConfirm } from './PopConfirm';
+export { SmsConfirm } from './SmsConfirm';
+export { DeliveryToCourier } from './DeliveryToCourier';
+export { CancellationReason } from './CancellationReason';

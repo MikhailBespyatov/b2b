@@ -1,32 +1,31 @@
 import React, { FC, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Col, Row } from 'react-grid-system';
+import { Grid } from '@alfalab/core-components/grid';
 import { Controller, useForm } from 'react-hook-form';
 import FormField from 'arui-feather/form-field';
 import { Label } from 'arui-feather/label';
+import Input from 'arui-feather/input';
+import CalendarInput from 'arui-feather/calendar-input';
+
 import { IconButton } from '@alfalab/core-components/icon-button';
 import { Pagination } from '@alfalab/core-components/pagination';
 import { Typography } from '@alfalab/core-components/typography';
-import { EyeLineMIcon } from '@alfalab/icons-glyph/EyeLineMIcon';
-import { EyeOffLineMIcon } from '@alfalab/icons-glyph/EyeOffLineMIcon';
-import { Select } from '@alfalab/core-components/select';
-import { CalendarInput } from '@alfalab/core-components/calendar-input';
-import { IntlPhoneInput } from '@alfalab/core-components/intl-phone-input';
-import { AmountInput } from '@alfalab/core-components/amount-input';
-import { Input } from '@alfalab/core-components/input';
-import { Button } from '@alfalab/core-components/button';
-import { Space } from '@alfalab/core-components/space';
+import Select from 'arui-feather/select';
+import PhoneInput from 'arui-feather/phone-input';
+import MoneyInput from 'arui-feather/money-input';
+import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
+import { ChevronForwardMIcon } from '@alfalab/icons-glyph/ChevronForwardMIcon';
 
 import { selectStatusesUnique } from 'redux/slices/app-slice';
 import { isPhoneNumberValid } from 'utils/helpers';
 import { useGetTransactionsQuery } from 'services/api/transactionAPI';
 import { IOrderFilter, IOrderSort } from 'models/IOrder';
 import { IStatusOption } from 'models/IStatus';
+import { RootStateType } from 'redux/store';
 import { TableExport, OrderList } from './partials';
 
 import './Transactions.css';
-import { RootStateType } from '../../redux/store';
 
 type IFormValues = {
   transactionNumber: string;
@@ -39,9 +38,8 @@ type IFormValues = {
 };
 
 const Transactions: FC = () => {
-  const today = new Date();
   const { t } = useTranslation();
-  const { handleSubmit, control, reset, getValues } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
       transactionNumber: '',
       merchant_order_id: '',
@@ -63,7 +61,7 @@ const Transactions: FC = () => {
   });
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit, setLimit] = useState(25);
   const [tableSort, setTableSort] = useState<IOrderSort>({
     field: '',
     sort: ''
@@ -127,29 +125,28 @@ const Transactions: FC = () => {
 
   return (
     <>
-      <Typography.Title
-        tag="h1"
-        font="system"
-        className="title-1 transaction__title"
-      >
+      <Typography.Title tag="h1" font="system" className="mb-34">
         {t('transactions.header.title')}
       </Typography.Title>
-      <div className="transactions__filter-head">
-        <Label size="l" className="bold_700">
-          {t('transactions.filter.title')}
-        </Label>
-        <IconButton
-          size="xxs"
-          icon={isFilterVisible ? EyeLineMIcon : EyeOffLineMIcon}
-          style={{ border: '1px solid rgba(0,0,0,0.1)' }}
-          onClick={handleFilterShow}
-        />
-      </div>
+      <Label size="l" className="bold-700">
+        {t('transactions.filter.title')}
+      </Label>
+      <IconButton
+        size="xxs"
+        icon={isFilterVisible ? ChevronDownMIcon : ChevronForwardMIcon}
+        onClick={handleFilterShow}
+      />
       {isFilterVisible && (
         <div className="transactions__filter-form">
           <form onSubmit={onSubmit}>
-            <Row>
-              <Col md={4} sm={6} xs={12}>
+            <Grid.Row className="container">
+              <Grid.Col
+                width={{
+                  mobile: { s: 12, m: 12, l: 12 },
+                  tablet: { s: 4, m: 4, l: 4 },
+                  desktop: { s: 4, m: 4, l: 4 }
+                }}
+              >
                 <FormField size="m">
                   <Controller
                     name="merchant_order_id"
@@ -160,40 +157,7 @@ const Transactions: FC = () => {
                         size="s"
                         label={t('transactions.filter.orderNumber')}
                         name="number"
-                        block
-                      />
-                    )}
-                  />
-                </FormField>
-                <FormField size="m">
-                  <Controller
-                    name="transactionNumber"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        size="s"
-                        label={t('transactions.filter.transactionNumber')}
-                        block
-                        {...field}
-                      />
-                    )}
-                  />
-                </FormField>
-              </Col>
-              <Col md={4} sm={6} xs={12}>
-                <FormField size="m">
-                  <Controller
-                    name="PhoneNumber"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <IntlPhoneInput
-                        size="s"
-                        label={t('transactions.filter.phoneNumber')}
-                        defaultCountryIso2="KZ"
-                        block
-                        value={value}
-                        success={isPhoneNumberValid(getValues('PhoneNumber'))}
-                        onChange={inputValue => onChange(inputValue)}
+                        width="available"
                       />
                     )}
                   />
@@ -202,66 +166,39 @@ const Transactions: FC = () => {
                   <Controller
                     name="CreatedAt"
                     control={control}
-                    render={({ field: { onChange, value } }) => (
+                    render={({ field: { value, onChange } }) => (
                       <CalendarInput
                         label={t('transactions.filter.createdDate')}
-                        block
-                        maxDate={today.getTime()}
+                        width="available"
+                        size="s"
                         value={value}
-                        onChange={(e, input) => onChange(input.value)}
+                        onChange={inputValue => onChange(inputValue)}
                       />
                     )}
                   />
                 </FormField>
-              </Col>
-              <Col md={4} sm={12} xs={12}>
-                <Row>
-                  <Col md={6} sm={6} xs={12}>
-                    <FormField size="m">
-                      <Controller
-                        name="AppStatus"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Select
-                            size="s"
-                            optionsListWidth="content"
-                            optionsSize="s"
-                            options={optionValues}
-                            disabled={optionValues.length === 0}
-                            label={t('transactions.filter.orderStatus')}
-                            block
-                            selected={value}
-                            onChange={select => onChange(select.selected)}
-                          />
-                        )}
+              </Grid.Col>
+              <Grid.Col
+                width={{
+                  mobile: { s: 12, m: 12, l: 12 },
+                  tablet: { s: 4, m: 4, l: 4 },
+                  desktop: { s: 4, m: 4, l: 4 }
+                }}
+              >
+                <FormField size="m">
+                  <Controller
+                    name="transactionNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        size="s"
+                        width="available"
+                        label={t('transactions.filter.transactionNumber')}
+                        {...field}
                       />
-                    </FormField>
-                  </Col>
-                  <Col md={6} sm={6} xs={12}>
-                    <FormField size="m">
-                      <Controller
-                        name="order_amount"
-                        control={control}
-                        render={({ field: { onChange, value } }) => {
-                          return (
-                            <AmountInput
-                              size="s"
-                              label={t('transactions.filter.amount')}
-                              minority={1}
-                              currency="KZT"
-                              block
-                              integersOnly
-                              value={value.toString().replace(/\s/g, '')}
-                              onChange={(e, input) =>
-                                onChange(input.valueString)
-                              }
-                            />
-                          );
-                        }}
-                      />
-                    </FormField>
-                  </Col>
-                </Row>
+                    )}
+                  />
+                </FormField>
                 <FormField size="m">
                   <Controller
                     name="OTPUpdatedAt"
@@ -269,43 +206,142 @@ const Transactions: FC = () => {
                     render={({ field: { onChange, value } }) => (
                       <CalendarInput
                         label={t('transactions.filter.deliveredDate')}
-                        block
-                        maxDate={today.getTime()}
+                        width="available"
+                        size="s"
                         value={value}
-                        onChange={(e, input) => onChange(input.value)}
+                        onChange={inputValue => onChange(inputValue)}
                       />
                     )}
                   />
                 </FormField>
-              </Col>
-            </Row>
-            <div className="flex-end">
-              <Space direction="horizontal">
-                <Button view="secondary" size="xs" onClick={() => reset()}>
-                  Очистить
-                </Button>
-                <Button view="primary" size="xs" type="submit">
-                  Применить
-                </Button>
-              </Space>
-            </div>
+              </Grid.Col>
+              <Grid.Col
+                width={{
+                  mobile: { s: 12, m: 12, l: 12 },
+                  tablet: { s: 4, m: 4, l: 4 },
+                  desktop: { s: 4, m: 4, l: 4 }
+                }}
+              >
+                <FormField size="m">
+                  <Controller
+                    name="PhoneNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <PhoneInput
+                        size="s"
+                        width="available"
+                        label={t('transactions.filter.phoneNumber')}
+                        placeholder="+7 000 000 00 00"
+                        {...field}
+                      />
+                    )}
+                  />
+                </FormField>
+                <Grid.Row
+                  gutter={{
+                    mobile: { s: 0, m: 0, l: 0 },
+                    tablet: { s: 24, m: 24, l: 24 },
+                    desktop: { s: 24, m: 24, l: 24 }
+                  }}
+                >
+                  <Grid.Col
+                    width={{
+                      mobile: { s: 12, m: 12, l: 12 },
+                      tablet: { s: 6, m: 6, l: 6 },
+                      desktop: { s: 6, m: 6, l: 6 }
+                    }}
+                  >
+                    <FormField size="m">
+                      <Controller
+                        name="order_amount"
+                        control={control}
+                        render={({ field: { value, onChange } }) => {
+                          return (
+                            <MoneyInput
+                              showCurrency
+                              currencyCode="KZT"
+                              bold
+                              size="s"
+                              width="available"
+                              label={t('transactions.filter.amount')}
+                              value={value.toString().replace(/\s/g, '')}
+                              onChange={inputValue => onChange(inputValue)}
+                            />
+                          );
+                        }}
+                      />
+                    </FormField>
+                  </Grid.Col>
+                  <Grid.Col
+                    width={{
+                      mobile: { s: 12, m: 12, l: 12 },
+                      tablet: { s: 6, m: 6, l: 6 },
+                      desktop: { s: 6, m: 6, l: 6 }
+                    }}
+                  >
+                    <FormField size="m">
+                      <Controller
+                        name="AppStatus"
+                        control={control}
+                        render={({ field: { value, onChange } }) => (
+                          <Select
+                            size="s"
+                            width="available"
+                            label={t('transactions.filter.orderStatus')}
+                            mode="radio"
+                            options={optionValues}
+                            value={value || []}
+                            onChange={values => {
+                              onChange(values?.[0]);
+                            }}
+                          />
+                        )}
+                      />
+                    </FormField>
+                  </Grid.Col>
+                </Grid.Row>
+              </Grid.Col>
+            </Grid.Row>
           </form>
         </div>
       )}
       {renderTableExport}
       <OrderList
         data={currentData?.orders}
+        limit={limit}
         isLoading={isFetching}
         isSuccess={isSuccess}
         orderSort={tableSort}
         handleChangeSort={handleChangeSort}
       />
-      <div className="mb-20">
-        <Pagination
-          currentPageIndex={currentPage - 1}
-          pagesCount={currentData?.totalPages ?? 1}
-          onPageChange={handlePageChange}
-        />
+      <div className="mb-20 mobile-block">
+        <div className="d-flex justify-between ">
+          <Select
+            mode="radio"
+            options={[
+              {
+                text: t('table.perPage', { size: 25 }),
+                value: 25
+              },
+              {
+                text: t('table.perPage', { size: 20 }),
+                value: 20
+              }
+            ]}
+            value={[limit]}
+            onChange={(values: number[] | undefined) => {
+              if (values) {
+                setLimit(values?.[0] ?? 25);
+                setCurrentPage(1);
+              }
+            }}
+          />
+          <Pagination
+            currentPageIndex={currentPage - 1}
+            pagesCount={currentData?.totalPages ?? 1}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </div>
     </>
   );

@@ -57,6 +57,7 @@ const Navbar: FC = () => {
             url={configs.PUBLIC_URL + tabs[key].url}
             onClick={handleClick}
             checked={matches[0]?.id === tabs[key].url}
+            className="c-pointer"
           >
             {t(`page.nav.${key}`)}
           </TabItem>

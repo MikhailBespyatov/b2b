@@ -10143,13 +10143,6 @@ react-focus-lock@^2.5.0:
     use-callback-ref "^1.2.5"
     use-sidecar "^1.0.5"
 
-react-grid-system@^8.0.1:
-  version "8.0.1"
-  resolved "https://nexus3.alfa-bank.kz/repository/npm/react-grid-system/-/react-grid-system-8.0.1.tgz#ec237aeb951438bd4bb72aa63eb99cf0d1503a23"
-  integrity sha512-2asxMDYCMDf3Ti/4+mdxPayyZkxcgVouBNKNOFBC26vXYGGLNAK6TguRCJUfvziiKbZ6tDSZ9UXUM2c0dreIyw==
-  dependencies:
-    prop-types "^15.7.2"
-
 react-hook-form@^7.22.2:
   version "7.22.5"
   resolved "https://nexus3.alfa-bank.kz/repository/npm/react-hook-form/-/react-hook-form-7.22.5.tgz#85a135f3c5ae02ccf73096a03fc14b45607e9baa"

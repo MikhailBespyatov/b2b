@@ -1,1 +1,0 @@
-export { DeliverOrderOTP } from './DeliverOrderOTP';

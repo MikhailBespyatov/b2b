@@ -9,18 +9,19 @@ import { Spinner } from '@alfalab/core-components/spinner';
 import { Row } from '@alfalab/core-components/grid/row';
 import { Col } from '@alfalab/core-components/grid/col';
 
-import { IOrder } from '../../../../models/IOrder';
+import { IOrder } from 'models/IOrder';
 import {
   usePostCheckOtpMutation,
   usePostSendOtpMutation
-} from '../../../../services/api/transactionAPI';
-import { OrderStatus } from '../OrderStatus';
+} from 'services/api/transactionAPI';
+import { StatusMessage } from '../index';
 
 type PropTypes = {
   order: IOrder;
+  successMessage: string;
 };
 
-export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
+const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
   const { t } = useTranslation();
   const { handleSubmit, control } = useForm();
   const lastMutation = useRef<any>(undefined);
@@ -75,17 +76,12 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
   };
 
   if (hasCheckedOtp) {
-    return (
-      <OrderStatus
-        status="success"
-        title={t('transactions.modal.success.delivered')}
-      />
-    );
+    return <StatusMessage status="success" title={successMessage} />;
   }
 
   if (isFailedOtp) {
     // @ts-ignore
-    return <OrderStatus status="error" title={errorOtp?.data?.message} />;
+    return <StatusMessage status="error" title={errorOtp?.data?.message} />;
   }
 
   return (
@@ -141,7 +137,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
                 disabled={isErrorCheckOtp || isCheckingOtp}
                 icon={isCheckingOtp && <Spinner visible />}
               >
-                {t('transactions.modal.button.confirm')}
+                {t('button.confirm')}
               </Button>
             </Col>
             <Col>
@@ -152,7 +148,7 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
                 disabled={isSendingOtp}
                 icon={isSendingOtp && <Spinner visible />}
               >
-                {t('transactions.modal.button.resend')}
+                {t('button.resend')}
               </Button>
             </Col>
           </Row>
@@ -161,3 +157,5 @@ export const DeliverOrderOTP: FC<PropTypes> = ({ order }) => {
     </>
   );
 };
+
+export default SmsConfirm;

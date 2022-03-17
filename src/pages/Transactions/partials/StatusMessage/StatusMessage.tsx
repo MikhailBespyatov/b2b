@@ -9,7 +9,7 @@ type PropTypes = {
   title: string;
 };
 
-export const OrderStatus: FC<PropTypes> = ({ status, title }) => {
+const StatusMessage: FC<PropTypes> = ({ status, title }) => {
   return (
     <div className="align-center">
       {status === 'success' ? <CheckmarkCircle width={64} height={64} /> : null}
@@ -22,3 +22,5 @@ export const OrderStatus: FC<PropTypes> = ({ status, title }) => {
     </div>
   );
 };
+
+export default StatusMessage;

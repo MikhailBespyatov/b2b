@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Col, Row } from 'react-grid-system';
+import { Grid } from '@alfalab/core-components/grid';
 import { Label } from 'arui-feather/label';
 import { Link } from 'arui-feather/link';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
@@ -21,33 +21,27 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
     <>
       <button
         type="button"
-        className="collapsible title-2"
+        className="collapsible title-3 mb-24"
         onClick={() => setExpanded(prev => !prev)}
       >
         {t('transaction.collapse.buyer')}
         {expanded ? <ChevronDownMIcon /> : <ChevronForwardExtraMIcon />}
       </button>
-      <Collapse expanded={expanded} className="collapse">
-        <Row>
-          <Col lg={4} md={4} xs={12}>
+      <Collapse expanded={expanded} className="mb-32">
+        <Grid.Row className="collapse" align="top">
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
-              <Label className="bold_600">
-                {t('transaction.data.surname')}:
-              </Label>
-              <span className="collapse__box-value">Surname</span>
+              <Label className="bold-600">{t('user.surname')}:</Label>
+              <span className="collapse__box-value">Бандюков</span>
             </div>
-          </Col>
-          <Col lg={4} md={4} xs={12}>
             <div className="collapse__box-item">
-              <Label className="bold_600">{t('transaction.data.name')}:</Label>
-              <span className="collapse__box-value">Name</span>
-            </div>
-          </Col>
-          <Col lg={4} md={4} xs={12}>
-            <div className="collapse__box-item">
-              <Label className="bold_600">
-                {t('transaction.data.phoneNumber')}:
-              </Label>
+              <Label className="bold-600">{t('user.phoneNumber')}:</Label>
               <span className="collapse__box-value">
                 <Link
                   text={phoneNumberFormatter(order.phoneNumber)}
@@ -57,8 +51,50 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
                 />
               </span>
             </div>
-          </Col>
-        </Row>
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.paymentCard')}:</Label>
+              <span className="collapse__box-value">****1234</span>
+            </div>
+          </Grid.Col>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.name')}:</Label>
+              <span className="collapse__box-value">Анатолий</span>
+            </div>
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.email')}:</Label>
+              <span className="collapse__box-value">
+                bandyukov_anatoliy@mail.ru
+              </span>
+            </div>
+          </Grid.Col>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.middleName')}:</Label>
+              <span className="collapse__box-value">Бердымухамедович</span>
+            </div>
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.comment')}:</Label>
+              <br />
+              <span className="collapse__box-value">
+                Не доставляйте до 8 утра, я сплю как удав, поэтому курьер не
+                дозвонится — я не услышу звонок
+              </span>
+            </div>
+          </Grid.Col>
+        </Grid.Row>
       </Collapse>
     </>
   );
