@@ -60,9 +60,7 @@ const RouterConfig: FC = () => {
     >
       <Notification />
       <Navbar />
-      <div className="container">
-        <Outlet />
-      </div>
+      <Outlet />
     </Router>
   );
 };

@@ -139,8 +139,14 @@ const Transactions: FC = () => {
       {isFilterVisible && (
         <div className="transactions__filter-form">
           <form onSubmit={onSubmit}>
-            <Grid.Row>
-              <Grid.Col width={{ desktop: { s: 6, m: 4 } }}>
+            <Grid.Row className="container">
+              <Grid.Col
+                width={{
+                  mobile: { s: 12, m: 12, l: 12 },
+                  tablet: { s: 4, m: 4, l: 4 },
+                  desktop: { s: 4, m: 4, l: 4 }
+                }}
+              >
                 <FormField size="m">
                   <Controller
                     name="merchant_order_id"
@@ -172,7 +178,13 @@ const Transactions: FC = () => {
                   />
                 </FormField>
               </Grid.Col>
-              <Grid.Col width={{ desktop: { s: 6, m: 4 } }}>
+              <Grid.Col
+                width={{
+                  mobile: { s: 12, m: 12, l: 12 },
+                  tablet: { s: 4, m: 4, l: 4 },
+                  desktop: { s: 4, m: 4, l: 4 }
+                }}
+              >
                 <FormField size="m">
                   <Controller
                     name="transactionNumber"
@@ -203,7 +215,13 @@ const Transactions: FC = () => {
                   />
                 </FormField>
               </Grid.Col>
-              <Grid.Col width={{ desktop: { s: 6, m: 4 } }}>
+              <Grid.Col
+                width={{
+                  mobile: { s: 12, m: 12, l: 12 },
+                  tablet: { s: 4, m: 4, l: 4 },
+                  desktop: { s: 4, m: 4, l: 4 }
+                }}
+              >
                 <FormField size="m">
                   <Controller
                     name="PhoneNumber"
@@ -219,8 +237,20 @@ const Transactions: FC = () => {
                     )}
                   />
                 </FormField>
-                <Grid.Row>
-                  <Grid.Col width={{ desktop: { s: 6, m: 6 } }}>
+                <Grid.Row
+                  gutter={{
+                    mobile: { s: 0, m: 0, l: 0 },
+                    tablet: { s: 24, m: 24, l: 24 },
+                    desktop: { s: 24, m: 24, l: 24 }
+                  }}
+                >
+                  <Grid.Col
+                    width={{
+                      mobile: { s: 12, m: 12, l: 12 },
+                      tablet: { s: 6, m: 6, l: 6 },
+                      desktop: { s: 6, m: 6, l: 6 }
+                    }}
+                  >
                     <FormField size="m">
                       <Controller
                         name="order_amount"
@@ -242,7 +272,13 @@ const Transactions: FC = () => {
                       />
                     </FormField>
                   </Grid.Col>
-                  <Grid.Col width={{ desktop: { s: 6, m: 6 } }}>
+                  <Grid.Col
+                    width={{
+                      mobile: { s: 12, m: 12, l: 12 },
+                      tablet: { s: 6, m: 6, l: 6 },
+                      desktop: { s: 6, m: 6, l: 6 }
+                    }}
+                  >
                     <FormField size="m">
                       <Controller
                         name="AppStatus"
@@ -278,9 +314,8 @@ const Transactions: FC = () => {
         orderSort={tableSort}
         handleChangeSort={handleChangeSort}
       />
-
-      <div className="mb-20">
-        <div className="d-flex justify-between">
+      <div className="mb-20 mobile-block">
+        <div className="d-flex justify-between ">
           <Select
             mode="radio"
             options={[

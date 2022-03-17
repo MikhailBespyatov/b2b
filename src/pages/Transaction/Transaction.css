@@ -12,6 +12,11 @@
   margin-left: 20px;
 }
 
+.collapse {
+  background-color: #f3f4f5;
+  padding: 24px 16px;
+}
+
 .collapse__box-item {
   margin-bottom: 16px;
 }

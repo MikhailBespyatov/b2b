@@ -30,7 +30,7 @@ export const ChangesHistory: FC<PropTypes> = ({ order }) => {
         {expanded ? <ChevronDownMIcon /> : <ChevronForwardExtraMIcon />}
       </button>
       <Collapse expanded={expanded} className="mb-32">
-        <Grid.Row>
+        <Grid.Row className="collapse">
           <Grid.Col width={{ desktop: { s: 4, m: 6 } }}>
             <div className="collapse__box-item">
               <Label className="bold-600">

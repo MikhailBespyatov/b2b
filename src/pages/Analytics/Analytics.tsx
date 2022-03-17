@@ -3,7 +3,6 @@ import { Grid } from '@alfalab/core-components/grid';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@alfalab/core-components/typography';
 
-import { RangePicker } from 'components/DatePicker';
 import { AreaChartItem, PieChartItem } from './partials';
 import './Analytics.css';
 
@@ -61,16 +60,9 @@ const Analytics: FC = () => {
 
   return (
     <>
-      <Grid.Row className="mb-20">
-        <Grid.Col>
-          <Typography.Title tag="h2" font="system" className="title-1">
-            {t('analytics.category.mainResults')}
-          </Typography.Title>
-        </Grid.Col>
-        <Grid.Col>
-          <RangePicker />
-        </Grid.Col>
-      </Grid.Row>
+      <Typography.Title tag="h2" font="system" className="title-1 mb-20">
+        {t('analytics.category.mainResults')}
+      </Typography.Title>
       <Grid.Row className="mb-20">
         {data.map(item => {
           return (

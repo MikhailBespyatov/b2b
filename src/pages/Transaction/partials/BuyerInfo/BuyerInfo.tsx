@@ -28,26 +28,20 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
         {expanded ? <ChevronDownMIcon /> : <ChevronForwardExtraMIcon />}
       </button>
       <Collapse expanded={expanded} className="mb-32">
-        <Grid.Row>
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
+        <Grid.Row className="collapse" align="top">
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
-              <Label className="bold-600">
-                {t('transaction.data.surname')}:
-              </Label>
-              <span className="collapse__box-value">Surname</span>
+              <Label className="bold-600">{t('user.surname')}:</Label>
+              <span className="collapse__box-value">Бандюков</span>
             </div>
-          </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
             <div className="collapse__box-item">
-              <Label className="bold-600">{t('transaction.data.name')}:</Label>
-              <span className="collapse__box-value">Name</span>
-            </div>
-          </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 4 } }}>
-            <div className="collapse__box-item">
-              <Label className="bold-600">
-                {t('transaction.data.phoneNumber')}:
-              </Label>
+              <Label className="bold-600">{t('user.phoneNumber')}:</Label>
               <span className="collapse__box-value">
                 <Link
                   text={phoneNumberFormatter(order.phoneNumber)}
@@ -55,6 +49,48 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
                   size="m"
                   view="blue"
                 />
+              </span>
+            </div>
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.paymentCard')}:</Label>
+              <span className="collapse__box-value">****1234</span>
+            </div>
+          </Grid.Col>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.name')}:</Label>
+              <span className="collapse__box-value">Анатолий</span>
+            </div>
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.email')}:</Label>
+              <span className="collapse__box-value">
+                bandyukov_anatoliy@mail.ru
+              </span>
+            </div>
+          </Grid.Col>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.middleName')}:</Label>
+              <span className="collapse__box-value">Бердымухамедович</span>
+            </div>
+            <div className="collapse__box-item">
+              <Label className="bold-600">{t('user.comment')}:</Label>
+              <br />
+              <span className="collapse__box-value">
+                Не доставляйте до 8 утра, я сплю как удав, поэтому курьер не
+                дозвонится — я не услышу звонок
               </span>
             </div>
           </Grid.Col>
