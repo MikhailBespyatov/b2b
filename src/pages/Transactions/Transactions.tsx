@@ -230,7 +230,7 @@ const Transactions: FC = () => {
                       <PhoneInput
                         size="s"
                         width="available"
-                        label={t('transactions.filter.phoneNumber')}
+                        label={t('user.phoneNumber')}
                         placeholder="+7 000 000 00 00"
                         {...field}
                       />
@@ -314,10 +314,11 @@ const Transactions: FC = () => {
         orderSort={tableSort}
         handleChangeSort={handleChangeSort}
       />
-      <div className="mb-20 mobile-block">
-        <div className="d-flex justify-between ">
+      <div className="mb-20">
+        <div className="table-pagination">
           <Select
             mode="radio"
+            className="mobile-block"
             options={[
               {
                 text: t('table.perPage', { size: 25 }),

@@ -74,7 +74,6 @@
 
   "transactions.filter.orderNumber": "№ заказа",
   "transactions.filter.transactionNumber": "№ транзакции",
-  "transactions.filter.phoneNumber": "Номер телефона",
   "transactions.filter.createdDate": "Дата оформления",
   "transactions.filter.orderStatus": "Статус заказа",
   "transactions.filter.deliveredDate": "Дата доставки",
