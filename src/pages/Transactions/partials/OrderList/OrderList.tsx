@@ -181,7 +181,7 @@ export const OrderList: FC<PropTypes> = ({
                   {renderSortButton('items_amount')}
                 </div>
               </td>
-              <td>{t('transaction.data.phoneNumber')}</td>
+              <td>{t('user.phoneNumber')}</td>
               <td>{t('transactions.table.address')}</td>
               <td>{t('transactions.table.status')}</td>
               <td>{t('transactions.table.action')}</td>
