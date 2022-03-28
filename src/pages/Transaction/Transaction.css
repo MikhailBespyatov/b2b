@@ -21,7 +21,6 @@
   margin-bottom: 16px;
 }
 
-.collapse__box-item > .collapse__box-value {
-  margin-left: 4px;
+.collapse__box-item .label__inner {
   color: #858f9a;
 }

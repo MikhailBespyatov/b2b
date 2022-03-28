@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useMatch } from 'react-location';
 import { useTranslation } from 'react-i18next';
 import AlphaIcon from 'arui-feather/icon/brand/bank-2449';
@@ -14,6 +15,8 @@ import {
   PencilHeavyIcon
 } from 'components/ui/icons';
 import { useGetTransactionByIdQuery } from 'services/api/transactionAPI';
+import { RootStateType } from 'redux/store';
+import { selectStatusesList } from 'redux/slices/app-slice';
 import { BuyerInfo, OrderComposition, ChangesHistory } from './partials';
 import { ModalType } from '../Transactions/Transactions.model';
 import {
@@ -30,6 +33,9 @@ const Transaction: FC = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
+  const statusList = useSelector((state: RootStateType) =>
+    selectStatusesList(state)
+  );
   const { data, isLoading, isSuccess } = useGetTransactionByIdQuery(params.id);
 
   const handleModalOpen = (type: ModalType) => (): void => {
@@ -122,10 +128,16 @@ const Transaction: FC = () => {
               />
             </Space>
           )}
-        <OrderInfo order={data} />
+        <OrderInfo
+          order={data}
+          status={statusList[data.app_status]?.toUpperCase()}
+        />
         <BuyerInfo order={data} />
         <OrderComposition />
-        <ChangesHistory order={data} />
+        <ChangesHistory
+          order={data}
+          status={statusList[data.app_status]?.toUpperCase()}
+        />
         <ModalResponsive open={open} onClose={handleModalClose} size="m">
           <ModalResponsive.Header size="m" className="modal-responsive__header">
             <AlphaIcon size="m" colored />

@@ -37,12 +37,12 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
             }}
           >
             <div className="collapse__box-item">
-              <Label className="bold-600">{t('user.surname')}:</Label>
-              <span className="collapse__box-value">Бандюков</span>
+              <Label>{t('user.surname')}:</Label>
+              <span className="ml-4">Бандюков</span>
             </div>
             <div className="collapse__box-item">
-              <Label className="bold-600">{t('user.phoneNumber')}:</Label>
-              <span className="collapse__box-value">
+              <Label>{t('user.phoneNumber')}:</Label>
+              <span className="ml-4">
                 <Link
                   text={phoneNumberFormatter(order.phoneNumber)}
                   url={`tel:${phoneNumberFormatter(order.phoneNumber)}`}
@@ -52,8 +52,8 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
               </span>
             </div>
             <div className="collapse__box-item">
-              <Label className="bold-600">{t('user.paymentCard')}:</Label>
-              <span className="collapse__box-value">****1234</span>
+              <Label>{t('user.paymentCard')}:</Label>
+              <span className="ml-4">****1234</span>
             </div>
           </Grid.Col>
           <Grid.Col
@@ -64,14 +64,12 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
             }}
           >
             <div className="collapse__box-item">
-              <Label className="bold-600">{t('user.name')}:</Label>
-              <span className="collapse__box-value">Анатолий</span>
+              <Label>{t('user.name')}:</Label>
+              <span className="ml-4">Анатолий</span>
             </div>
             <div className="collapse__box-item">
-              <Label className="bold-600">{t('user.email')}:</Label>
-              <span className="collapse__box-value">
-                bandyukov_anatoliy@mail.ru
-              </span>
+              <Label>{t('user.email')}:</Label>
+              <span className="ml-4">bandyukov_anatoliy@mail.ru</span>
             </div>
           </Grid.Col>
           <Grid.Col
@@ -82,13 +80,13 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
             }}
           >
             <div className="collapse__box-item">
-              <Label className="bold-600">{t('user.middleName')}:</Label>
-              <span className="collapse__box-value">Бердымухамедович</span>
+              <Label>{t('user.middleName')}:</Label>
+              <span className="ml-4">Бердымухамедович</span>
             </div>
             <div className="collapse__box-item">
-              <Label className="bold-600">{t('user.comment')}:</Label>
+              <Label>{t('user.comment')}:</Label>
               <br />
-              <span className="collapse__box-value">
+              <span className="ml-4">
                 Не доставляйте до 8 утра, я сплю как удав, поэтому курьер не
                 дозвонится — я не услышу звонок
               </span>
