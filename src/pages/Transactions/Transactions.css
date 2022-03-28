@@ -11,21 +11,17 @@
   font-size: 11px;
   letter-spacing: 0.5px;
   padding: 0 12px;
-  color: #6d7986;
-}
-
-.status-new {
   background-color: #e5f1ff;
   color: #3481d6;
 }
 
-.status-delivery,
-.status-delivered_w_e {
+.status-delivered {
   background-color: #2fc26e33;
   color: #5fae50;
 }
 
-.status-refusing {
+.status-part_return,
+.status-return {
   background-color: #ef31241a;
   color: #ff5c5cf2;
 }
