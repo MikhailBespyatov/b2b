@@ -13,9 +13,10 @@ import { IOrder } from 'models/IOrder';
 
 type PropTypes = {
   order: IOrder;
+  status: string;
 };
 
-export const ChangesHistory: FC<PropTypes> = ({ order }) => {
+export const ChangesHistory: FC<PropTypes> = ({ order, status }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
 
@@ -31,39 +32,51 @@ export const ChangesHistory: FC<PropTypes> = ({ order }) => {
       </button>
       <Collapse expanded={expanded} className="mb-32">
         <Grid.Row className="collapse">
-          <Grid.Col width={{ desktop: { s: 4, m: 6 } }}>
+          <Grid.Col
+            width={{
+              mobile: { s: 8, m: 8, l: 8 },
+              tablet: { s: 6, m: 6, l: 4 },
+              desktop: { s: 5, m: 5, l: 5 }
+            }}
+          >
             <div className="collapse__box-item">
-              <Label className="bold-600">
-                {t('transaction.data.statusChangedDate')}:
-              </Label>
-              <span className="collapse__box-value">
-                {format(parseISO(order.created_at), 'dd.MM.yyyy')}
+              <Label>{t('transaction.data.registrationDate')}:</Label>
+              <span className="ml-4">
+                {format(parseISO(order.created_at), 'dd.MM.yyyy, HH:mm')}
               </span>
             </div>
           </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 6 } }}>
+          <Grid.Col
+            width={{
+              mobile: { s: 8, m: 8, l: 8 },
+              tablet: { s: 6, m: 6, l: 4 },
+              desktop: { s: 3, m: 3, l: 3 }
+            }}
+          >
             <div className="collapse__box-item">
-              <Label className="bold-600">
-                {t('transaction.data.changedStatus')}:
-              </Label>
-              <span className="collapse__box-value">
-                <TagButton
-                  size="s"
-                  className={`status status-${order.app_status}`}
-                >
-                  {t(
-                    `transactions.status.type.${order.app_status}`
-                  ).toUpperCase()}
-                </TagButton>
+              <Label>{t('transaction.data.orderStatus')}:</Label>
+              <span className="ml-4">
+                {status && (
+                  <TagButton
+                    size="s"
+                    className={`status status-${order.app_status}`}
+                  >
+                    {status}
+                  </TagButton>
+                )}
               </span>
             </div>
           </Grid.Col>
-          <Grid.Col width={{ desktop: { s: 4, m: 6 } }}>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 6, m: 6, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
             <div className="collapse__box-item">
-              <Label className="bold-600">
-                {t('transaction.data.changeResponsibility')}:
-              </Label>
-              <span className="collapse__box-value">{order.fio}</span>
+              <Label>{t('transaction.data.orderEdited')}:</Label>
+              <span className="ml-4">Мухоряпов Рамиль Евгеньевич</span>
             </div>
           </Grid.Col>
         </Grid.Row>

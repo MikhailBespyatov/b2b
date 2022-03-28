@@ -30,7 +30,15 @@ export const OrderComposition: FC = () => {
                 <td>{t('transaction.data.amount')}</td>
               </tr>
             </thead>
-            <tbody> </tbody>
+            <tbody>
+              <tr>
+                <td>Туфли женские с замочком, серые Michael Kors</td>
+                <td>0000123498</td>
+                <td>1 шт</td>
+                <td>22 300 ₸</td>
+                <td>22 300 ₸</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </Collapse>

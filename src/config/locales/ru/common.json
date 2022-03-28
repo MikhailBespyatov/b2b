@@ -106,6 +106,7 @@
 
   "transaction.data.statusChangedDate": "Дата изменения статуса",
   "transaction.data.changedStatus": "Измененный статус",
+  "transaction.data.orderEdited": "Заказ отредактирован",
   "transaction.data.changeResponsibility": "Ответственный за изменения",
   "transaction.data.title": "Наименование",
   "transaction.data.vendorCode": "Артикул",

@@ -44,9 +44,11 @@ hr {
 .mb-34 {
   margin-bottom: 34px;
 }
-
 .mr-32 {
   margin-right: 32px;
+}
+.ml-4 {
+  margin-left: 4px;
 }
 
 .bold-700 {
