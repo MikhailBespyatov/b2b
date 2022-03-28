@@ -71,14 +71,13 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
             <div className="collapse__box-item">
               <Label>{t('transaction.data.orderStatus')}:</Label>
               <span className="ml-4">
-                {status && (
-                  <TagButton
-                    size="s"
-                    className={`status status-${order.app_status} bold-700`}
-                  >
-                    {status}
-                  </TagButton>
-                )}
+                <TagButton
+                  size="s"
+                  className={`status status-${order.app_status} bold-700`}
+                >
+                  {status ??
+                    t('transactions.status.type.unexpected').toUpperCase()}
+                </TagButton>
               </span>
             </div>
           </Grid.Col>

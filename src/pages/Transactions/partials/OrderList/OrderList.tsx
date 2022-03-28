@@ -242,14 +242,15 @@ export const OrderList: FC<PropTypes> = ({
                     <td>{phoneNumberFormatter(item.phoneNumber)}</td>
                     <td> </td>
                     <td>
-                      {item.app_status ? (
-                        <TagButton
-                          size="s"
-                          className={`status status-${item.app_status} bold-700`}
-                        >
-                          {statusList[item.app_status]?.toUpperCase()}
-                        </TagButton>
-                      ) : null}
+                      <TagButton
+                        size="s"
+                        className={`status status-${item.app_status} bold-700`}
+                      >
+                        {statusList[item.app_status]?.toUpperCase() ??
+                          t(
+                            'transactions.status.type.unexpected'
+                          ).toUpperCase()}
+                      </TagButton>
                     </td>
                     <td>
                       {item.app_status &&
