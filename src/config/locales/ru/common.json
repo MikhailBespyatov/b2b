@@ -62,6 +62,7 @@
   "transactions.status.type.delivered_w_e": "Доставлено",
   "transactions.status.type.readyDelivery": "Готов к доставке",
   "transactions.status.type.delivery": "Доставлено",
+  "transactions.status.type.unexpected": "Срок истек",
 
   "transactions.status.type.paid": "Оплачено",
   "transactions.status.type.refusing": "Отказ",
