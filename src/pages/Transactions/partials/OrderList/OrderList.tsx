@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-location';
+import { useNavigate } from 'react-location';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import { TagButton } from 'arui-feather/tag-button';
@@ -25,6 +25,7 @@ import { sortOperator } from 'utils/sorts';
 import { RootStateType } from 'redux/store';
 import { selectStatusesList } from 'redux/slices/app-slice';
 import { uuid } from 'utils/uuid';
+import { FINAL_ORDER_STATUSES } from 'utils/constants';
 import { ModalType } from '../../Transactions.model';
 import {
   OrderCancel,
@@ -51,6 +52,7 @@ export const OrderList: FC<PropTypes> = ({
   handleChangeSort
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
   const [currentOrder, setCurrentOrder] = useState<IOrder>();
@@ -121,6 +123,10 @@ export const OrderList: FC<PropTypes> = ({
       field: sortValue ? field : '',
       sort: orderSort.field === field ? sortValue : 'asc'
     });
+  };
+
+  const handleItemClick = (id: number) => () => {
+    navigate({ to: `${TRANSACTIONS}/${id}`, replace: true });
   };
 
   const renderSortButton = (field: IOrderSortFields) => {
@@ -208,7 +214,11 @@ export const OrderList: FC<PropTypes> = ({
               Array.isArray(data) &&
               data.map((item: IOrder) => {
                 return (
-                  <tr key={item.id}>
+                  <tr
+                    key={item.id}
+                    className="c-pointer"
+                    onClick={handleItemClick(item.id)}
+                  >
                     <td
                       className={
                         orderSort.field === 'id' ? 'table__sorted' : ''
@@ -253,17 +263,15 @@ export const OrderList: FC<PropTypes> = ({
                       </TagButton>
                     </td>
                     <td>
-                      {item.app_status &&
-                        item.app_status !== 'cancelled' &&
+                      {item?.app_status &&
+                        !FINAL_ORDER_STATUSES.includes(item.app_status) &&
                         item?.merchant_order_id && (
                           <Space direction="horizontal" size={8}>
-                            <Link to={`${TRANSACTIONS}/${item.id}`}>
-                              <IconButton
-                                size="xxs"
-                                icon={PencilHeavyIcon}
-                                className="icon-button bg-blue"
-                              />
-                            </Link>
+                            <IconButton
+                              size="xxs"
+                              icon={PencilHeavyIcon}
+                              className="icon-button bg-blue"
+                            />
                             <IconButton
                               size="xxs"
                               icon={CheckmarkIcon}
