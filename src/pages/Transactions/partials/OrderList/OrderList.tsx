@@ -264,7 +264,7 @@ export const OrderList: FC<PropTypes> = ({
                     </td>
                     <td>
                       {item?.app_status &&
-                        !FINAL_ORDER_STATUSES.includes(item.app_status) &&
+                        FINAL_ORDER_STATUSES.includes(item.app_status) &&
                         item?.merchant_order_id && (
                           <Space direction="horizontal" size={8}>
                             <IconButton
