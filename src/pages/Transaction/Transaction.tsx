@@ -100,7 +100,7 @@ const Transaction: FC = () => {
     return (
       <>
         {data?.app_status && data?.merchant_order_id && (
-          <Space direction="horizontal" size={8} className="mb-32">
+          <Space direction="horizontal" size={8} className=" mb-32">
             <Typography.Title tag="h2">
               {t('transaction.header.title')} №{data.id}
             </Typography.Title>
