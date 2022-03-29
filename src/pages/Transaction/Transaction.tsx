@@ -104,7 +104,7 @@ const Transaction: FC = () => {
             <Typography.Title tag="h2">
               {t('transaction.header.title')} №{data.id}
             </Typography.Title>
-            {!FINAL_ORDER_STATUSES.includes(data.app_status) && (
+            {FINAL_ORDER_STATUSES.includes(data.app_status) && (
               <Space direction="horizontal" size={8}>
                 <IconButton
                   size="xs"
