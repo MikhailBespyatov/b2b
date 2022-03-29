@@ -27,6 +27,7 @@ import {
 } from '../Transactions/partials';
 import './Transaction.css';
 import { OrderInfo } from './partials/OrderInfo';
+import { FINAL_ORDER_STATUSES } from '../../utils/constants';
 
 const Transaction: FC = () => {
   const { params } = useMatch();
@@ -98,36 +99,38 @@ const Transaction: FC = () => {
   if (isSuccess) {
     return (
       <>
-        {data?.app_status &&
-          data.app_status !== 'cancelled' &&
-          data?.merchant_order_id && (
-            <Space direction="horizontal" size={8} className="mb-32">
-              <Typography.Title tag="h2">
-                {t('transaction.header.title')} №{data.id}
-              </Typography.Title>
-              <IconButton
-                size="xs"
-                icon={PencilHeavyIcon}
-                className="icon-button bg-blue"
-              />
-              <IconButton
-                size="xs"
-                icon={CheckmarkIcon}
-                className="icon-button bg-green"
-                onClick={handleModalOpen(
-                  data.app_status === 'new'
-                    ? 'CONFIRM_ORDER'
-                    : 'DELIVERY_ORDER_OTP'
-                )}
-              />
-              <IconButton
-                size="xs"
-                icon={CrossHeavyIcon}
-                className="icon-button bg-red"
-                onClick={handleModalOpen('CONFIRM_CANCEL')}
-              />
-            </Space>
-          )}
+        {data?.app_status && data?.merchant_order_id && (
+          <Space direction="horizontal" size={8} className="mb-32">
+            <Typography.Title tag="h2">
+              {t('transaction.header.title')} №{data.id}
+            </Typography.Title>
+            {!FINAL_ORDER_STATUSES.includes(data.app_status) && (
+              <Space direction="horizontal" size={8}>
+                <IconButton
+                  size="xs"
+                  icon={PencilHeavyIcon}
+                  className="icon-button bg-blue"
+                />
+                <IconButton
+                  size="xs"
+                  icon={CheckmarkIcon}
+                  className="icon-button bg-green"
+                  onClick={handleModalOpen(
+                    data.app_status === 'new'
+                      ? 'CONFIRM_ORDER'
+                      : 'DELIVERY_ORDER_OTP'
+                  )}
+                />
+                <IconButton
+                  size="xs"
+                  icon={CrossHeavyIcon}
+                  className="icon-button bg-red"
+                  onClick={handleModalOpen('CONFIRM_CANCEL')}
+                />
+              </Space>
+            )}
+          </Space>
+        )}
         <OrderInfo
           order={data}
           status={statusList[data.app_status]?.toUpperCase()}

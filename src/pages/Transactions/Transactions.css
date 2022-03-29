@@ -1,7 +1,3 @@
-.table > tbody > tr {
-  cursor: default;
-}
-
 .table > tbody > tr:hover {
   background-color: #fafafa;
 }
