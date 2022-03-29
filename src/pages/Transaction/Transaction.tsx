@@ -17,6 +17,7 @@ import {
 import { useGetTransactionByIdQuery } from 'services/api/transactionAPI';
 import { RootStateType } from 'redux/store';
 import { selectStatusesList } from 'redux/slices/app-slice';
+import { FINAL_ORDER_STATUSES } from 'utils/constants';
 import { BuyerInfo, OrderComposition, ChangesHistory } from './partials';
 import { ModalType } from '../Transactions/Transactions.model';
 import {
@@ -27,7 +28,6 @@ import {
 } from '../Transactions/partials';
 import './Transaction.css';
 import { OrderInfo } from './partials/OrderInfo';
-import { FINAL_ORDER_STATUSES } from '../../utils/constants';
 
 const Transaction: FC = () => {
   const { params } = useMatch();

@@ -25,6 +25,7 @@ import { sortOperator } from 'utils/sorts';
 import { RootStateType } from 'redux/store';
 import { selectStatusesList } from 'redux/slices/app-slice';
 import { uuid } from 'utils/uuid';
+import { FINAL_ORDER_STATUSES } from 'utils/constants';
 import { ModalType } from '../../Transactions.model';
 import {
   OrderCancel,
@@ -32,7 +33,6 @@ import {
   PopConfirm,
   SmsConfirm
 } from '../index';
-import { FINAL_ORDER_STATUSES } from '../../../../utils/constants';
 
 type PropTypes = {
   data: IOrder[];
