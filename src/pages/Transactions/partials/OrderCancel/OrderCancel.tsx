@@ -1,38 +1,47 @@
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
+import clsx from 'clsx';
 import { FormField } from 'arui-feather/form-field';
-import Button from 'arui-feather/button';
 import { Select } from 'arui-feather/select';
-import { Typography } from '@alfalab/core-components/typography';
-import { Col } from '@alfalab/core-components/grid/col';
-import { Row } from '@alfalab/core-components/grid/row';
 import MoneyInput from 'arui-feather/money-input';
+import Label from 'arui-feather/label';
+import { Typography } from '@alfalab/core-components/typography';
 
+import Button from 'arui-feather/button';
+import Spin from 'arui-feather/spin';
+import { Space } from '@alfalab/core-components/space';
 import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
+import { ORDER_STATUS } from 'config/constants/status.constants';
 import { StatusMessage } from '../index';
 
 type PropTypes = {
-  title: string;
   id: number;
   merchantOrderId: number;
+  amount: number;
+  title: string;
   handleClose: () => void;
 };
 
 const OrderCancel: FC<PropTypes> = ({
   id,
   merchantOrderId,
+  amount,
   title,
   handleClose
 }) => {
   const { t } = useTranslation();
+
   const {
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm();
-  const [formStep, setFormStep] = useState(1);
-  // const [isFullCompensation, setIsFullCompensation] = useState(false);
+  } = useForm({
+    defaultValues: {
+      reason: '',
+      amount: 0
+    }
+  });
 
   const [options] = useState([
     {
@@ -50,26 +59,24 @@ const OrderCancel: FC<PropTypes> = ({
     }
   ]);
 
-  const [updateStatus, { isSuccess, isError, error }] =
+  const [updateStatus, { isSuccess, isError, isLoading, error }] =
     useUpdateTransactionStatusMutation();
+  const [compensationType, setCompensationType] = useState('fullReturn');
 
-  const onSubmit = () => {
+  const onSubmit = (values: any) => {
     updateStatus({
       id,
       body: {
         merchantId: '1',
         orders: [
           {
+            amount: compensationType === 'fullReturn' ? amount : values.amount,
             orderId: merchantOrderId,
-            status: 'canceled'
+            status: ORDER_STATUS.CANCELED
           }
         ]
       }
     });
-  };
-
-  const handleClick = () => {
-    setFormStep(prev => prev + 1);
   };
 
   if (isSuccess) {
@@ -87,138 +94,94 @@ const OrderCancel: FC<PropTypes> = ({
         {title} №{merchantOrderId}
       </Typography.Title>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {formStep === 1 && (
-          <>
-            <FormField size="m">
-              <p className="modal__subtitle">
-                {t('transactions.modal.subtitle.cancel')}
-              </p>
-            </FormField>
-            <FormField size="m">
-              <Controller
-                name="reason"
-                control={control}
-                rules={{
-                  required: true
-                }}
-                render={({ field }) => (
-                  <Select
-                    size="m"
-                    mode="radio-check"
-                    width="available"
-                    className="select_theme_alfa-on-white select-button"
-                    options={options}
-                    {...field}
-                  />
-                )}
-              />
-            </FormField>
-            <Row align="middle" className="modal-responsive__footer">
-              <Col>
-                <Button
-                  size="m"
-                  view="extra"
-                  width="available"
-                  onClick={handleClick}
-                >
-                  {t('button.confirm')}
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  size="m"
-                  view="default"
-                  width="available"
-                  onClick={handleClose}
-                >
-                  {t('button.cancel')}
-                </Button>
-              </Col>
-            </Row>
-          </>
-        )}
-        {formStep === 2 && (
-          <>
-            <FormField size="m">
-              <p className="modal__subtitle">
-                {t('transactions.modal.subtitle.compensationType')}
-              </p>
-            </FormField>
-            <Row className="modal-responsive__footer">
-              <Col>
-                <Button
-                  size="m"
-                  view="extra"
-                  width="available"
-                  onClick={handleClick}
-                >
-                  {t('transactions.modal.button.fullReturn')}
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  size="m"
-                  view="default"
-                  width="available"
-                  onClick={handleClick}
-                >
-                  {t('transactions.modal.button.partialReturn')}
-                </Button>
-              </Col>
-              <Col>
-                <Button size="m" view="default" width="available">
-                  {t('button.cancel')}
-                </Button>
-              </Col>
-            </Row>
-          </>
-        )}
-        {formStep === 3 && (
-          <>
-            <FormField size="m" />
-            <FormField size="m">
-              <Controller
-                name="compensationAmount"
-                control={control}
-                rules={{
-                  required: true
-                }}
-                render={({ field: { value, onChange } }) => (
-                  <MoneyInput
-                    showCurrency
-                    currencyCode="KZT"
-                    bold
-                    size="m"
-                    width="available"
-                    label={t('transactions.modal.input.compensationAmount')}
-                    value={value?.toString().replace(/\s/g, '')}
-                    onChange={inputValue => onChange(inputValue)}
-                    error={!!errors?.compensationAmount}
-                  />
-                )}
-              />
-            </FormField>
-          </>
-        )}
-        {formStep === 3 && (
-          <Row align="middle" className="modal-responsive__footer">
-            <Col>
-              <Button size="m" view="extra" width="available" type="submit">
-                {t('button.confirm')}
-              </Button>
-            </Col>
-            <Col>
-              <Button
+        <FormField size="l">
+          <p className="modal__subtitle">
+            {t('transactions.modal.subtitle.cancel')}
+          </p>
+        </FormField>
+        <FormField size="l">
+          <Controller
+            name="reason"
+            control={control}
+            rules={{
+              required: true
+            }}
+            render={({ field: { onChange } }) => (
+              <Select
                 size="m"
-                view="default"
+                mode="radio-check"
                 width="available"
-                onClick={handleClose}
-              >
-                {t('button.sendAgain')}
-              </Button>
-            </Col>
-          </Row>
+                className="select_theme_alfa-on-white select-button"
+                options={options}
+                onChange={onChange}
+                error={!!errors.reason}
+              />
+            )}
+          />
+        </FormField>
+        <Label>{t('transactions.modal.subtitle.compensationType')}</Label>
+        <FormField size="l" className="mt-16">
+          <Space direction="horizontal">
+            <Button
+              size="m"
+              className={clsx(
+                'btn-circle',
+                compensationType === 'fullReturn' && 'btn-primary'
+              )}
+              onClick={() => setCompensationType('fullReturn')}
+            >
+              {t('transactions.modal.button.fullReturn')}
+            </Button>
+            <Button
+              size="m"
+              className={clsx(
+                'btn-circle',
+                compensationType === 'partialReturn' && 'btn-primary'
+              )}
+              onClick={() => setCompensationType('partialReturn')}
+            >
+              {t('transactions.modal.button.partialReturn')}
+            </Button>
+          </Space>
+        </FormField>
+        {compensationType === 'partialReturn' && (
+          <FormField size="l">
+            <Controller
+              name="amount"
+              control={control}
+              rules={{
+                required: true,
+                validate: value => value > 0
+              }}
+              render={({ field: { value, onChange } }) => (
+                <MoneyInput
+                  showCurrency
+                  currencyCode="KZT"
+                  bold
+                  size="m"
+                  width="available"
+                  label={t('transactions.modal.input.compensationAmount')}
+                  value={value.toString().replace(/\s/g, '')}
+                  onChange={inputValue => onChange(inputValue)}
+                  error={!!errors?.amount}
+                />
+              )}
+            />
+          </FormField>
         )}
+        <Space direction="horizontal" className="mt-16">
+          <Button
+            size="m"
+            type="submit"
+            view="extra"
+            leftAddons={<Spin visible={isLoading} />}
+          >
+            {t('button.confirm')}
+          </Button>
+          <Button size="m" onClick={handleClose}>
+            {t('button.cancel')}
+          </Button>
+        </Space>
       </form>
     </>
   );
