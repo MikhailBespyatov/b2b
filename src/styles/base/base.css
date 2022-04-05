@@ -21,7 +21,8 @@ hr {
 }
 
 .container {
-  margin: 0 !important;
+  width: 100%;
+  margin: 0;
 }
 
 .navbar {
@@ -49,6 +50,12 @@ hr {
 }
 .ml-4 {
   margin-left: 4px;
+}
+.mt-24 {
+  margin-top: 32px;
+}
+.mt-16 {
+  margin-top: 16px;
 }
 
 .bold-700 {
@@ -87,10 +94,6 @@ hr {
 
 .modal-responsive__header {
   padding-left: 14px;
-}
-
-.modal-responsive__footer {
-  margin-top: 40px;
 }
 
 .title-1 {
@@ -151,4 +154,13 @@ hr {
 .flex-end {
   display: flex;
   justify-content: end;
+}
+
+.btn-circle {
+  border-radius: 50px;
+}
+
+.btn-primary {
+  background-color: var(--color-dark-bg-primary);
+  color: var(--color-dark-bg-primary-inverted);
 }
