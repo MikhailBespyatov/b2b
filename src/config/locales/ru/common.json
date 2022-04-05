@@ -16,6 +16,8 @@
   "button.sendAgain": "Отправить снова",
   "button.resend": "Переотправить",
   "button.confirm": "Подтвердить",
+  "button.apply": "Применить",
+  "button.reset": "Сбросить",
 
   "user.surname": "Фамилия",
   "user.name": "Имя",
@@ -28,6 +30,10 @@
   "table.perPage": "Показывать по {{size}}",
 
   "transactions.header.title": "Текущие транзакции",
+
+  "transaction.buttons.handOver": "Передать курьеру",
+  "transaction.buttons.edit": "Редактировать",
+  "transaction.buttons.cancel": "Отменить заказ",
 
   "transactions.modal.title.sendOrder": "Отправить заказ клиенту",
   "transactions.modal.input.otp": "ОТП",
@@ -51,7 +57,7 @@
   "transactions.modal.error.otpNoMatch": "Введенный код не совпадает",
   "transactions.modal.success.confirmed": "Заказ подтвержден и ожидает доставки",
   "transactions.modal.success.delivered": "Заказ подтвержден и доставлен",
-  "transactions.modal.subtitle.cancel": "Выберите причину отмены заказа",
+  "transactions.modal.subtitle.cancel": "Укажите причину отмены",
 
   "transactions.modal.select.cancel.byTheClient": "Отмена клиентом",
   "transactions.modal.select.cancel.refused": "Клиент отказался",
@@ -97,6 +103,7 @@
   "transaction.collapse.historyOfChanges": "История изменений",
 
   "transaction.data.registrationDate": "Дата оформления заказа",
+  "transaction.data.updatedDT": "Дата изменения",
   "transaction.data.orderStatus": "Статус заказа",
   "transaction.data.amount": "Сумма",
   "transaction.data.orderAmount": "Сумма заказа",
@@ -109,6 +116,7 @@
   "transaction.data.changedStatus": "Измененный статус",
   "transaction.data.orderEdited": "Заказ отредактирован",
   "transaction.data.changeResponsibility": "Ответственный за изменения",
+  "transaction.data.employee": "Сотрудник",
   "transaction.data.title": "Наименование",
   "transaction.data.vendorCode": "Артикул",
   "transaction.data.numberOfGoods": "Количество",

@@ -1,19 +1,19 @@
 import React, { FC, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Grid } from '@alfalab/core-components/grid';
 import { Controller, useForm } from 'react-hook-form';
 import FormField from 'arui-feather/form-field';
 import { Label } from 'arui-feather/label';
 import Input from 'arui-feather/input';
 import CalendarInput from 'arui-feather/calendar-input';
-
-import { IconButton } from '@alfalab/core-components/icon-button';
-import { Pagination } from '@alfalab/core-components/pagination';
-import { Typography } from '@alfalab/core-components/typography';
 import Select from 'arui-feather/select';
 import PhoneInput from 'arui-feather/phone-input';
 import MoneyInput from 'arui-feather/money-input';
+import Button from 'arui-feather/button';
+import { Grid } from '@alfalab/core-components/grid';
+import { IconButton } from '@alfalab/core-components/icon-button';
+import { Pagination } from '@alfalab/core-components/pagination';
+import { Typography } from '@alfalab/core-components/typography';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardMIcon } from '@alfalab/icons-glyph/ChevronForwardMIcon';
 
@@ -39,7 +39,7 @@ type IFormValues = {
 
 const Transactions: FC = () => {
   const { t } = useTranslation();
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       transactionNumber: '',
       merchant_order_id: '',
@@ -130,12 +130,12 @@ const Transactions: FC = () => {
       </Typography.Title>
       <Label size="l" className="bold-700">
         {t('transactions.filter.title')}
+        <IconButton
+          size="xxs"
+          icon={isFilterVisible ? ChevronDownMIcon : ChevronForwardMIcon}
+          onClick={handleFilterShow}
+        />
       </Label>
-      <IconButton
-        size="xxs"
-        icon={isFilterVisible ? ChevronDownMIcon : ChevronForwardMIcon}
-        onClick={handleFilterShow}
-      />
       {isFilterVisible && (
         <div className="transactions__filter-form">
           <form onSubmit={onSubmit}>
@@ -302,6 +302,14 @@ const Transactions: FC = () => {
                 </Grid.Row>
               </Grid.Col>
             </Grid.Row>
+            <div className="transactions__filter-footer">
+              <Button view="extra" size="s" type="submit">
+                {t('button.apply')}
+              </Button>
+              <Button size="s" onClick={() => reset()}>
+                {t('button.reset')}
+              </Button>
+            </div>
           </form>
         </div>
       )}

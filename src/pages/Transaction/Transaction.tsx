@@ -4,10 +4,10 @@ import { useMatch } from 'react-location';
 import { useTranslation } from 'react-i18next';
 import AlphaIcon from 'arui-feather/icon/brand/bank-2449';
 import { Typography } from '@alfalab/core-components/typography';
-import { IconButton } from '@alfalab/core-components/icon-button';
 import { Space } from '@alfalab/core-components/space';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Spinner } from '@alfalab/core-components/spinner';
+import { Button } from '@alfalab/core-components/button';
 
 import {
   CheckmarkIcon,
@@ -17,7 +17,7 @@ import {
 import { useGetTransactionByIdQuery } from 'services/api/transactionAPI';
 import { RootStateType } from 'redux/store';
 import { selectStatusesList } from 'redux/slices/app-slice';
-import { FINAL_ORDER_STATUSES } from 'utils/constants';
+import { FINAL_ORDER_STATUSES } from 'config/constants/status.constants';
 import { BuyerInfo, OrderComposition, ChangesHistory } from './partials';
 import { ModalType } from '../Transactions/Transactions.model';
 import {
@@ -65,6 +65,7 @@ const Transaction: FC = () => {
           <OrderCancel
             id={data.id}
             merchantOrderId={data.merchant_order_id}
+            amount={data.amount}
             title={t('transactions.modal.title.cancelOrder')}
             handleClose={handleModalClose}
           />
@@ -100,33 +101,44 @@ const Transaction: FC = () => {
     return (
       <>
         {data?.app_status && data?.merchant_order_id && (
-          <Space direction="horizontal" size={8} className=" mb-32">
+          <Space direction="horizontal" size={8} className="mb-32">
             <Typography.Title tag="h2">
               {t('transaction.header.title')} №{data.id}
             </Typography.Title>
             {FINAL_ORDER_STATUSES.includes(data.app_status) && (
               <Space direction="horizontal" size={8}>
-                <IconButton
-                  size="xs"
-                  icon={PencilHeavyIcon}
-                  className="icon-button bg-blue"
-                />
-                <IconButton
-                  size="xs"
-                  icon={CheckmarkIcon}
-                  className="icon-button bg-green"
+                <Button
+                  view="link"
+                  size="s"
+                  leftAddons={<CheckmarkIcon />}
                   onClick={handleModalOpen(
                     data.app_status === 'new'
                       ? 'CONFIRM_ORDER'
                       : 'DELIVERY_ORDER_OTP'
                   )}
-                />
-                <IconButton
-                  size="xs"
-                  icon={CrossHeavyIcon}
-                  className="icon-button bg-red"
+                >
+                  {t('transaction.buttons.handOver')}
+                </Button>
+                <Button
+                  view="link"
+                  size="s"
+                  leftAddons={<PencilHeavyIcon />}
+                  onClick={handleModalOpen(
+                    data.app_status === 'new'
+                      ? 'CONFIRM_ORDER'
+                      : 'DELIVERY_ORDER_OTP'
+                  )}
+                >
+                  {t('transaction.buttons.edit')}
+                </Button>
+                <Button
+                  view="link"
+                  size="s"
+                  leftAddons={<CrossHeavyIcon />}
                   onClick={handleModalOpen('CONFIRM_CANCEL')}
-                />
+                >
+                  {t('transaction.buttons.cancel')}
+                </Button>
               </Space>
             )}
           </Space>

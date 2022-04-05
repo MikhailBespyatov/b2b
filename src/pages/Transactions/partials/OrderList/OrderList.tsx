@@ -25,7 +25,7 @@ import { sortOperator } from 'utils/sorts';
 import { RootStateType } from 'redux/store';
 import { selectStatusesList } from 'redux/slices/app-slice';
 import { uuid } from 'utils/uuid';
-import { FINAL_ORDER_STATUSES } from 'utils/constants';
+import { FINAL_ORDER_STATUSES } from 'config/constants/status.constants';
 import { ModalType } from '../../Transactions.model';
 import {
   OrderCancel,
@@ -89,6 +89,7 @@ export const OrderList: FC<PropTypes> = ({
           return (
             <OrderCancel
               id={currentOrder.id}
+              amount={currentOrder.amount}
               merchantOrderId={currentOrder.merchant_order_id}
               title={t('transactions.modal.title.cancelOrder')}
               handleClose={handleModalClose}
