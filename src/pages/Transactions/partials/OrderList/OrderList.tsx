@@ -91,6 +91,7 @@ export const OrderList: FC<PropTypes> = ({
               id={currentOrder.id}
               amount={currentOrder.amount}
               merchantOrderId={currentOrder.merchant_order_id}
+              orderStatus={currentOrder.app_status}
               title={t('transactions.modal.title.cancelOrder')}
               handleClose={handleModalClose}
             />

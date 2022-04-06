@@ -9,5 +9,7 @@ export const FINAL_ORDER_STATUSES = [
 ];
 
 export const ORDER_STATUS = {
-  CANCELED: 'canceled'
+  CANCELED: 'canceled',
+  READY_DELIVERY: 'readyDelivery',
+  COMPLETED: 'completed'
 };

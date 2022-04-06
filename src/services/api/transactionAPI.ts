@@ -39,7 +39,7 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
     updateTransactionStatus: builder.mutation({
       query: ({ body }) => {
         return {
-          url: '/changeStatus/json',
+          url: '/accounting/changeStatus/json',
           method: 'PUT',
           body
         };

@@ -16,7 +16,7 @@ const StatusMessage: FC<PropTypes> = ({ status, title }) => {
       {status === 'error' && (
         <CrossCircleMIcon width={64} height={64} fill="red" />
       )}
-      <Typography.Title tag="h2" font="system" style={{ color: '#172A3F' }}>
+      <Typography.Title tag="h2" font="system">
         {title}
       </Typography.Title>
     </div>

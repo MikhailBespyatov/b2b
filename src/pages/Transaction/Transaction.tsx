@@ -65,6 +65,7 @@ const Transaction: FC = () => {
           <OrderCancel
             id={data.id}
             merchantOrderId={data.merchant_order_id}
+            orderStatus={data.app_status}
             amount={data.amount}
             title={t('transactions.modal.title.cancelOrder')}
             handleClose={handleModalClose}

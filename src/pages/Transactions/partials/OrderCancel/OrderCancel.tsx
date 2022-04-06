@@ -6,10 +6,9 @@ import { FormField } from 'arui-feather/form-field';
 import { Select } from 'arui-feather/select';
 import MoneyInput from 'arui-feather/money-input';
 import Label from 'arui-feather/label';
-import { Typography } from '@alfalab/core-components/typography';
-
 import Button from 'arui-feather/button';
 import Spin from 'arui-feather/spin';
+import { Typography } from '@alfalab/core-components/typography';
 import { Space } from '@alfalab/core-components/space';
 import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
 import { ORDER_STATUS } from 'config/constants/status.constants';
@@ -18,6 +17,7 @@ import { StatusMessage } from '../index';
 type PropTypes = {
   id: number;
   merchantOrderId: number;
+  orderStatus: string;
   amount: number;
   title: string;
   handleClose: () => void;
@@ -26,6 +26,7 @@ type PropTypes = {
 const OrderCancel: FC<PropTypes> = ({
   id,
   merchantOrderId,
+  orderStatus,
   amount,
   title,
   handleClose
@@ -79,13 +80,18 @@ const OrderCancel: FC<PropTypes> = ({
     });
   };
 
+  const handleTypeChange = (type: 'fullReturn' | 'partialReturn') => {
+    if (compensationType !== type) {
+      setCompensationType(type);
+    }
+  };
+
   if (isSuccess) {
     return <StatusMessage status="success" title="" />;
   }
 
-  if (isError) {
-    // @ts-ignore
-    return <StatusMessage status="error" title={error?.data} />;
+  if (isError && error && 'data' in error) {
+    return <StatusMessage status="error" title={error?.data?.message} />;
   }
 
   return (
@@ -119,56 +125,65 @@ const OrderCancel: FC<PropTypes> = ({
             )}
           />
         </FormField>
-        <Label>{t('transactions.modal.subtitle.compensationType')}</Label>
-        <FormField size="l" className="mt-16">
-          <Space direction="horizontal">
-            <Button
-              size="m"
-              className={clsx(
-                'btn-circle',
-                compensationType === 'fullReturn' && 'btn-primary'
-              )}
-              onClick={() => setCompensationType('fullReturn')}
-            >
-              {t('transactions.modal.button.fullReturn')}
-            </Button>
-            <Button
-              size="m"
-              className={clsx(
-                'btn-circle',
-                compensationType === 'partialReturn' && 'btn-primary'
-              )}
-              onClick={() => setCompensationType('partialReturn')}
-            >
-              {t('transactions.modal.button.partialReturn')}
-            </Button>
-          </Space>
-        </FormField>
-        {compensationType === 'partialReturn' && (
-          <FormField size="l">
-            <Controller
-              name="amount"
-              control={control}
-              rules={{
-                required: true,
-                validate: value => value > 0
-              }}
-              render={({ field: { value, onChange } }) => (
-                <MoneyInput
-                  showCurrency
-                  currencyCode="KZT"
-                  bold
+        {![ORDER_STATUS.READY_DELIVERY, ORDER_STATUS.COMPLETED].includes(
+          orderStatus
+        ) && (
+          <>
+            <Label>{t('transactions.modal.subtitle.compensationType')}</Label>
+            <FormField size="l" className="mt-16">
+              <Space direction="horizontal">
+                <Button
                   size="m"
-                  width="available"
-                  label={t('transactions.modal.input.compensationAmount')}
-                  value={value.toString().replace(/\s/g, '')}
-                  onChange={inputValue => onChange(inputValue)}
-                  error={!!errors?.amount}
+                  className={clsx(
+                    'btn-circle',
+                    compensationType === 'fullReturn' && 'btn-primary'
+                  )}
+                  tag="span"
+                  onClick={() => handleTypeChange('fullReturn')}
+                >
+                  {t('transactions.modal.button.fullReturn')}
+                </Button>
+                <Button
+                  size="m"
+                  className={clsx(
+                    'btn-circle',
+                    compensationType === 'partialReturn' && 'btn-primary'
+                  )}
+                  tag="span"
+                  onClick={() => handleTypeChange('partialReturn')}
+                >
+                  {t('transactions.modal.button.partialReturn')}
+                </Button>
+              </Space>
+            </FormField>
+            {compensationType === 'partialReturn' && (
+              <FormField size="l">
+                <Controller
+                  name="amount"
+                  control={control}
+                  rules={{
+                    required: true,
+                    validate: value => value > 0
+                  }}
+                  render={({ field: { value, onChange } }) => (
+                    <MoneyInput
+                      showCurrency
+                      currencyCode="KZT"
+                      bold
+                      size="m"
+                      width="available"
+                      label={t('transactions.modal.input.compensationAmount')}
+                      value={value.toString().replace(/\s/g, '')}
+                      onChange={inputValue => onChange(inputValue)}
+                      error={!!errors?.amount}
+                    />
+                  )}
                 />
-              )}
-            />
-          </FormField>
+              </FormField>
+            )}
+          </>
         )}
+
         <Space direction="horizontal" className="mt-16">
           <Button
             size="m"
