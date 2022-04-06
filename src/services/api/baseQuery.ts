@@ -2,12 +2,19 @@ import {
   BaseQueryFn,
   createApi,
   FetchArgs,
-  fetchBaseQuery,
-  FetchBaseQueryError
+  fetchBaseQuery
 } from '@reduxjs/toolkit/query/react';
 import { uuid } from 'utils/uuid';
 import { addToast } from 'redux/slices/app-slice';
 import { RootStateType } from 'redux/store';
+
+interface CustomError {
+  data: {
+    code: number;
+    message: string;
+  };
+  status: number;
+}
 
 const baseQueryBase = fetchBaseQuery({
   baseUrl: '',
@@ -20,13 +27,13 @@ const baseQueryBase = fetchBaseQuery({
 
     return headers;
   }
-});
+}) as BaseQueryFn<string | FetchArgs, unknown, CustomError>;
 
-const baseQuery: BaseQueryFn<
-  string | FetchArgs,
-  unknown,
-  FetchBaseQueryError
-> = async (args, api, extraOptions) => {
+const baseQuery: BaseQueryFn<string | FetchArgs, unknown, CustomError> = async (
+  args,
+  api,
+  extraOptions
+) => {
   const result = await baseQueryBase(args, api, extraOptions);
   if (result.error && result.error.status === 500) {
     api.dispatch(
