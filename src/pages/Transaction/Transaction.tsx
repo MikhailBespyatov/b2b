@@ -4,11 +4,9 @@ import { useMatch } from 'react-location';
 import { useTranslation } from 'react-i18next';
 import AlphaIcon from 'arui-feather/icon/brand/bank-2449';
 import { Typography } from '@alfalab/core-components/typography';
-import { Space } from '@alfalab/core-components/space';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Spinner } from '@alfalab/core-components/spinner';
-import { Button } from '@alfalab/core-components/button';
-
+import { IconButton } from '@alfalab/core-components/icon-button';
 import {
   CheckmarkIcon,
   CrossHeavyIcon,
@@ -26,13 +24,14 @@ import {
   PopConfirm,
   SmsConfirm
 } from '../Transactions/partials';
-import './Transaction.css';
 import { OrderInfo } from './partials/OrderInfo';
+import './Transaction.css';
 
 const Transaction: FC = () => {
   const { params } = useMatch();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
   const statusList = useSelector((state: RootStateType) =>
     selectStatusesList(state)
@@ -102,16 +101,24 @@ const Transaction: FC = () => {
     return (
       <>
         {data?.app_status && data?.merchant_order_id && (
-          <Space direction="horizontal" size={8} className="mb-32">
-            <Typography.Title tag="h2">
+          <div className="mb-32 d-flex mobile-block">
+            <Typography.Title tag="h2" className="mr-24">
               {t('transaction.header.title')} №{data.id}
             </Typography.Title>
             {FINAL_ORDER_STATUSES.includes(data.app_status) && (
-              <Space direction="horizontal" size={8}>
-                <Button
-                  view="link"
-                  size="s"
-                  leftAddons={<CheckmarkIcon />}
+              <>
+                <IconButton
+                  size="xxs"
+                  className="mr-24"
+                  icon={PencilHeavyIcon}
+                  onClick={() => setIsEdit(prev => !prev)}
+                >
+                  {t('transaction.buttons.edit')}
+                </IconButton>
+                <IconButton
+                  size="xxs"
+                  className="mr-24"
+                  icon={CheckmarkIcon}
                   onClick={handleModalOpen(
                     data.app_status === 'new'
                       ? 'CONFIRM_ORDER'
@@ -119,37 +126,25 @@ const Transaction: FC = () => {
                   )}
                 >
                   {t('transaction.buttons.handOver')}
-                </Button>
-                <Button
-                  view="link"
-                  size="s"
-                  leftAddons={<PencilHeavyIcon />}
-                  onClick={handleModalOpen(
-                    data.app_status === 'new'
-                      ? 'CONFIRM_ORDER'
-                      : 'DELIVERY_ORDER_OTP'
-                  )}
-                >
-                  {t('transaction.buttons.edit')}
-                </Button>
-                <Button
-                  view="link"
-                  size="s"
-                  leftAddons={<CrossHeavyIcon />}
+                </IconButton>
+                <IconButton
+                  size="xxs"
+                  className="mr-24"
+                  icon={CrossHeavyIcon}
                   onClick={handleModalOpen('CONFIRM_CANCEL')}
                 >
                   {t('transaction.buttons.cancel')}
-                </Button>
-              </Space>
+                </IconButton>
+              </>
             )}
-          </Space>
+          </div>
         )}
         <OrderInfo
           order={data}
           status={statusList[data.app_status]?.toUpperCase()}
         />
         <BuyerInfo order={data} />
-        <OrderComposition />
+        <OrderComposition isEdit={isEdit} />
         <ChangesHistory
           order={data}
           status={statusList[data.app_status]?.toUpperCase()}

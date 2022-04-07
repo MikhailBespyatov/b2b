@@ -40,8 +40,9 @@ const OrderCancel: FC<PropTypes> = ({
   } = useForm({
     defaultValues: {
       reason: '',
-      amount: 0
-    }
+      amount: ''
+    },
+    criteriaMode: 'all'
   });
 
   const [options] = useState([
@@ -162,8 +163,18 @@ const OrderCancel: FC<PropTypes> = ({
                   name="amount"
                   control={control}
                   rules={{
-                    required: true,
-                    validate: value => value > 0
+                    validate: {
+                      notZero: value => Number(value) !== 0,
+                      notEqualToAmount: value =>
+                        Number(value.toString().replace(/\s/g, '')) !==
+                          amount ||
+                        `${t(
+                          'transactions.modal.error.compensationEqualToAmount'
+                        )}`,
+                      lessThanAmount: value =>
+                        Number(value.toString().replace(/\s/g, '')) < amount ||
+                        `${t('transactions.modal.error.exceedAmount')}`
+                    }
                   }}
                   render={({ field: { value, onChange } }) => (
                     <MoneyInput
@@ -174,8 +185,10 @@ const OrderCancel: FC<PropTypes> = ({
                       width="available"
                       label={t('transactions.modal.input.compensationAmount')}
                       value={value.toString().replace(/\s/g, '')}
+                      placeholder="0"
                       onChange={inputValue => onChange(inputValue)}
-                      error={!!errors?.amount}
+                      hint={errors?.amount?.message}
+                      error={!!errors?.amount?.type}
                     />
                   )}
                 />
@@ -183,7 +196,6 @@ const OrderCancel: FC<PropTypes> = ({
             )}
           </>
         )}
-
         <Space direction="horizontal" className="mt-16">
           <Button
             size="m"

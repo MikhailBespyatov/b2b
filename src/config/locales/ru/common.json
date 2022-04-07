@@ -55,6 +55,8 @@
   "transactions.modal.button.partialReturn": "Частичный возврат",
 
   "transactions.modal.error.otpNoMatch": "Введенный код не совпадает",
+  "transactions.modal.error.compensationEqualToAmount": "Сумма компенсации не может соответствовать сумме заказа",
+  "transactions.modal.error.exceedAmount": "Сумма компенсации не может превышать сумму заказа",
   "transactions.modal.success.confirmed": "Заказ подтвержден и ожидает доставки",
   "transactions.modal.success.delivered": "Заказ подтвержден и доставлен",
   "transactions.modal.subtitle.cancel": "Укажите причину отмены",

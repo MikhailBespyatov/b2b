@@ -44,7 +44,7 @@ const Transactions: FC = () => {
       transactionNumber: '',
       merchant_order_id: '',
       AppStatus: null,
-      order_amount: 0,
+      order_amount: '',
       CreatedAt: '',
       OTPUpdatedAt: '',
       PhoneNumber: ''
@@ -266,6 +266,7 @@ const Transactions: FC = () => {
                               label={t('transactions.filter.amount')}
                               value={value.toString().replace(/\s/g, '')}
                               onChange={inputValue => onChange(inputValue)}
+                              placeholder="0"
                             />
                           );
                         }}
