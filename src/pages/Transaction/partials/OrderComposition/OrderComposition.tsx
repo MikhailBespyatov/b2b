@@ -2,10 +2,17 @@ import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from 'arui-feather/input';
 import IconButton from 'arui-feather/icon-button';
+import FormField from 'arui-feather/form-field';
+import Label from 'arui-feather/label';
+import Button from 'arui-feather/button';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
 import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
+import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
+import { Col } from '@alfalab/core-components/grid/col';
+import { Row } from '@alfalab/core-components/grid/row';
+import { Typography } from '@alfalab/core-components/typography';
 
 type PropTypes = {
   isEdit: boolean;
@@ -14,7 +21,15 @@ type PropTypes = {
 export const OrderComposition: FC<PropTypes> = ({ isEdit }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
+  const [open, setOpen] = useState(false);
 
+  const handleModalOpen = () => {
+    setOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setOpen(false);
+  };
   return (
     <>
       <button
@@ -53,7 +68,7 @@ export const OrderComposition: FC<PropTypes> = ({ isEdit }) => {
                 <td>22 300 ₸</td>
                 <td>
                   {isEdit && (
-                    <IconButton>
+                    <IconButton onClick={handleModalOpen}>
                       <TrashCanMIcon />
                     </IconButton>
                   )}
@@ -63,6 +78,40 @@ export const OrderComposition: FC<PropTypes> = ({ isEdit }) => {
           </table>
         </div>
       </Collapse>
+      <ModalResponsive open={open} onClose={handleModalClose} size="m">
+        <ModalResponsive.Content>
+          <Typography.Title
+            view="small"
+            tag="h4"
+            weight="bold"
+            className="mb-24"
+          >
+            {t('transactions.modal.title.deleteOrder')}
+          </Typography.Title>
+          <FormField size="m">
+            <Label size="m">{t('transactions.modal.text.deleteOrder')}</Label>
+          </FormField>
+          <div className="modal-responsive__footer">
+            <Row align="middle">
+              <Col>
+                <Button size="m" view="extra" width="available">
+                  {t('button.confirm')}
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  size="m"
+                  view="default"
+                  width="available"
+                  onClick={handleModalClose}
+                >
+                  {t('button.cancel')}
+                </Button>
+              </Col>
+            </Row>
+          </div>
+        </ModalResponsive.Content>
+      </ModalResponsive>
     </>
   );
 };

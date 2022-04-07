@@ -2,6 +2,7 @@ import React, { FC, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
+import { format } from 'date-fns';
 import FormField from 'arui-feather/form-field';
 import { Label } from 'arui-feather/label';
 import Input from 'arui-feather/input';
@@ -40,9 +41,9 @@ const Transactions: FC = () => {
   const { t } = useTranslation();
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
-      orderId: '',
+      orderId: undefined,
       merchant_order_id: '',
-      status: null,
+      status: undefined,
       order_amount: '',
       dateCreate: '',
       deliveryDate: '',
@@ -109,22 +110,34 @@ const Transactions: FC = () => {
     }
 
     if (values.dateCreate) {
-      const createdAt = new Date(values.dateCreate);
-      newParams.dateCreate = createdAt.toISOString();
+      const createdAt = format(new Date(values.dateCreate), 'yyyy-MM-dd');
+      newParams.dateCreate = `${createdAt}T00:00:00.000000`;
     }
 
     if (values.deliveryDate) {
-      const otpUpdatedAt = new Date(values.deliveryDate);
-      newParams.deliveryDate = otpUpdatedAt.toISOString();
+      const deliveryDate = format(new Date(values.deliveryDate), 'yyyy-MM-dd');
+      newParams.deliveryDate = `${deliveryDate}T00:00:00.000000`;
     }
 
     if (values.ph_number) {
       newParams.ph_number = phoneNumberWithoutFormat(values.ph_number);
     }
-    console.log({ newParams, values });
 
     setQueryParams(newParams);
   });
+
+  const handleReset = () => {
+    reset();
+    setQueryParams({
+      orderId: undefined,
+      merchant_order_id: '',
+      status: undefined,
+      order_amount: '',
+      dateCreate: '',
+      deliveryDate: '',
+      ph_number: ''
+    });
+  };
 
   return (
     <>
@@ -310,7 +323,7 @@ const Transactions: FC = () => {
               <Button view="extra" size="s" type="submit">
                 {t('button.apply')}
               </Button>
-              <Button size="s" onClick={() => reset()}>
+              <Button size="s" onClick={handleReset}>
                 {t('button.reset')}
               </Button>
             </div>

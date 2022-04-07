@@ -48,6 +48,8 @@
   "transactions.modal.hint.confirmDelivery": "СМС-код отправлен клиенту, на номер {{phoneNumber}}",
   "transactions.modal.title.confirmAction": "Вы подтверждаете действие?",
   "transactions.modal.title.confirmCancel": "Вы подтверждаете отмену?",
+  "transactions.modal.title.deleteOrder": "Вы подтверждаете удаление этой позиции из заказа?",
+  "transactions.modal.text.deleteOrder": "Стоимость заказа будет пересчитана автоматически",
   "transactions.modal.title.cancelOrder": "Отмена заказа",
   "transactions.modal.subtitle.compensationType": "Выберите тип компенсации",
   "transactions.modal.input.compensationAmount": "Сумма компенсации",
