@@ -3,9 +3,8 @@ import { Label } from 'arui-feather/label';
 import { ArrowUpMIcon } from '@alfalab/icons-glyph/ArrowUpMIcon';
 import { ArrowDownMIcon } from '@alfalab/icons-glyph/ArrowDownMIcon';
 
-import { moneyFormatter } from '../../../../utils/helpers';
-
-import AreaChartView from '../../../../assets/images/area-chart.png';
+import { moneyFormatter } from 'utils/formatter/moneyFormatter';
+import AreaChartView from 'assets/images/area-chart.png';
 
 type PropTypes = {
   title: string;

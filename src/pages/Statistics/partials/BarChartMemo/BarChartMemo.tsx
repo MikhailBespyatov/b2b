@@ -9,7 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import { moneyFormatter } from '../../../../utils/helpers';
+import { moneyFormatter } from 'utils/formatter/moneyFormatter';
 
 type PropTypes = {
   data: Array<{

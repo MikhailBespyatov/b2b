@@ -11,9 +11,10 @@ import { setToken } from './redux/slices/app-slice';
 import { directoryAPI } from './services/api/directoryApi';
 
 const initApp = () => async (dispatch: Dispatch<any>) => {
-  const token = Cookies.get('profileId') ?? '';
+  const token = Cookies.get('profileId') ?? '62aaaba946f54c1f9d4ad232bf71b6e2';
   await dispatch(setToken(token));
-  await dispatch(directoryAPI.endpoints.getStatuses.initiate(''));
+  // dispatch(ibkAPI.endpoints.getOrganizations.initiate(''));
+  dispatch(directoryAPI.endpoints.getStatuses.initiate(''));
 };
 
 store.dispatch(initApp());

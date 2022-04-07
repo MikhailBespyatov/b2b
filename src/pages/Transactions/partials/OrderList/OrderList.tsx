@@ -14,7 +14,8 @@ import { ArrowUpCompactXsIcon } from '@alfalab/icons-glyph/ArrowUpCompactXsIcon'
 import { Skeleton } from '@alfalab/core-components/skeleton';
 
 import { TRANSACTIONS } from 'navigation/CONSTANTS';
-import { moneyFormatter, phoneNumberFormatter } from 'utils/helpers';
+import { phoneNumberFormatter } from 'utils/formatter/phoneNumberFormatter';
+import { moneyFormatter } from 'utils/formatter/moneyFormatter';
 import {
   CheckmarkIcon,
   CrossHeavyIcon,

@@ -10,7 +10,7 @@ import { Collapse } from '@alfalab/core-components/collapse';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
 import { IOrder } from 'models/IOrder';
-import { moneyFormatter } from 'utils/helpers';
+import { moneyFormatter } from 'utils/formatter/moneyFormatter';
 
 type PropTypes = {
   order: IOrder;

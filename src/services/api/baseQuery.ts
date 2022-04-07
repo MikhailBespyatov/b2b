@@ -26,7 +26,8 @@ const baseQueryBase = fetchBaseQuery({
     }
 
     return headers;
-  }
+  },
+  credentials: 'include'
 }) as BaseQueryFn<string | FetchArgs, unknown, CustomError>;
 
 const baseQuery: BaseQueryFn<string | FetchArgs, unknown, CustomError> = async (

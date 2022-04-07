@@ -33,15 +33,17 @@ const DeliveryToCourier: FC<PropTypes> = ({
   const handleSubmit = () => {
     updateStatus({
       id,
-      body: {
-        merchantId: '1',
-        orders: [
-          {
-            orderId: merchantOrderId,
-            status: 'readyDelivery'
-          }
-        ]
-      }
+      body: [
+        {
+          merchantId: '1',
+          orders: [
+            {
+              orderId: merchantOrderId,
+              status: 'readyDelivery'
+            }
+          ]
+        }
+      ]
     });
   };
 

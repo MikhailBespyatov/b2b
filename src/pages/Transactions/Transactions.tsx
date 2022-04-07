@@ -18,46 +18,46 @@ import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardMIcon } from '@alfalab/icons-glyph/ChevronForwardMIcon';
 
 import { selectStatusesUnique } from 'redux/slices/app-slice';
-import { isPhoneNumberValid } from 'utils/helpers';
 import { useGetTransactionsQuery } from 'services/api/transactionAPI';
 import { IOrderFilter, IOrderSort } from 'models/IOrder';
-import { IStatusOption } from 'models/IStatus';
 import { RootStateType } from 'redux/store';
+import { phoneNumberWithoutFormat } from 'utils/formatter/phoneNumberFormatter';
 import { TableExport, OrderList } from './partials';
 
 import './Transactions.css';
 
 type IFormValues = {
-  transactionNumber: string;
-  AppStatus: IStatusOption;
+  orderId: string;
+  status: string[];
   merchant_order_id: number;
-  PhoneNumber: string;
-  CreatedAt: string;
-  OTPUpdatedAt: string;
   order_amount: number;
+  dateCreate: string;
+  deliveryDate: string;
+  ph_number: string;
 };
 
 const Transactions: FC = () => {
   const { t } = useTranslation();
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
-      transactionNumber: '',
+      orderId: '',
       merchant_order_id: '',
-      AppStatus: null,
+      status: null,
       order_amount: '',
-      CreatedAt: '',
-      OTPUpdatedAt: '',
-      PhoneNumber: ''
+      dateCreate: '',
+      deliveryDate: '',
+      ph_number: ''
     }
   });
 
   const [queryParams, setQueryParams] = useState<IOrderFilter>({
+    orderId: undefined,
     merchant_order_id: undefined,
-    AppStatus: undefined,
+    status: undefined,
     order_amount: undefined,
-    CreatedAt: undefined,
-    OTPUpdatedAt: undefined,
-    PhoneNumber: undefined
+    dateCreate: undefined,
+    deliveryDate: undefined,
+    ph_number: undefined
   });
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -96,29 +96,32 @@ const Transactions: FC = () => {
 
   const onSubmit = handleSubmit((values: IFormValues) => {
     const newParams = {
-      merchant_order_id: values.merchant_order_id
-        ? values.merchant_order_id
-        : undefined,
-      AppStatus: values.AppStatus?.values ? values.AppStatus.values : undefined,
+      orderId: values.orderId ? values.orderId : undefined,
+      status: values.status ? values.status : undefined,
       order_amount: values.order_amount ? values.order_amount : undefined,
-      CreatedAt: undefined,
-      OTPUpdatedAt: undefined,
-      PhoneNumber: undefined
+      dateCreate: undefined,
+      deliveryDate: undefined,
+      ph_number: undefined
     } as IOrderFilter;
 
-    if (values.CreatedAt) {
-      const createdAt = new Date(values.CreatedAt);
-      newParams.CreatedAt = createdAt.toISOString();
+    if (values.status) {
+      newParams.status = optionValues[Number(values.status)].values?.[0];
     }
 
-    if (values.OTPUpdatedAt) {
-      const otpUpdatedAt = new Date(values.OTPUpdatedAt);
-      newParams.OTPUpdatedAt = otpUpdatedAt.toISOString();
+    if (values.dateCreate) {
+      const createdAt = new Date(values.dateCreate);
+      newParams.dateCreate = createdAt.toISOString();
     }
 
-    if (values.PhoneNumber && isPhoneNumberValid(values.PhoneNumber)) {
-      newParams.PhoneNumber = values.PhoneNumber;
+    if (values.deliveryDate) {
+      const otpUpdatedAt = new Date(values.deliveryDate);
+      newParams.deliveryDate = otpUpdatedAt.toISOString();
     }
+
+    if (values.ph_number) {
+      newParams.ph_number = phoneNumberWithoutFormat(values.ph_number);
+    }
+    console.log({ newParams, values });
 
     setQueryParams(newParams);
   });
@@ -164,7 +167,7 @@ const Transactions: FC = () => {
                 </FormField>
                 <FormField size="m">
                   <Controller
-                    name="CreatedAt"
+                    name="dateCreate"
                     control={control}
                     render={({ field: { value, onChange } }) => (
                       <CalendarInput
@@ -187,7 +190,7 @@ const Transactions: FC = () => {
               >
                 <FormField size="m">
                   <Controller
-                    name="transactionNumber"
+                    name="orderId"
                     control={control}
                     render={({ field }) => (
                       <Input
@@ -201,7 +204,7 @@ const Transactions: FC = () => {
                 </FormField>
                 <FormField size="m">
                   <Controller
-                    name="OTPUpdatedAt"
+                    name="deliveryDate"
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <CalendarInput
@@ -224,7 +227,7 @@ const Transactions: FC = () => {
               >
                 <FormField size="m">
                   <Controller
-                    name="PhoneNumber"
+                    name="ph_number"
                     control={control}
                     render={({ field }) => (
                       <PhoneInput
@@ -282,7 +285,7 @@ const Transactions: FC = () => {
                   >
                     <FormField size="m">
                       <Controller
-                        name="AppStatus"
+                        name="status"
                         control={control}
                         render={({ field: { value, onChange } }) => (
                           <Select

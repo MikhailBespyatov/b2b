@@ -68,16 +68,19 @@ const OrderCancel: FC<PropTypes> = ({
   const onSubmit = (values: any) => {
     updateStatus({
       id,
-      body: {
-        merchantId: '1',
-        orders: [
-          {
-            amount: compensationType === 'fullReturn' ? amount : values.amount,
-            orderId: merchantOrderId,
-            status: ORDER_STATUS.CANCELED
-          }
-        ]
-      }
+      body: [
+        {
+          merchantId: '1',
+          orders: [
+            {
+              amount:
+                compensationType === 'fullReturn' ? amount : values.amount,
+              orderId: merchantOrderId,
+              status: ORDER_STATUS.CANCELED
+            }
+          ]
+        }
+      ]
     });
   };
 

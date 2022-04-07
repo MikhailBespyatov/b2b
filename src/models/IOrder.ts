@@ -27,10 +27,11 @@ export type IOrderFilterFields =
   | '';
 
 export interface IOrderFilter {
-  merchant_order_id: number | undefined;
-  PhoneNumber: string | undefined;
-  CreatedAt: string | undefined;
-  OTPUpdatedAt: string | undefined;
-  AppStatus: string | undefined;
-  order_amount: number | undefined;
+  orderId: number | undefined;
+  merchant_order_id: string | undefined;
+  status: string | undefined;
+  order_amount: string | undefined;
+  dateCreate: string | undefined;
+  deliveryDate: string | undefined;
+  ph_number: string | undefined;
 }

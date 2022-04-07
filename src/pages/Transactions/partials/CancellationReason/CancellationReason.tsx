@@ -50,15 +50,17 @@ const CancellationReason: FC<PropTypes> = ({
   const onSubmit = () => {
     updateStatus({
       id,
-      body: {
-        merchantId: '1',
-        orders: [
-          {
-            orderId: merchantOrderId,
-            status: 'canceled'
-          }
-        ]
-      }
+      body: [
+        {
+          merchantId: '1',
+          orders: [
+            {
+              orderId: merchantOrderId,
+              status: 'canceled'
+            }
+          ]
+        }
+      ]
     });
   };
 

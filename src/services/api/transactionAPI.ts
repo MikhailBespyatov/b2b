@@ -4,13 +4,12 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
     getTransactions: builder.query({
       query: ({
-        merchant_order_id,
-        created_at,
-        otp_updated_at,
-        app_status,
+        orderId,
+        dateCreate,
+        deliveryDate,
         order_amount,
         ph_number,
-        between,
+        status,
         sort,
         limit,
         page
@@ -18,13 +17,12 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
         url: '/accounting/applications',
         params: {
           merchantId: 1,
-          merchant_order_id,
-          created_at,
-          otp_updated_at,
-          app_status,
+          orderId,
+          dateCreate,
+          deliveryDate,
           order_amount,
           ph_number,
-          between,
+          status,
           sort,
           lim: limit,
           page

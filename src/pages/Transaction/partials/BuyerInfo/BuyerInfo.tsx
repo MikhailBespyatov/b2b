@@ -7,7 +7,7 @@ import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
 import { IOrder } from 'models/IOrder';
-import { phoneNumberFormatter } from 'utils/helpers';
+import { phoneNumberFormatter } from 'utils/formatter/phoneNumberFormatter';
 
 type PropTypes = {
   order: IOrder;
