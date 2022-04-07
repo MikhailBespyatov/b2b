@@ -41,8 +41,7 @@ const OrderCancel: FC<PropTypes> = ({
     defaultValues: {
       reason: '',
       amount: ''
-    },
-    criteriaMode: 'all'
+    }
   });
 
   const [options] = useState([
@@ -91,7 +90,14 @@ const OrderCancel: FC<PropTypes> = ({
   };
 
   if (isSuccess) {
-    return <StatusMessage status="success" title="" />;
+    return (
+      <StatusMessage
+        status="success"
+        title={t('transactions.modal.success.canceled', {
+          orderNumber: merchantOrderId
+        })}
+      />
+    );
   }
 
   if (isError && error && 'data' in error) {

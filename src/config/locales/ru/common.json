@@ -59,6 +59,7 @@
   "transactions.modal.error.exceedAmount": "Сумма компенсации не может превышать сумму заказа",
   "transactions.modal.success.confirmed": "Заказ подтвержден и ожидает доставки",
   "transactions.modal.success.delivered": "Заказ подтвержден и доставлен",
+  "transactions.modal.success.canceled": "Заказ №{{orderNumber}} отменён",
   "transactions.modal.subtitle.cancel": "Укажите причину отмены",
 
   "transactions.modal.select.cancel.byTheClient": "Отмена клиентом",
