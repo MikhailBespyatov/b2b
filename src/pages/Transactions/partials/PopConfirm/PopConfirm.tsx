@@ -1,15 +1,13 @@
 import React, { FC, ReactElement, useState } from 'react';
-import { FormField } from 'arui-feather/form-field';
 import Button from 'arui-feather/button';
 import { Typography } from '@alfalab/core-components/typography';
-import { Col } from '@alfalab/core-components/grid/col';
-import { Row } from '@alfalab/core-components/grid/row';
 
 type PropTypes = {
   title: string;
   text: string;
   okText: string;
   cancelText: string;
+  onCancel: () => void;
   children: ReactElement;
 };
 
@@ -18,6 +16,7 @@ const PopConfirm: FC<PropTypes> = ({
   text,
   okText,
   cancelText,
+  onCancel,
   children
 }) => {
   const [isShowChildren, setIsShowChildren] = useState(false);
@@ -32,30 +31,22 @@ const PopConfirm: FC<PropTypes> = ({
 
   return (
     <>
-      <FormField size="m">
-        <Typography.Title tag="h4" view="medium" weight="bold">
-          {title}
-        </Typography.Title>
-      </FormField>
+      <Typography.Title
+        tag="h4"
+        view="small"
+        weight="bold"
+        className="modal-responsive--title"
+      >
+        {title}
+      </Typography.Title>
       <Typography.Text view="primary-medium">{text}</Typography.Text>
-      <div className="modal-responsive__footer">
-        <Row align="middle">
-          <Col>
-            <Button
-              size="l"
-              view="extra"
-              width="available"
-              onClick={handleButtonClick}
-            >
-              {okText}
-            </Button>
-          </Col>
-          <Col>
-            <Button size="l" view="default" width="available">
-              {cancelText}
-            </Button>
-          </Col>
-        </Row>
+      <div className="mt-24">
+        <Button size="l" type="submit" view="extra" onClick={handleButtonClick}>
+          {okText}
+        </Button>
+        <Button size="l" onClick={onCancel}>
+          {cancelText}
+        </Button>
       </div>
     </>
   );

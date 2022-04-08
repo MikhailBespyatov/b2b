@@ -79,23 +79,25 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
     return <StatusMessage status="success" title={successMessage} />;
   }
 
-  if (isFailedOtp) {
-    // @ts-ignore
+  if (isFailedOtp && errorOtp && 'data' in errorOtp) {
     return <StatusMessage status="error" title={errorOtp?.data?.message} />;
   }
 
   return (
     <>
-      <FormField size="m">
-        <Typography.Title tag="h2" view="medium" weight="bold">
-          {t('transactions.modal.title.confirmDelivery')}
-        </Typography.Title>
-        <p className="modal__subtitle">
-          {t('transactions.modal.subtitle.confirmDelivery', {
-            orderNumber: order.merchant_order_id
-          })}
-        </p>
-      </FormField>
+      <Typography.Title
+        tag="h2"
+        view="medium"
+        weight="bold"
+        className="modal-responsive--title"
+      >
+        {t('transactions.modal.title.confirmDelivery')}
+      </Typography.Title>
+      <p className="modal-responsive--subtitle">
+        {t('transactions.modal.subtitle.confirmDelivery', {
+          orderNumber: order.merchant_order_id
+        })}
+      </p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField size="m">
           <Controller

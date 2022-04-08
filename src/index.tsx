@@ -9,11 +9,12 @@ import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
 import { setToken } from './redux/slices/app-slice';
 import { directoryAPI } from './services/api/directoryApi';
+import { ibkAPI } from './services/api/ibkApi';
 
 const initApp = () => async (dispatch: Dispatch<any>) => {
   const token = Cookies.get('profileId') ?? '62aaaba946f54c1f9d4ad232bf71b6e2';
   await dispatch(setToken(token));
-  // dispatch(ibkAPI.endpoints.getOrganizations.initiate(''));
+  dispatch(ibkAPI.endpoints.getOrganizations.initiate(''));
   dispatch(directoryAPI.endpoints.getStatuses.initiate(''));
 };
 

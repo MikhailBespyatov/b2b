@@ -5,7 +5,6 @@ import { useNavigate } from 'react-location';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import { TagButton } from 'arui-feather/tag-button';
-import AlphaIcon from 'arui-feather/icon/brand/bank-2449';
 import { Space } from '@alfalab/core-components/space';
 import { IconButton } from '@alfalab/core-components/icon-button';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
@@ -104,6 +103,7 @@ export const OrderList: FC<PropTypes> = ({
               text={t('transactions.modal.text.sendForDelivery')}
               okText={t('button.send')}
               cancelText={t('button.cancel')}
+              onCancel={handleModalClose}
             >
               <SmsConfirm
                 order={currentOrder}
@@ -302,9 +302,7 @@ export const OrderList: FC<PropTypes> = ({
         </table>
       </div>
       <ModalResponsive open={open} onClose={handleModalClose} size="m">
-        <ModalResponsive.Header size="m" className="modal-responsive__header">
-          <AlphaIcon size="m" colored />
-        </ModalResponsive.Header>
+        <ModalResponsive.Header hasCloser size="m" />
         <ModalResponsive.Content>
           {renderModalContent(modalType)}
         </ModalResponsive.Content>

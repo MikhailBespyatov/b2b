@@ -106,7 +106,12 @@ const OrderCancel: FC<PropTypes> = ({
 
   return (
     <>
-      <Typography.Title tag="h2" view="medium" weight="bold">
+      <Typography.Title
+        tag="h4"
+        view="small"
+        weight="bold"
+        className="modal-responsive--title"
+      >
         {title} №{merchantOrderId}
       </Typography.Title>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -2,7 +2,6 @@ import React, { FC, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMatch } from 'react-location';
 import { useTranslation } from 'react-i18next';
-import AlphaIcon from 'arui-feather/icon/brand/bank-2449';
 import { Typography } from '@alfalab/core-components/typography';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Spinner } from '@alfalab/core-components/spinner';
@@ -77,6 +76,7 @@ const Transaction: FC = () => {
             text={t('transactions.modal.text.sendForDelivery')}
             okText={t('button.send')}
             cancelText={t('button.cancel')}
+            onCancel={handleModalClose}
           >
             <SmsConfirm
               order={data}
@@ -150,9 +150,7 @@ const Transaction: FC = () => {
           status={statusList[data.app_status]?.toUpperCase()}
         />
         <ModalResponsive open={open} onClose={handleModalClose} size="m">
-          <ModalResponsive.Header size="m" className="modal-responsive__header">
-            <AlphaIcon size="m" colored />
-          </ModalResponsive.Header>
+          <ModalResponsive.Header hasCloser />
           <ModalResponsive.Content>
             {renderModalContent(modalType)}
           </ModalResponsive.Content>

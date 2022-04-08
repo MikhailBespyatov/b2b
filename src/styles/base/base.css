@@ -95,9 +95,19 @@ hr {
   text-align: center;
 }
 
-.modal-responsive__header {
-  padding-left: 14px;
+.modal-responsive--title {
+  margin-bottom: 16px;
 }
+.modal-responsive--subtitle {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #6d7986;
+  margin: 20px 0;
+}
+/* .modal-responsive__header {
+  padding-left: 14px;
+} */
 
 .title-1 {
   font-size: 30px;

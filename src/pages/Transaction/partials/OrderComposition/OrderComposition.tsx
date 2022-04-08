@@ -84,7 +84,7 @@ export const OrderComposition: FC<PropTypes> = ({ isEdit }) => {
             view="small"
             tag="h4"
             weight="bold"
-            className="mb-24"
+            className="modal-responsive--title"
           >
             {t('transactions.modal.title.deleteOrder')}
           </Typography.Title>
