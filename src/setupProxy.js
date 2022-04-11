@@ -5,7 +5,7 @@ const host = 'https://rancher-test.alfa-bank.kz:30001/';
 
 module.exports = function (app) {
   app.use(
-    '/services-ui/api/get-organizations',
+    'https://rancher-test.alfa-bank.kz:30380/services-ui/api/get-organizations',
     createProxyMiddleware({
       target: host,
       changeOrigin: true,
