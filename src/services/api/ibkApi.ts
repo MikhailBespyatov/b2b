@@ -5,7 +5,7 @@ export const ibkAPI = baseEmptyAPI.injectEndpoints({
     getOrganizations: builder.query({
       query: (token: string) => {
         return {
-          url: '/services-ui/api/get-organizations',
+          url: 'https://rancher-test.alfa-bank.kz:30001/services-ui/api/get-organizations',
           headers: {
             token
           }
