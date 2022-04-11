@@ -3,8 +3,14 @@ import { baseEmptyAPI } from './baseQuery';
 export const ibkAPI = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
     getOrganizations: builder.query({
-      query: () =>
-        'https://rancher-test.alfa-bank.kz:30001/services-ui/api/get-organizations'
+      query: (token: string) => {
+        return {
+          url: '/services-ui/api/get-organizations',
+          headers: {
+            token
+          }
+        };
+      }
     })
   })
 });

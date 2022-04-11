@@ -19,7 +19,7 @@ interface CustomError {
 const baseQueryBase = fetchBaseQuery({
   baseUrl: '',
   prepareHeaders: (headers, { getState }) => {
-    const { token } = (getState() as RootStateType).app;
+    const { token } = (getState() as RootStateType).auth;
 
     if (token) {
       headers.set('token', token);

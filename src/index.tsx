@@ -6,17 +6,28 @@ import Cookies from 'js-cookie';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import store from './redux/store';
-import { setToken } from './redux/slices/app-slice';
+import store, { RootStateType } from './redux/store';
 import { directoryAPI } from './services/api/directoryApi';
 import { ibkAPI } from './services/api/ibkApi';
+import { partnerAPI } from './services/api/partnerApi';
+import { setToken } from './redux/slices/auth-slice';
 
-const initApp = () => async (dispatch: Dispatch<any>) => {
-  const token = Cookies.get('profileId') ?? '62aaaba946f54c1f9d4ad232bf71b6e2';
-  await dispatch(setToken(token));
-  dispatch(ibkAPI.endpoints.getOrganizations.initiate(''));
-  dispatch(directoryAPI.endpoints.getStatuses.initiate(''));
-};
+const initApp =
+  () => async (dispatch: Dispatch<any>, getState: () => RootStateType) => {
+    const token =
+      Cookies.get('profileId') ?? '62aaaba946f54c1f9d4ad232bf71b6e2';
+    await dispatch(setToken(token));
+    await Promise.all([
+      dispatch(ibkAPI.endpoints.getOrganizations.initiate(token)),
+      dispatch(directoryAPI.endpoints.getStatuses.initiate(''))
+    ]);
+
+    const { company } = getState().auth;
+
+    if (company.length) {
+      dispatch(partnerAPI.endpoints.getPartner.initiate(company[0].iin));
+    }
+  };
 
 store.dispatch(initApp());
 
