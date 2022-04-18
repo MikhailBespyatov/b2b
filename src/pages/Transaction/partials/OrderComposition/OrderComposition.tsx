@@ -67,11 +67,11 @@ export const OrderComposition: FC<PropTypes> = ({ isEdit }) => {
                 <td>22 300 ₸</td>
                 <td>22 300 ₸</td>
                 <td>
-                  {isEdit && (
+                  {isEdit ? (
                     <IconButton onClick={handleModalOpen}>
                       <TrashCanMIcon />
                     </IconButton>
-                  )}
+                  ) : null}
                 </td>
               </tr>
             </tbody>
