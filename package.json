@@ -17,6 +17,7 @@
     "arui-feather": "^19.2.2",
     "clsx": "^1.1.1",
     "date-fns": "^2.28.0",
+    "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.4",
     "i18next": "^21.6.0",
     "js-cookie": "^3.0.1",
@@ -87,6 +88,5 @@
   "include": [
     "src"
   ],
-  "homepage": "https://rancher-test.alfa-bank.kz:30380/b2b",
-  "proxy": "https://rancher-test.alfa-bank.kz:30380/"
+  "proxy": "https://rancher-test.alfa-bank.kz:30380"
 }
