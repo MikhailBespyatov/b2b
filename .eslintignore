@@ -15,3 +15,6 @@ npm-debug.log
 yarn-error.log
 src/utils
 src/reportWebVitals.ts
+
+server.js
+src/setupProxy.js

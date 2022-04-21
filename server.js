@@ -1,10 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
-app.use(bodyParser({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
