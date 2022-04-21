@@ -87,6 +87,6 @@
   },
   "include": [
     "src"
-  ],
-  "proxy": "https://rancher-test.alfa-bank.kz:30380"
+  ]
+  
 }
