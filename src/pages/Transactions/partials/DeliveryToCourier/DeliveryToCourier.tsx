@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { FormField } from 'arui-feather/form-field';
 import Button from 'arui-feather/button';
 import { Typography } from '@alfalab/core-components/typography';
-import { Col } from '@alfalab/core-components/grid/col';
-import { Row } from '@alfalab/core-components/grid/row';
 import { Spinner } from '@alfalab/core-components/spinner';
 
 import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
@@ -59,26 +57,19 @@ const DeliveryToCourier: FC<PropTypes> = ({
         </Typography.Title>
       </FormField>
       <Typography.Text view="primary-medium">{text}</Typography.Text>
-      <div className="modal-responsive__footer">
-        <Row align="middle">
-          <Col>
-            <Button
-              size="l"
-              view="extra"
-              width="available"
-              onClick={handleSubmit}
-              disabled={isLoading}
-              icon={isLoading && <Spinner visible />}
-            >
-              {t('button.send')}
-            </Button>
-          </Col>
-          <Col>
-            <Button size="l" view="default" width="available">
-              {t('button.cancel')}
-            </Button>
-          </Col>
-        </Row>
+      <div className="mt-24">
+        <Button
+          size="l"
+          view="extra"
+          onClick={handleSubmit}
+          disabled={isLoading}
+          icon={isLoading && <Spinner visible />}
+        >
+          {t('button.send')}
+        </Button>
+        <Button size="l" view="default">
+          {t('button.cancel')}
+        </Button>
       </div>
     </>
   );

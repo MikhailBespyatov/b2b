@@ -1,5 +1,5 @@
 export type ModalType =
-  | 'CONFIRM_ORDER'
+  | 'DELIVERY_TO_COURIER'
+  | 'DELIVERY_TO_CLIENT'
   | 'CONFIRM_CANCEL'
-  | 'DELIVERY_ORDER_OTP'
   | undefined;

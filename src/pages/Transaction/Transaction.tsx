@@ -48,16 +48,6 @@ const Transaction: FC = () => {
 
   const renderModalContent = (type: ModalType) => {
     switch (type) {
-      case 'CONFIRM_ORDER':
-        return (
-          <DeliveryToCourier
-            id={data.id}
-            merchantOrderId={data.merchant_order_id}
-            title={t('transactions.modal.title.sendForDelivery')}
-            text={t('transactions.modal.text.sendForDelivery')}
-            successMessage={t('transactions.modal.title.sentForDelivery')}
-          />
-        );
       case 'CONFIRM_CANCEL':
         return (
           <OrderCancel
@@ -69,7 +59,17 @@ const Transaction: FC = () => {
             handleClose={handleModalClose}
           />
         );
-      case 'DELIVERY_ORDER_OTP':
+      case 'DELIVERY_TO_COURIER':
+        return (
+          <DeliveryToCourier
+            id={data.id}
+            merchantOrderId={data.merchant_order_id}
+            title={t('transactions.modal.title.sendForDelivery')}
+            text={t('transactions.modal.text.sendForDelivery')}
+            successMessage={t('transactions.modal.title.sentForDelivery')}
+          />
+        );
+      case 'DELIVERY_TO_CLIENT':
         return (
           <PopConfirm
             title={t('transactions.modal.title.sendForDelivery')}
@@ -121,8 +121,8 @@ const Transaction: FC = () => {
                   icon={CheckmarkIcon}
                   onClick={handleModalOpen(
                     data.app_status === 'new'
-                      ? 'CONFIRM_ORDER'
-                      : 'DELIVERY_ORDER_OTP'
+                      ? 'DELIVERY_TO_COURIER'
+                      : 'DELIVERY_TO_CLIENT'
                   )}
                 >
                   {t('transaction.buttons.handOver')}
