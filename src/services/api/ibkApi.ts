@@ -5,7 +5,7 @@ export const ibkAPI = baseEmptyAPI.injectEndpoints({
     getOrganizations: builder.query({
       query: (token: string) => {
         return {
-          url: '/ibk/services-ui/api/get-organizations',
+          url: '/services-ui/api/get-organizations',
           headers: {
             token
           }
