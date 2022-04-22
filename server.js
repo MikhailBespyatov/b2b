@@ -42,8 +42,17 @@ app.use('/b2b/404', (req, res) => {
   res.send('404 page not found(test2)');
 });
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.send('server started');
+  // res.sendFile('index.html', { root });
+});
+app.get('/b2b', (req, res) => {
+  res.send('server started b2b');
+  // res.sendFile('index.html', { root });
+});
+
+app.get('*', (req, res) => {
+  res.send('server started all');
   // res.sendFile('index.html', { root });
 });
 
