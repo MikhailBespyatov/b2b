@@ -13,12 +13,37 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(root));
 
+app.get(
+  '/b2b/ibk/*',
+  createProxyMiddleware({
+    target: 'https://rancher-test.alfa-bank.kz:30001/',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/b2b/ibk': '/'
+    }
+  })
+);
+
+app.get(
+  '/ibk/*',
+  createProxyMiddleware({
+    target: 'https://rancher-test.alfa-bank.kz:30001/',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/ibk': '/'
+    }
+  })
+);
+
 app.use('/404', (req, res) => {
   res.send('404 page not found(test)');
 });
+app.use('/b2b/404', (req, res) => {
+  res.send('404 page not found(test2)');
+});
 
 app.get('*', (req, res) => {
-  res.sendFile('index.html');
+  res.sendFile('index.html', { root });
 });
 
 app.listen(process.env.PORT || 3000);
