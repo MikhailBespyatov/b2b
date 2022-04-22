@@ -13,6 +13,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(root));
 
+app.use('/404', (req, res) => {
+  res.send('404 page not found(test)');
+});
+
 app.get('*', (req, res) => {
   res.sendFile('index.html');
 });

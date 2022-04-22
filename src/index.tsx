@@ -21,7 +21,7 @@ const initApp =
       dispatch(ibkAPI.endpoints.getOrganizations.initiate(token)),
       dispatch(directoryAPI.endpoints.getStatuses.initiate(''))
     ]);
-    console.log('start', { token });
+
     const { company } = getState().auth;
 
     if (company.length) {
