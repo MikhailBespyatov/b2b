@@ -43,7 +43,8 @@ app.use('/b2b/404', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile('index.html', { root });
+  res.send('server started');
+  // res.sendFile('index.html', { root });
 });
 
 app.listen(process.env.PORT || 3000);
