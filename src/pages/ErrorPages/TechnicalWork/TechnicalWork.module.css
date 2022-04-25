@@ -1,0 +1,96 @@
+.container {
+  height: 90vh;
+  text-align: center !important;
+}
+
+.cloud_1 {
+  position: absolute;
+  right: 9.05%;
+  top: 120px;
+  left: 4px;
+  height: 99.24px;
+  width: 144.96px;
+}
+
+.cloud_2 {
+  position: absolute;
+  right: 150px;
+  top: 206px;
+  height: 138.78px;
+  width: 202.07px;
+}
+
+.cloud_3 {
+  position: absolute;
+  left: 505px;
+  bottom: 30px;
+  height: 76.65px;
+  width: 111.58px;
+}
+
+.right_vector {
+  vertical-align: top;
+}
+
+.desktop_big_img {
+  width: 45%;
+}
+
+.title {
+  margin-top: 42px;
+  margin-bottom: 36px;
+}
+
+.button {
+  margin-top: 36px;
+}
+/*************** media queries ***************/
+@media (min-width: 320px) {
+  .mobile_style {
+    padding: 5px 15px;
+    margin-top: 20px;
+    position: relative;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    min-height: 55%;
+    width: 290px;
+    height: 290px;
+  }
+
+  .desktop_style {
+    display: none;
+  }
+}
+
+@media (min-width: 1100px) {
+}
+
+@media (min-width: 1024px) {
+  .mobile_style {
+    display: none !important;
+  }
+
+  .desktop_style {
+    display: block;
+    position: relative;
+  }
+
+  .desktop_big_img {
+    margin-top: 6vh;
+  }
+
+  .cloud_1 {
+    top: 70px;
+  }
+
+  .cloud_2 {
+    right: 67px;
+    top: 128px;
+  }
+
+  .cloud_3 {
+    left: 18%;
+    bottom: -35vh;
+  }
+}

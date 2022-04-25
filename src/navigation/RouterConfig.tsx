@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { ReactLocation, Router, Outlet, Navigate } from 'react-location';
+import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
 
-import configs from 'config/enviroments';
 import {
   ANALYTICS,
   ROOT,
@@ -36,6 +36,10 @@ const routes = [
     ]
   },
   {
+    path: 'error',
+    element: <TechnicalWork />
+  },
+  {
     path: ANALYTICS,
     element: <AnalyticsPage />
   },
@@ -53,11 +57,7 @@ const reactLocation = new ReactLocation();
 
 const RouterConfig: FC = () => {
   return (
-    <Router
-      basepath={configs.PUBLIC_URL}
-      location={reactLocation}
-      routes={routes}
-    >
+    <Router basepath="/b2b" location={reactLocation} routes={routes}>
       <Notification />
       <Navbar />
       <Outlet />

@@ -1,0 +1,1 @@
+export { ErrorPageIcon } from './ErrorPage';

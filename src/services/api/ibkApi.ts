@@ -11,16 +11,6 @@ export const ibkAPI = baseEmptyAPI.injectEndpoints({
           }
         };
       }
-    }),
-    getOrganizationsIBK: builder.query({
-      query: (token: string) => {
-        return {
-          url: 'https://rancher-test.alfa-bank.kz:30001/services-ui/api/get-organizations',
-          headers: {
-            token
-          }
-        };
-      }
     })
   })
 });

@@ -6,3 +6,4 @@ export { FilePDFIcon } from './FilePDF';
 export { FileCSVIcon } from './FileCSV';
 export { DashboardIcon } from './Dashboard';
 export { ReportIcon } from './Report';
+export { ErrorPageIcon } from './ErrorPage';

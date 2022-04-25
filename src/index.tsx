@@ -19,7 +19,6 @@ const initApp =
     await dispatch(setToken(token));
     await Promise.all([
       dispatch(ibkAPI.endpoints.getOrganizations.initiate(token)),
-      dispatch(ibkAPI.endpoints.getOrganizationsIBK.initiate(token)),
       dispatch(directoryAPI.endpoints.getStatuses.initiate(''))
     ]);
 
