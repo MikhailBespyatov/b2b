@@ -90,6 +90,5 @@
   "include": [
     "src"
   ],
-  "proxy": "https://rancher-test.alfa-bank.kz:30380",
-  "homepage": "/b2b"
+  "proxy": "https://rancher-test.alfa-bank.kz:30380/"
 }

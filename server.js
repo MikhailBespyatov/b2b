@@ -1,59 +1,45 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
-var cors = require('cors');
-
+const cors = require('cors');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
-const root = require('path').join(__dirname, 'build');
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(root));
+// app.use(cors());
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
-app.get(
-  '/b2b/ibk/*',
+app.use(express.static(path.join(__dirname, '/build')));
+
+app.use(
+  '/api/ibk*',
   createProxyMiddleware({
     target: 'https://rancher-test.alfa-bank.kz:30001/',
     changeOrigin: true,
     pathRewrite: {
-      '^/b2b/ibk': '/'
+      '^/api/ibk': '/'
     }
   })
 );
 
-app.get(
-  '/ibk/*',
+app.use(
+  '/api/*',
   createProxyMiddleware({
-    target: 'https://rancher-test.alfa-bank.kz:30001/',
+    target: 'https://rancher-test.alfa-bank.kz:30380/',
     changeOrigin: true,
     pathRewrite: {
-      '^/ibk': '/'
+      '^/api/': '/'
     }
   })
 );
-
-app.use('/404', (req, res) => {
-  res.send('404 page not found(test)');
-});
-app.use('/b2b/404', (req, res) => {
-  res.send('404 page not found(test2)');
-});
-
-app.get('/', (req, res) => {
-  res.send('server started');
-  // res.sendFile('index.html', { root });
-});
-app.get('/b2b', (req, res) => {
-  res.send('server started b2b');
-  // res.sendFile('index.html', { root });
-});
 
 app.get('*', (req, res) => {
-  res.send('server started all');
-  // res.sendFile('index.html', { root });
+  res.sendFile(path.join(__dirname, '/build', 'index.html'));
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(3000, () => {
+  console.log(`Example app listening at http://localhost:3000`);
+});

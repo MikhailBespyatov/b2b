@@ -17,4 +17,5 @@ src/utils
 src/reportWebVitals.ts
 
 server.js
+webpack.config.js
 src/setupProxy.js
