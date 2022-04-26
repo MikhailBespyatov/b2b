@@ -26,7 +26,7 @@
 FROM registry-test.alfa-bank.kz/node:10.15.3-alpine
 COPY package.json /srv/package.json
 COPY build /srv/build
-COPY server.js /srv/server.js
+COPY build/server.js /srv/server.js
 
 WORKDIR /srv
 
