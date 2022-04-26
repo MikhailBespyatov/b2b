@@ -1,7 +1,19 @@
+.mobile-only {
+  display: none;
+}
+
 /* Extra small devices (phones, 599px and down) */
 @media only screen and (max-width: 599px) {
   .mobile-block {
     display: block;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
   }
 }
 
@@ -18,5 +30,9 @@
   .table-pagination {
     display: flex;
     justify-content: space-between;
+  }
+
+  .desktop-only {
+    display: block;
   }
 }

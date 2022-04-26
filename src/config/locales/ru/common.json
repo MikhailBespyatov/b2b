@@ -7,6 +7,10 @@
   "page.nav.tab_3": "Аналитика",
   "page.nav.tab_4": "Взаиморасчеты",
 
+  "page.error.tech_work.title": "Сейчас у нас технические работы",
+  "page.error.tech_work.text": "Улучшаем сервис для вас. Попробуйте зайти чуть позже",
+  "page.error.tech_work.button": "Вернуться в магазин",
+
   "date.range.from": "с",
   "date.range.till": "по",
 

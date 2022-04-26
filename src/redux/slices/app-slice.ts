@@ -1,10 +1,12 @@
 import { createSelector, createSlice, Reducer } from '@reduxjs/toolkit';
+import { IError } from 'models/IError';
 import { INotification } from 'models/INotification';
 import { IStatusOption } from 'models/IStatus';
 import type { RootStateType } from '../store';
 
 const initialState = {
   notifications: [] as INotification[],
+  error: {} as IError,
   statuses: {
     list: {} as Record<string, string>,
     unique: [] as IStatusOption[]
@@ -31,6 +33,8 @@ export const selectStatusesUnique = createSelector(
   selectStatuses,
   state => state.unique
 );
+
+export const selectAppError = createSelector(selectApp, state => state.error);
 
 const appSlice = createSlice({
   name: 'app',

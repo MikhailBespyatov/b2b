@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { ReactLocation, Router, Outlet, Navigate } from 'react-location';
+import { RootStateType } from 'redux/store';
+import { selectAppError } from 'redux/slices/app-slice';
 import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
 
 import {
@@ -36,10 +39,6 @@ const routes = [
     ]
   },
   {
-    path: 'error',
-    element: <TechnicalWork />
-  },
-  {
     path: ANALYTICS,
     element: <AnalyticsPage />
   },
@@ -56,6 +55,14 @@ const routes = [
 const reactLocation = new ReactLocation();
 
 const RouterConfig: FC = () => {
+  const { code: errorCode } = useSelector((state: RootStateType) =>
+    selectAppError(state)
+  );
+
+  if (errorCode) {
+    return <TechnicalWork />;
+  }
+
   return (
     <Router basepath="/b2b" location={reactLocation} routes={routes}>
       <Notification />
