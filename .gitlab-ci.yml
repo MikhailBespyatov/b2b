@@ -1,9 +1,40 @@
 stages:
+  - build
   - containerize
   - deploy
 
 variables:
   DOCKER_BUILDKIT: 1
+
+build:
+  image: registry-proxy.alfa-bank.kz/node:10.15.3-alpine
+  stage: build
+  only:
+    - branches
+  variables:
+    BASE_GATEWAY_TIMEOUT: 60000
+    VERSION_TAG: $CI_COMMIT_SHORT_SHA
+  artifacts:
+    when: on_success
+    expire_in: 1 hour
+    paths:
+      - build
+  script:
+    - export CI_COMMIT_REF_NAME=$(echo $CI_COMMIT_REF_NAME | sed 's/\//\-/g')
+    - export BUILD_DATE=$(date -u '+%d.%m.%Y %H:%M')
+    - echo '[BUILD PREPARE] git version' $(git describe)
+    - echo '[BUILD PREPARE] nodejs version' $(node --version)
+    - echo '[BUILD PREPARE] yarn version' $(yarn --version)
+    - echo '[BUILD PREPARE] Setting up yarn to use non-strict SSL'
+    - yarn config set "strict-ssl" false -g
+    - yarn config set "registry" "https://nexus3.alfa-bank.kz/repository/npm/" -g
+    - yarn config set cache-folder /opt/gitlab-runner/yarncache
+    - yarn config set cache /opt/gitlab-runner/yarncache
+    - echo '[BUILD STARTED]'
+    - echo '[BUILD] Run yarn to generate frontend'
+    - rm -f node_modules/.yarn-integrity && yarn install --cache-folder=/root/.yarn-cache --ignore-scripts
+    - yarn run build
+    - yarn run build:serve
 
 include:
   - project: "cicd/gitlab-ci-templates"
