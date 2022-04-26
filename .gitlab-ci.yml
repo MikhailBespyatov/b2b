@@ -32,7 +32,7 @@ build:
     - yarn config set cache /opt/gitlab-runner/yarncache
     - echo '[BUILD STARTED]'
     - echo '[BUILD] Run yarn to generate frontend'
-    - rm -f node_modules/.yarn-integrity && yarn install --cache-folder=/root/.yarn-cache --ignore-scripts
+    - rm -f node_modules/.yarn-integrity && yarn install --ignore-engines --cache-folder=/root/.yarn-cache --ignore-scripts
     - yarn run build
     - yarn run build:serve
 
