@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
 import { format } from 'date-fns';
+import { useAccess } from 'react-acceder';
 import FormField from 'arui-feather/form-field';
 import { Label } from 'arui-feather/label';
 import Input from 'arui-feather/input';
@@ -39,6 +40,8 @@ type IFormValues = {
 
 const Transactions: FC = () => {
   const { t } = useTranslation();
+  const user = useAccess();
+
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       orderId: undefined,
@@ -331,14 +334,17 @@ const Transactions: FC = () => {
         </div>
       )}
       {renderTableExport}
-      <OrderList
-        data={currentData?.orders}
-        limit={limit}
-        isLoading={isFetching}
-        isSuccess={isSuccess}
-        orderSort={tableSort}
-        handleChangeSort={handleChangeSort}
-      />
+      {user.can('SHOW_TRANSACTION_TABLE') && (
+        <OrderList
+          data={currentData?.orders}
+          limit={limit}
+          isLoading={isFetching}
+          isSuccess={isSuccess}
+          orderSort={tableSort}
+          handleChangeSort={handleChangeSort}
+        />
+      )}
+
       <div className="mb-20">
         <div className="table-pagination">
           <Select
