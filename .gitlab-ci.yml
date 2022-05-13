@@ -13,3 +13,5 @@ include:
 
 dockerize_test:
   image: registry-proxy.alfa-bank.kz/docker:20.10
+dockerize_prod:
+  image: registry-proxy.alfa-bank.kz/docker:20.10
