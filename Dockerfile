@@ -3,9 +3,9 @@ FROM registry-test.alfa-bank.kz/bnpl/node16.13.1-yarn1.22.17 as builder
 WORKDIR /srv
 COPY . /srv/
 RUN <<eot
-  env REACT_APP_VERSION=$(git describe --always)
-  env PUBLIC_URL=/b2b
-  env CI=false
+  export REACT_APP_VERSION=$(git describe --always)
+  export PUBLIC_URL=/b2b
+  export CI=false
   yarn install --network-timeout 100000 --non-interactive --pure-lockfile
   yarn run build
 eot
