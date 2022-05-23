@@ -89,8 +89,8 @@
 
   "transactions.filter.title": "Фильтры",
 
-  "transactions.filter.orderNumber": "№ заказа",
-  "transactions.filter.transactionNumber": "№ транзакции",
+  "transactions.filter.orderId": "№ заказа",
+  "transactions.filter.id": "№ транзакции",
   "transactions.filter.createdDate": "Дата оформления",
   "transactions.filter.orderStatus": "Статус заказа",
   "transactions.filter.deliveredDate": "Дата доставки",

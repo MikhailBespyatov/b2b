@@ -28,11 +28,12 @@ import { phoneNumberWithoutFormat } from 'utils/formatter/phoneNumberFormatter';
 import { TableExport, OrderList } from './partials';
 
 import './Transactions.css';
+import { objectClear } from '../../utils/objectClear';
 
 type IFormValues = {
   orderId: string;
+  id: number;
   status: string[];
-  merchant_order_id: number;
   order_amount: number;
   dateCreate: string;
   deliveryDate: string;
@@ -47,8 +48,8 @@ const Transactions: FC = () => {
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       orderId: undefined,
-      merchant_order_id: '',
-      status: undefined,
+      id: undefined,
+      status: '',
       order_amount: '',
       dateCreate: '',
       deliveryDate: '',
@@ -58,12 +59,12 @@ const Transactions: FC = () => {
 
   const [queryParams, setQueryParams] = useState<IOrderFilter>({
     orderId: undefined,
-    merchant_order_id: undefined,
-    status: undefined,
-    order_amount: undefined,
-    dateCreate: undefined,
-    deliveryDate: undefined,
-    ph_number: undefined
+    id: undefined,
+    status: '',
+    order_amount: '',
+    dateCreate: '',
+    deliveryDate: '',
+    ph_number: ''
   });
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,7 +79,7 @@ const Transactions: FC = () => {
   );
 
   const { currentData, isFetching, isSuccess } = useGetTransactionsQuery({
-    ...queryParams,
+    ...objectClear(queryParams),
     merchantId: merchantId ?? 1,
     sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
     page: currentPage,
@@ -103,13 +104,14 @@ const Transactions: FC = () => {
 
   const onSubmit = handleSubmit((values: IFormValues) => {
     const newParams = {
-      orderId: values.orderId ? values.orderId : undefined,
-      status: values.status ? values.status : undefined,
-      order_amount: values.order_amount ? values.order_amount : undefined,
+      orderId: values.orderId ?? undefined,
+      id: values.id ?? undefined,
+      status: values.status ?? undefined,
+      order_amount: values.order_amount ?? undefined,
       dateCreate: undefined,
       deliveryDate: undefined,
       ph_number: undefined
-    } as IOrderFilter;
+    } as unknown as IOrderFilter;
 
     if (values.status) {
       newParams.status = optionValues[Number(values.status)].values?.[0];
@@ -133,16 +135,16 @@ const Transactions: FC = () => {
   });
 
   const handleReset = () => {
-    reset();
     setQueryParams({
       orderId: undefined,
-      merchant_order_id: '',
+      id: undefined,
       status: undefined,
       order_amount: '',
       dateCreate: '',
       deliveryDate: '',
       ph_number: ''
     });
+    reset();
   };
 
   return (
@@ -171,17 +173,19 @@ const Transactions: FC = () => {
               >
                 <FormField size="m">
                   <Controller
-                    name="merchant_order_id"
+                    name="orderId"
                     control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        size="s"
-                        label={t('transactions.filter.orderNumber')}
-                        name="number"
-                        width="available"
-                      />
-                    )}
+                    render={({ field: { value = '', onChange } }) => {
+                      return (
+                        <Input
+                          size="s"
+                          label={t('transactions.filter.orderId')}
+                          width="available"
+                          value={value}
+                          onChange={inputValue => onChange(inputValue)}
+                        />
+                      );
+                    }}
                   />
                 </FormField>
                 <FormField size="m">
@@ -209,14 +213,15 @@ const Transactions: FC = () => {
               >
                 <FormField size="m">
                   <Controller
-                    name="orderId"
+                    name="id"
                     control={control}
-                    render={({ field }) => (
+                    render={({ field: { value = '', onChange } }) => (
                       <Input
                         size="s"
                         width="available"
-                        label={t('transactions.filter.transactionNumber')}
-                        {...field}
+                        label={t('transactions.filter.id')}
+                        value={value}
+                        onChange={inputValue => onChange(inputValue)}
                       />
                     )}
                   />
@@ -225,7 +230,7 @@ const Transactions: FC = () => {
                   <Controller
                     name="deliveryDate"
                     control={control}
-                    render={({ field: { onChange, value } }) => (
+                    render={({ field: { value, onChange } }) => (
                       <CalendarInput
                         label={t('transactions.filter.deliveredDate')}
                         width="available"
@@ -312,8 +317,15 @@ const Transactions: FC = () => {
                             width="available"
                             label={t('transactions.filter.orderStatus')}
                             mode="radio"
-                            options={optionValues}
-                            value={value || []}
+                            options={[
+                              {
+                                value: '',
+                                text: 'Не выбран',
+                                values: []
+                              },
+                              ...optionValues
+                            ]}
+                            value={[value]}
                             onChange={values => {
                               onChange(values?.[0]);
                             }}

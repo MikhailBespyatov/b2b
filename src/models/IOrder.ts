@@ -30,18 +30,9 @@ export interface IOrderSort {
   sort: IOrderSortOptions;
 }
 
-export type IOrderFilterFields =
-  | 'merchant_order_id'
-  | 'ph_number'
-  | 'created_at'
-  | 'otp_updated_at'
-  | 'app_status'
-  | 'order_amount'
-  | '';
-
 export interface IOrderFilter {
-  orderId: number | undefined;
-  merchant_order_id: string | undefined;
+  id: number | undefined;
+  orderId: string | undefined;
   status: string | undefined;
   order_amount: string | undefined;
   dateCreate: string | undefined;

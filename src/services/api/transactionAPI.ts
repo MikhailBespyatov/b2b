@@ -6,6 +6,7 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
       query: ({
         merchantId,
         orderId,
+        id,
         dateCreate,
         deliveryDate,
         order_amount,
@@ -19,6 +20,7 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
         params: {
           merchantId,
           orderId,
+          id,
           dateCreate,
           deliveryDate,
           order_amount,
