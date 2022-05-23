@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMatch } from 'react-location';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@alfalab/core-components/typography';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
@@ -23,11 +23,10 @@ import {
   PopConfirm,
   SmsConfirm
 } from '../Transactions/partials';
-import { OrderInfo } from './partials/OrderInfo';
 import './Transaction.css';
 
 const Transaction: FC = () => {
-  const { params } = useMatch();
+  const { id } = useParams();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -35,8 +34,7 @@ const Transaction: FC = () => {
   const statusList = useSelector((state: RootStateType) =>
     selectStatusesList(state)
   );
-  const { data, isLoading, isSuccess } = useGetTransactionByIdQuery(params.id);
-
+  const { data, isLoading, isSuccess } = useGetTransactionByIdQuery(id);
   const handleModalOpen = (type: ModalType) => (): void => {
     setOpen(true);
     setModalType(type);
@@ -139,10 +137,7 @@ const Transaction: FC = () => {
             )}
           </div>
         )}
-        <OrderInfo
-          order={data}
-          status={statusList[data.app_status]?.toUpperCase()}
-        />
+
         <BuyerInfo order={data} />
         <OrderComposition isEdit={isEdit} />
         <ChangesHistory

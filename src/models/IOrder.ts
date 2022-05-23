@@ -1,4 +1,4 @@
-export interface IOrder {
+export interface IOrderInfo {
   id: number;
   merchant_order_id: number;
   amount: number;
@@ -7,6 +7,19 @@ export interface IOrder {
   created_at: string;
   otp_updated_at: string;
   fio?: string;
+}
+
+export interface IClientInfo {
+  cLastName: string;
+  cMiddleName: string;
+  cName: string;
+  phoneNumber: string;
+}
+
+export interface IOrder {
+  applicationDetail: null;
+  clientInfo: IClientInfo;
+  orderInfo: IOrderInfo;
 }
 
 export type IOrderSortFields = 'id' | 'created_at' | 'items_amount' | '';

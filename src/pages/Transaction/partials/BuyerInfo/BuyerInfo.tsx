@@ -44,8 +44,10 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
               <Label>{t('user.phoneNumber')}:</Label>
               <span className="ml-4">
                 <Link
-                  text={phoneNumberFormatter(order.phoneNumber)}
-                  url={`tel:${phoneNumberFormatter(order.phoneNumber)}`}
+                  text={phoneNumberFormatter(order.clientInfo.phoneNumber)}
+                  url={`tel:${phoneNumberFormatter(
+                    order.clientInfo.phoneNumber
+                  )}`}
                   size="m"
                   view="blue"
                 />

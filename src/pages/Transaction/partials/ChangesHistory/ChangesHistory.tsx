@@ -42,12 +42,15 @@ export const ChangesHistory: FC<PropTypes> = ({ order, status }) => {
             <tbody>
               <tr>
                 <td>
-                  {format(parseISO(order.created_at), 'dd.MM.yyyy, HH:mm')}
+                  {format(
+                    parseISO(order.orderInfo.created_at),
+                    'dd.MM.yyyy, HH:mm'
+                  )}
                 </td>
                 <td>
                   <TagButton
                     size="s"
-                    className={`status status-${order.app_status} bold-700`}
+                    className={`status status-${order.orderInfo.app_status} bold-700`}
                   >
                     {status ??
                       t('transactions.status.type.unexpected').toUpperCase()}

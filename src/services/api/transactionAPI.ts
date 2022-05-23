@@ -4,6 +4,7 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
     getTransactions: builder.query({
       query: ({
+        merchantId,
         orderId,
         dateCreate,
         deliveryDate,
@@ -16,7 +17,7 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
       }) => ({
         url: '/accounting/applications',
         params: {
-          merchantId: 1,
+          merchantId,
           orderId,
           dateCreate,
           deliveryDate,
@@ -69,6 +70,9 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
       invalidatesTags: (result, error, arg) => [
         { type: 'Transactions', id: arg.id }
       ]
+    }),
+    getMerchants: builder.query({
+      query: () => '/partners'
     })
   }),
   overrideExisting: false
@@ -76,6 +80,7 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
 
 export const {
   useGetTransactionsQuery,
+  useGetMerchantsQuery,
   useGetTransactionByIdQuery,
   usePostSendOtpMutation,
   usePostCheckOtpMutation,

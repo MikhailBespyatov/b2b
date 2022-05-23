@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 import { useAccess } from 'react-acceder';
+import { useLocation } from 'react-router-dom';
 import FormField from 'arui-feather/form-field';
 import { Label } from 'arui-feather/label';
 import Input from 'arui-feather/input';
@@ -41,6 +42,7 @@ type IFormValues = {
 const Transactions: FC = () => {
   const { t } = useTranslation();
   const user = useAccess();
+  const { state: merchantId } = useLocation();
 
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
@@ -77,6 +79,7 @@ const Transactions: FC = () => {
 
   const { currentData, isFetching, isSuccess } = useGetTransactionsQuery({
     ...queryParams,
+    merchantId: merchantId ?? 1,
     sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
     page: currentPage,
     limit
@@ -344,7 +347,6 @@ const Transactions: FC = () => {
           handleChangeSort={handleChangeSort}
         />
       )}
-
       <div className="mb-20">
         <div className="table-pagination">
           <Select

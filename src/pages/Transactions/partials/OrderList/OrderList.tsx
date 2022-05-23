@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-location';
+import { useNavigate } from 'react-router-dom';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import { TagButton } from 'arui-feather/tag-button';
@@ -20,7 +20,7 @@ import {
   CrossHeavyIcon,
   PencilHeavyIcon
 } from 'components/ui/icons';
-import { IOrder, IOrderSort, IOrderSortFields } from 'models/IOrder';
+import { IOrderInfo, IOrderSort, IOrderSortFields } from 'models/IOrder';
 import { sortOperator } from 'utils/sorts';
 import { RootStateType } from 'redux/store';
 import { selectStatusesList } from 'redux/slices/app-slice';
@@ -35,7 +35,7 @@ import {
 } from '../index';
 
 type PropTypes = {
-  data: IOrder[];
+  data: IOrderInfo[];
   limit: number;
   isLoading: boolean;
   isSuccess: boolean;
@@ -55,13 +55,13 @@ export const OrderList: FC<PropTypes> = ({
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
-  const [currentOrder, setCurrentOrder] = useState<IOrder>();
+  const [currentOrder, setCurrentOrder] = useState<IOrderInfo>();
   const statusList = useSelector((state: RootStateType) =>
     selectStatusesList(state)
   );
 
   const handleModalOpen =
-    (type: ModalType, order: IOrder) => (e: React.SyntheticEvent) => {
+    (type: ModalType, order: IOrderInfo) => (e: React.SyntheticEvent) => {
       e.stopPropagation();
       setOpen(true);
       setModalType(type);
@@ -129,7 +129,7 @@ export const OrderList: FC<PropTypes> = ({
   };
 
   const handleItemClick = (id: number) => () => {
-    navigate({ to: `${TRANSACTIONS}/${id}`, replace: true });
+    navigate(`${TRANSACTIONS}/${id}`, { replace: true });
   };
 
   const renderSortButton = (field: IOrderSortFields) => {
@@ -215,7 +215,7 @@ export const OrderList: FC<PropTypes> = ({
               })}
             {isSuccess &&
               Array.isArray(data) &&
-              data.map((item: IOrder) => {
+              data.map((item: IOrderInfo) => {
                 return (
                   <tr
                     key={item.id}

@@ -43,7 +43,10 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
             <div className="collapse__box-item">
               <Label>{t('transaction.data.registrationDate')}:</Label>
               <span className="ml-4">
-                {format(parseISO(order.created_at), 'dd.MM.yyyy HH:mm')}
+                {format(
+                  parseISO(order.orderInfo.created_at),
+                  'dd.MM.yyyy HH:mm'
+                )}
               </span>
             </div>
           </Grid.Col>
@@ -57,7 +60,10 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
             <div className="collapse__box-item">
               <Label>{t('transactions.filter.deliveredDate')}:</Label>
               <span className="ml-4">
-                {format(parseISO(order.created_at), 'dd.MM.yyyy HH:mm')}
+                {format(
+                  parseISO(order.orderInfo.created_at),
+                  'dd.MM.yyyy HH:mm'
+                )}
               </span>
             </div>
           </Grid.Col>
@@ -73,7 +79,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
               <span className="ml-4">
                 <TagButton
                   size="s"
-                  className={`status status-${order.app_status} bold-700`}
+                  className={`status status-${order.orderInfo.app_status} bold-700`}
                 >
                   {status ??
                     t('transactions.status.type.unexpected').toUpperCase()}
@@ -91,7 +97,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
             <div className="collapse__box-item">
               <Label>{t('transaction.data.orderAmount')}:</Label>
               <span className="ml-4">
-                {moneyFormatter.format(order.amount)}
+                {moneyFormatter.format(order.orderInfo.amount)}
               </span>
             </div>
           </Grid.Col>
@@ -105,7 +111,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
             <div className="collapse__box-item">
               <Label>{t('transaction.data.bankCommission')}:</Label>
               <span className="ml-4">
-                {moneyFormatter.format(order.amount)}
+                {moneyFormatter.format(order.orderInfo.amount)}
               </span>
             </div>
           </Grid.Col>
@@ -119,7 +125,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
             <div className="collapse__box-item">
               <Label>{t('transaction.data.amountToBePaid')}:</Label>
               <span className="ml-4">
-                {moneyFormatter.format(order.amount)}
+                {moneyFormatter.format(order.orderInfo.amount)}
               </span>
             </div>
           </Grid.Col>

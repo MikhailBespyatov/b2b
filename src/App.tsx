@@ -4,6 +4,7 @@ import { ReactAccederProvider } from 'react-acceder';
 
 import RouterConfig from './navigation/RouterConfig';
 import i18n from './i18n';
+import { Notification } from './components';
 
 import './styles/styles.css';
 
@@ -11,6 +12,7 @@ const App: FC = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <ReactAccederProvider permissions={['SHOW_TRANSACTION_TABLE']}>
+        <Notification />
         <RouterConfig />
       </ReactAccederProvider>
     </I18nextProvider>

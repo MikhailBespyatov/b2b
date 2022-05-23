@@ -9,7 +9,7 @@ import { Spinner } from '@alfalab/core-components/spinner';
 import { Row } from '@alfalab/core-components/grid/row';
 import { Col } from '@alfalab/core-components/grid/col';
 
-import { IOrder } from 'models/IOrder';
+import { IOrderInfo } from 'models/IOrder';
 import {
   usePostCheckOtpMutation,
   usePostSendOtpMutation
@@ -17,7 +17,7 @@ import {
 import { StatusMessage } from '../index';
 
 type PropTypes = {
-  order: IOrder;
+  order: IOrderInfo;
   successMessage: string;
 };
 

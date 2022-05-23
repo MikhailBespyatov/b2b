@@ -38,7 +38,7 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
                 {t('transaction.data.registrationDate')}:
               </Label>
               <span className="collapse__box-value">
-                {format(parseISO(order.created_at), 'dd.MM.yyyy')}
+                {format(parseISO(order.orderInfo.created_at), 'dd.MM.yyyy')}
               </span>
             </div>
           </Grid.Col>
@@ -50,10 +50,10 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
               <span className="collapse__box-value">
                 <TagButton
                   size="s"
-                  className={`status status-${order.app_status}`}
+                  className={`status status-${order.orderInfo.app_status}`}
                 >
                   {t(
-                    `transactions.status.type.${order.app_status}`
+                    `transactions.status.type.${order.orderInfo.app_status}`
                   ).toUpperCase()}
                 </TagButton>
               </span>
@@ -65,7 +65,7 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
                 {t('transaction.data.orderAmount')}:
               </Label>
               <span className="collapse__box-value">
-                {moneyFormatter.format(order.amount)}
+                {moneyFormatter.format(order.orderInfo.amount)}
               </span>
             </div>
           </Grid.Col>
@@ -75,7 +75,7 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
                 {t('transaction.data.bankCommission')}:
               </Label>
               <span className="collapse__box-value">
-                {moneyFormatter.format(order.amount)}
+                {moneyFormatter.format(order.orderInfo.amount)}
               </span>
             </div>
           </Grid.Col>
@@ -85,7 +85,7 @@ export const OrderHistory: FC<PropTypes> = ({ order }) => {
                 {t('transaction.data.amountToBePaid')}:
               </Label>
               <span className="collapse__box-value">
-                {moneyFormatter.format(order.amount)}
+                {moneyFormatter.format(order.orderInfo.amount)}
               </span>
             </div>
           </Grid.Col>

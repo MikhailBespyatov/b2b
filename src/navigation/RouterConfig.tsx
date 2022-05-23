@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { ReactLocation, Router, Outlet, Navigate } from 'react-location';
+import { Navigate, BrowserRouter, useRoutes } from 'react-router-dom';
 import { RootStateType } from 'redux/store';
 import { selectAppError } from 'redux/slices/app-slice';
 import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
@@ -8,51 +8,55 @@ import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
 import {
   ANALYTICS,
   ROOT,
+  SETTINGS,
   SETTLEMENTS,
   STATISTICS,
   TRANSACTIONS
 } from './CONSTANTS';
 import {
-  TransactionPage,
   TransactionsPage,
   StatisticsPage,
-  AnalyticsPage
+  AnalyticsPage,
+  SettingsPage,
+  TransactionPage
 } from '../pages';
-import { Navbar, Notification } from '../components';
+import configs from '../config/enviroments';
+import { Navbar } from '../components';
 
-const routes = [
-  {
-    path: ROOT,
-    element: <Navigate to={TRANSACTIONS} />
-  },
-  {
-    path: TRANSACTIONS,
-    children: [
-      {
-        path: '/',
-        element: <TransactionsPage />
-      },
-      {
-        path: `:id`,
-        element: <TransactionPage />
-      }
-    ]
-  },
-  {
-    path: ANALYTICS,
-    element: <AnalyticsPage />
-  },
-  {
-    path: STATISTICS,
-    element: <StatisticsPage />
-  },
-  {
-    path: SETTLEMENTS,
-    element: <>SETTLEMENTS</>
-  }
-];
+const AppRoutes = () => {
+  const routes = useRoutes([
+    {
+      path: ROOT,
+      element: <Navigate to={TRANSACTIONS} />
+    },
+    {
+      path: TRANSACTIONS,
+      element: <TransactionsPage />
+    },
+    {
+      path: `${TRANSACTIONS}/:id`,
+      element: <TransactionPage />
+    },
+    {
+      path: ANALYTICS,
+      element: <AnalyticsPage />
+    },
+    {
+      path: STATISTICS,
+      element: <StatisticsPage />
+    },
+    {
+      path: SETTLEMENTS,
+      element: <>SETTLEMENTS</>
+    },
+    {
+      path: SETTINGS,
+      element: <SettingsPage />
+    }
+  ]);
 
-const reactLocation = new ReactLocation();
+  return routes;
+};
 
 const RouterConfig: FC = () => {
   const { code: errorCode } = useSelector((state: RootStateType) =>
@@ -64,11 +68,10 @@ const RouterConfig: FC = () => {
   }
 
   return (
-    <Router basepath="/b2b" location={reactLocation} routes={routes}>
-      <Notification />
+    <BrowserRouter basename={configs.PUBLIC_URL}>
       <Navbar />
-      <Outlet />
-    </Router>
+      <AppRoutes />
+    </BrowserRouter>
   );
 };
 

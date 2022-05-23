@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useRouter } from 'react-location';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Tabs from 'arui-feather/tabs';
 import TabItem from 'arui-feather/tab-item';
-import configs from 'config/enviroments';
 
 import {
   ANALYTICS,
+  SETTINGS,
   SETTLEMENTS,
   STATISTICS,
   TRANSACTIONS
@@ -16,9 +16,7 @@ import { TabsType } from './model';
 const Navbar: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const {
-    state: { matches }
-  } = useRouter();
+  const { pathname } = useLocation();
 
   const tabs: TabsType = {
     tab_1: {
@@ -36,15 +34,19 @@ const Navbar: FC = () => {
     tab_4: {
       title: 'page.nav.tab_4',
       url: SETTLEMENTS
+    },
+    tab_5: {
+      title: 'page.nav.tab_5',
+      url: SETTINGS
     }
   };
 
   const handleClick = (event: any) => {
     event.preventDefault();
     if (event.target.getAttribute('href')) {
-      navigate({ to: event.target.getAttribute('href'), replace: true });
+      navigate(event.target.getAttribute('href'), { replace: true });
     } else {
-      navigate({ to: matches[0]?.id, replace: true });
+      navigate(pathname, { replace: true });
     }
   };
 
@@ -54,9 +56,9 @@ const Navbar: FC = () => {
         return (
           <TabItem
             key={key}
-            url={configs.PUBLIC_URL + tabs[key].url}
+            url={tabs[key].url}
             onClick={handleClick}
-            checked={matches[0]?.id === tabs[key].url}
+            checked={pathname === tabs[key].url}
             className="c-pointer"
           >
             {t(`page.nav.${key}`)}
