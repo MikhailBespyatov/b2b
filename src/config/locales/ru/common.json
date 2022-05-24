@@ -24,6 +24,8 @@
   "button.apply": "Применить",
   "button.reset": "Сбросить",
 
+  "system.param.notSpecified": "Не указано",
+
   "user.surname": "Фамилия",
   "user.name": "Имя",
   "user.middleName": "Отчество",

@@ -38,7 +38,9 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
           >
             <div className="collapse__box-item">
               <Label>{t('user.surname')}:</Label>
-              <span className="ml-4">{order.cLastName}</span>
+              <span className="ml-4">
+                {order.cLastName || t('system.param.notSpecified')}
+              </span>
             </div>
             <div className="collapse__box-item">
               <Label>{t('user.phoneNumber')}:</Label>
@@ -49,6 +51,20 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
                   size="m"
                   view="blue"
                 />
+              </span>
+            </div>
+          </Grid.Col>
+          <Grid.Col
+            width={{
+              mobile: { s: 12, m: 12, l: 12 },
+              tablet: { s: 4, m: 4, l: 4 },
+              desktop: { s: 4, m: 4, l: 4 }
+            }}
+          >
+            <div className="collapse__box-item">
+              <Label>{t('user.name')}:</Label>
+              <span className="ml-4">
+                {order.cName || t('system.param.notSpecified')}
               </span>
             </div>
             <div className="collapse__box-item">
@@ -64,31 +80,9 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
             }}
           >
             <div className="collapse__box-item">
-              <Label>{t('user.name')}:</Label>
-              <span className="ml-4">{order.cName}</span>
-            </div>
-            <div className="collapse__box-item">
-              <Label>{t('user.email')}:</Label>
-              <span className="ml-4">bandyukov_anatoliy@mail.ru</span>
-            </div>
-          </Grid.Col>
-          <Grid.Col
-            width={{
-              mobile: { s: 12, m: 12, l: 12 },
-              tablet: { s: 4, m: 4, l: 4 },
-              desktop: { s: 4, m: 4, l: 4 }
-            }}
-          >
-            <div className="collapse__box-item">
               <Label>{t('user.middleName')}:</Label>
-              <span className="ml-4">{order.cMiddleName}</span>
-            </div>
-            <div className="collapse__box-item">
-              <Label>{t('user.comment')}:</Label>
-              <br />
               <span className="ml-4">
-                Не доставляйте до 8 утра, я сплю как удав, поэтому курьер не
-                дозвонится — я не услышу звонок
+                {order.cMiddleName || t('system.param.notSpecified')}
               </span>
             </div>
           </Grid.Col>

@@ -59,7 +59,7 @@ export const OrderComposition: FC<PropTypes> = ({
               </tr>
             </thead>
             <tbody>
-              {applicationDetail.map(item => {
+              {applicationDetail?.map(item => {
                 return (
                   <tr>
                     <td>{item.itemName}</td>
