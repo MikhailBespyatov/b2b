@@ -13,12 +13,17 @@ import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Col } from '@alfalab/core-components/grid/col';
 import { Row } from '@alfalab/core-components/grid/row';
 import { Typography } from '@alfalab/core-components/typography';
+import { IOrderDetail } from '../../../../models/IOrder';
 
 type PropTypes = {
+  applicationDetail: IOrderDetail[];
   isEdit: boolean;
 };
 
-export const OrderComposition: FC<PropTypes> = ({ isEdit }) => {
+export const OrderComposition: FC<PropTypes> = ({
+  applicationDetail,
+  isEdit
+}) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
   const [open, setOpen] = useState(false);
@@ -54,26 +59,30 @@ export const OrderComposition: FC<PropTypes> = ({ isEdit }) => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Туфли женские с замочком, серые Michael Kors</td>
-                <td>0000123498</td>
-                <td width={64}>
-                  {isEdit ? (
-                    <Input size="s" type="number" defaultValue="1" />
-                  ) : (
-                    '1 шт'
-                  )}
-                </td>
-                <td>22 300 ₸</td>
-                <td>22 300 ₸</td>
-                <td>
-                  {isEdit ? (
-                    <IconButton onClick={handleModalOpen}>
-                      <TrashCanMIcon />
-                    </IconButton>
-                  ) : null}
-                </td>
-              </tr>
+              {applicationDetail.map(item => {
+                return (
+                  <tr>
+                    <td>{item.itemName}</td>
+                    <td>0000123498</td>
+                    <td width={64}>
+                      {isEdit ? (
+                        <Input size="s" type="number" defaultValue="1" />
+                      ) : (
+                        `${item.itemCount} шт`
+                      )}
+                    </td>
+                    <td>{item.itemPrice} ₸</td>
+                    <td>{item.itemTotal} ₸</td>
+                    <td>
+                      {isEdit ? (
+                        <IconButton onClick={handleModalOpen}>
+                          <TrashCanMIcon />
+                        </IconButton>
+                      ) : null}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

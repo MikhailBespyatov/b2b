@@ -44,48 +44,55 @@ const Transaction: FC = () => {
     setOpen(false);
   }, [setOpen]);
 
-  const renderModalContent = (type: ModalType) => {
-    switch (type) {
-      case 'CONFIRM_CANCEL':
-        return (
-          <OrderCancel
-            id={data.id}
-            merchantOrderId={data.merchant_order_id}
-            orderStatus={data.app_status}
-            amount={data.amount}
-            title={t('transactions.modal.title.cancelOrder')}
-            handleClose={handleModalClose}
-          />
-        );
-      case 'DELIVERY_TO_COURIER':
-        return (
-          <DeliveryToCourier
-            id={data.id}
-            merchantOrderId={data.merchant_order_id}
-            title={t('transactions.modal.title.sendForDelivery')}
-            text={t('transactions.modal.text.sendForDelivery')}
-            successMessage={t('transactions.modal.title.sentForDelivery')}
-          />
-        );
-      case 'DELIVERY_TO_CLIENT':
-        return (
-          <PopConfirm
-            title={t('transactions.modal.title.sendForDelivery')}
-            text={t('transactions.modal.text.sendForDelivery')}
-            okText={t('button.send')}
-            cancelText={t('button.cancel')}
-            onCancel={handleModalClose}
-          >
-            <SmsConfirm
-              order={data}
-              successMessage={t('transactions.modal.success.delivered')}
-            />
-          </PopConfirm>
-        );
-      default:
-        return null;
-    }
-  };
+  const renderModalContent = useCallback(
+    (type: ModalType) => {
+      if (data) {
+        switch (type) {
+          case 'CONFIRM_CANCEL':
+            return (
+              <OrderCancel
+                id={data.orderInfo.id}
+                merchantOrderId={data.orderInfo.merchant_order_id}
+                orderStatus={data.orderInfo.app_status}
+                amount={data.orderInfo.amount}
+                title={t('transactions.modal.title.cancelOrder')}
+                handleClose={handleModalClose}
+              />
+            );
+          case 'DELIVERY_TO_COURIER':
+            return (
+              <DeliveryToCourier
+                id={data.orderInfo.id}
+                merchantOrderId={data.orderInfo.merchant_order_id}
+                title={t('transactions.modal.title.sendForDelivery')}
+                text={t('transactions.modal.text.sendForDelivery')}
+                successMessage={t('transactions.modal.title.sentForDelivery')}
+              />
+            );
+          case 'DELIVERY_TO_CLIENT':
+            return (
+              <PopConfirm
+                title={t('transactions.modal.title.sendForDelivery')}
+                text={t('transactions.modal.text.sendForDelivery')}
+                okText={t('button.send')}
+                cancelText={t('button.cancel')}
+                onCancel={handleModalClose}
+              >
+                <SmsConfirm
+                  order={data.orderInfo}
+                  successMessage={t('transactions.modal.success.delivered')}
+                />
+              </PopConfirm>
+            );
+          default:
+            return null;
+        }
+      }
+
+      return null;
+    },
+    [data, t, handleModalClose]
+  );
 
   if (isLoading) {
     return (
@@ -95,15 +102,15 @@ const Transaction: FC = () => {
     );
   }
 
-  if (isSuccess) {
+  if (isSuccess && data) {
     return (
       <>
-        {data?.app_status && data?.merchant_order_id && (
+        {data.orderInfo?.app_status && data.orderInfo?.merchant_order_id && (
           <div className="mb-32 d-flex mobile-block">
             <Typography.Title tag="h2" className="mr-24">
-              {t('transaction.header.title')} №{data.id}
+              {t('transaction.header.title')} №{data.orderInfo.id}
             </Typography.Title>
-            {FINAL_ORDER_STATUSES.includes(data.app_status) && (
+            {FINAL_ORDER_STATUSES.includes(data.orderInfo.app_status) && (
               <>
                 <IconButton
                   size="xxs"
@@ -118,7 +125,7 @@ const Transaction: FC = () => {
                   className="mr-24"
                   icon={CheckmarkIcon}
                   onClick={handleModalOpen(
-                    data.app_status === 'new'
+                    data.orderInfo.app_status === 'new'
                       ? 'DELIVERY_TO_COURIER'
                       : 'DELIVERY_TO_CLIENT'
                   )}
@@ -137,12 +144,14 @@ const Transaction: FC = () => {
             )}
           </div>
         )}
-
-        <BuyerInfo order={data} />
-        <OrderComposition isEdit={isEdit} />
+        <BuyerInfo order={data.clientInfo} />
+        <OrderComposition
+          isEdit={isEdit}
+          applicationDetail={data.applicationDetail}
+        />
         <ChangesHistory
           order={data}
-          status={statusList[data.app_status]?.toUpperCase()}
+          status={statusList[data.orderInfo.app_status]?.toUpperCase()}
         />
         <ModalResponsive open={open} onClose={handleModalClose} size="m">
           <ModalResponsive.Header hasCloser />

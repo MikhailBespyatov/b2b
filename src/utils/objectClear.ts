@@ -4,6 +4,5 @@ export const objectClear = (obj: Record<string, any>) => {
       delete obj[key];
     }
   });
-
   return obj;
 };

@@ -6,11 +6,11 @@ import { Link } from 'arui-feather/link';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
-import { IOrder } from 'models/IOrder';
+import { IClientInfo } from 'models/IOrder';
 import { phoneNumberFormatter } from 'utils/formatter/phoneNumberFormatter';
 
 type PropTypes = {
-  order: IOrder;
+  order: IClientInfo;
 };
 
 export const BuyerInfo: FC<PropTypes> = ({ order }) => {
@@ -38,16 +38,14 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
           >
             <div className="collapse__box-item">
               <Label>{t('user.surname')}:</Label>
-              <span className="ml-4">Бандюков</span>
+              <span className="ml-4">{order.cLastName}</span>
             </div>
             <div className="collapse__box-item">
               <Label>{t('user.phoneNumber')}:</Label>
               <span className="ml-4">
                 <Link
-                  text={phoneNumberFormatter(order.clientInfo.phoneNumber)}
-                  url={`tel:${phoneNumberFormatter(
-                    order.clientInfo.phoneNumber
-                  )}`}
+                  text={phoneNumberFormatter(order.phoneNumber)}
+                  url={`tel:${phoneNumberFormatter(order.phoneNumber)}`}
                   size="m"
                   view="blue"
                 />
@@ -67,7 +65,7 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
           >
             <div className="collapse__box-item">
               <Label>{t('user.name')}:</Label>
-              <span className="ml-4">Анатолий</span>
+              <span className="ml-4">{order.cName}</span>
             </div>
             <div className="collapse__box-item">
               <Label>{t('user.email')}:</Label>
@@ -83,7 +81,7 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
           >
             <div className="collapse__box-item">
               <Label>{t('user.middleName')}:</Label>
-              <span className="ml-4">Бердымухамедович</span>
+              <span className="ml-4">{order.cMiddleName}</span>
             </div>
             <div className="collapse__box-item">
               <Label>{t('user.comment')}:</Label>

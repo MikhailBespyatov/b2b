@@ -27,8 +27,8 @@ import { RootStateType } from 'redux/store';
 import { phoneNumberWithoutFormat } from 'utils/formatter/phoneNumberFormatter';
 import { TableExport, OrderList } from './partials';
 
-import './Transactions.css';
 import { objectClear } from '../../utils/objectClear';
+import './Transactions.css';
 
 type IFormValues = {
   orderId: string;

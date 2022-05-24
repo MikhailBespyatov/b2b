@@ -1,4 +1,5 @@
 import { baseEmptyAPI } from './baseQuery';
+import { IOrder } from '../../models/IOrder';
 
 export const transactionAPI = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
@@ -31,9 +32,10 @@ export const transactionAPI = baseEmptyAPI.injectEndpoints({
           page
         }
       }),
-      providesTags: [{ type: 'Transactions', id: 'LIST' }]
+      providesTags: [{ type: 'Transactions', id: 'LIST' }],
+      keepUnusedDataFor: 1
     }),
-    getTransactionById: builder.query({
+    getTransactionById: builder.query<IOrder, string | undefined>({
       query: id => `/accounting/application/${id}`,
       providesTags: (result, error, arg) => [{ type: 'Transactions', id: arg }]
     }),

@@ -16,8 +16,17 @@ export interface IClientInfo {
   phoneNumber: string;
 }
 
+export interface IOrderDetail {
+  itemCount: number;
+  itemId: string;
+  itemName: string;
+  itemPrice: number;
+  itemStatus: string;
+  itemTotal: number;
+}
+
 export interface IOrder {
-  applicationDetail: null;
+  applicationDetail: IOrderDetail[];
   clientInfo: IClientInfo;
   orderInfo: IOrderInfo;
 }
