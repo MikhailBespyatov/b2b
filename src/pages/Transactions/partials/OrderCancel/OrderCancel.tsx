@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
 import clsx from 'clsx';
@@ -12,6 +13,8 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Space } from '@alfalab/core-components/space';
 import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
 import { ORDER_STATUS } from 'config/constants/status.constants';
+import { RootStateType } from 'redux/store';
+import { selectMerchant } from 'redux/slices/app-slice';
 import { StatusMessage } from '../index';
 
 type PropTypes = {
@@ -32,7 +35,9 @@ const OrderCancel: FC<PropTypes> = ({
   handleClose
 }) => {
   const { t } = useTranslation();
-
+  const merchantId = useSelector((state: RootStateType) =>
+    selectMerchant(state)
+  );
   const {
     handleSubmit,
     control,
@@ -69,7 +74,7 @@ const OrderCancel: FC<PropTypes> = ({
       id,
       body: [
         {
-          merchantId: '1',
+          merchantId,
           orders: [
             {
               amount:

@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { FormField } from 'arui-feather/form-field';
 import Button from 'arui-feather/button';
@@ -6,6 +7,8 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Spinner } from '@alfalab/core-components/spinner';
 
 import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
+import { RootStateType } from 'redux/store';
+import { selectMerchant } from 'redux/slices/app-slice';
 import { StatusMessage } from '../index';
 
 type PropTypes = {
@@ -24,7 +27,9 @@ const DeliveryToCourier: FC<PropTypes> = ({
   merchantOrderId
 }) => {
   const { t } = useTranslation();
-
+  const merchantId = useSelector((state: RootStateType) =>
+    selectMerchant(state)
+  );
   const [updateStatus, { isLoading, isSuccess }] =
     useUpdateTransactionStatusMutation();
 
@@ -33,7 +38,7 @@ const DeliveryToCourier: FC<PropTypes> = ({
       id,
       body: [
         {
-          merchantId: '1',
+          merchantId,
           orders: [
             {
               orderId: merchantOrderId,

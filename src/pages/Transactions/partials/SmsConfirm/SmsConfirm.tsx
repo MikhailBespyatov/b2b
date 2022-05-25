@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
 import { FormField } from 'arui-feather/form-field';
@@ -14,6 +15,8 @@ import {
   usePostCheckOtpMutation,
   usePostSendOtpMutation
 } from 'services/api/transactionAPI';
+import { RootStateType } from 'redux/store';
+import { selectMerchant } from 'redux/slices/app-slice';
 import { StatusMessage } from '../index';
 
 type PropTypes = {
@@ -23,6 +26,9 @@ type PropTypes = {
 
 const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
   const { t } = useTranslation();
+  const merchantId = useSelector((state: RootStateType) =>
+    selectMerchant(state)
+  );
   const { handleSubmit, control } = useForm();
   const lastMutation = useRef<any>(undefined);
   const [
@@ -48,7 +54,7 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
       id: order.id,
       body: {
         merchantOrderId: order.merchant_order_id,
-        merchantId: '1',
+        merchantId,
         amount: order.amount
       }
     });
@@ -59,7 +65,7 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
       id: order.id,
       body: {
         merchantOrderId: order.merchant_order_id,
-        merchantId: '1',
+        merchantId,
         amount: order.amount
       }
     });
@@ -71,7 +77,7 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
       id: order.id,
       body: {
         merchantOrderId: order.merchant_order_id,
-        merchantId: '1',
+        merchantId,
         amount: order.amount,
         otp
       }
