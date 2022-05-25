@@ -10,7 +10,8 @@ const initialState = {
   statuses: {
     list: {} as Record<string, string>,
     unique: [] as IStatusOption[]
-  }
+  },
+  merchantId: '1'
 };
 type InitialStateType = typeof initialState;
 
@@ -34,6 +35,11 @@ export const selectStatusesUnique = createSelector(
   state => state.unique
 );
 
+export const selectMerchant = createSelector(
+  selectApp,
+  state => state.merchantId
+);
+
 export const selectAppError = createSelector(selectApp, state => state.error);
 
 const appSlice = createSlice({
@@ -55,12 +61,21 @@ const appSlice = createSlice({
     setStatuses: (state, { payload }) => {
       state.statuses.list = payload.list;
       state.statuses.unique = payload.unique;
+    },
+    setMerchant: (state, { payload }) => {
+      state.merchantId = payload.merchantId;
     }
   },
   extraReducers: {}
 });
 
-export const { resetState, addToast, removeToast, resetToast, setStatuses } =
-  appSlice.actions;
+export const {
+  resetState,
+  addToast,
+  removeToast,
+  resetToast,
+  setStatuses,
+  setMerchant
+} = appSlice.actions;
 
 export default appSlice.reducer as Reducer<InitialStateType>;

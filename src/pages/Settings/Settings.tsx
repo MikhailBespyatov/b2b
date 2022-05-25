@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@alfalab/core-components/button';
 import { Skeleton } from '@alfalab/core-components/skeleton';
@@ -6,13 +7,16 @@ import { useGetMerchantsQuery } from '../../services/api/transactionAPI';
 import { uuid } from '../../utils/uuid';
 import { IMerchant } from '../../models/IMerchant';
 import { TRANSACTIONS } from '../../navigation/CONSTANTS';
+import { setMerchant } from '../../redux/slices/app-slice';
 
 const Settings: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { data, isLoading, isSuccess } = useGetMerchantsQuery('');
 
   const handleItemClick = (merchantId: string) => () => {
-    navigate(TRANSACTIONS, { replace: true, state: merchantId });
+    dispatch(setMerchant({ merchantId }));
+    navigate(TRANSACTIONS, { replace: true });
   };
 
   return (
@@ -23,13 +27,7 @@ const Settings: FC = () => {
             <td>Идентификатор мерчанта</td>
             <td>Количество заказов</td>
             <td>Статус Мерчанта</td>
-            <td
-              style={{
-                textAlign: 'right'
-              }}
-            >
-              Действие
-            </td>
+            <td className="flex-end">Действие</td>
           </tr>
         </thead>
         <tbody>
