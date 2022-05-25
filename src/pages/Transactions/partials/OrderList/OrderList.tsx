@@ -129,7 +129,7 @@ export const OrderList: FC<PropTypes> = ({
   };
 
   const handleItemClick = (id: number) => () => {
-    navigate(`${TRANSACTIONS}/${id}`, { replace: true });
+    navigate(`${TRANSACTIONS}/${id}`);
   };
 
   const renderSortButton = (field: IOrderSortFields) => {

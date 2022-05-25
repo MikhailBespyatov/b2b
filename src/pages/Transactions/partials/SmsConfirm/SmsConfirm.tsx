@@ -48,7 +48,8 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
       id: order.id,
       body: {
         merchantOrderId: order.merchant_order_id,
-        merchantId: '1'
+        merchantId: '1',
+        amount: order.amount
       }
     });
   }, [postSendOtp, order.id, order.merchant_order_id]);
@@ -58,7 +59,8 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
       id: order.id,
       body: {
         merchantOrderId: order.merchant_order_id,
-        merchantId: '1'
+        merchantId: '1',
+        amount: order.amount
       }
     });
     lastMutation.current?.unsubscribe();
@@ -70,6 +72,7 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
       body: {
         merchantOrderId: order.merchant_order_id,
         merchantId: '1',
+        amount: order.amount,
         otp
       }
     });

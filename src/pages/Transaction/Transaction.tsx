@@ -27,6 +27,7 @@ import './Transaction.css';
 
 const Transaction: FC = () => {
   const { id } = useParams();
+
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);

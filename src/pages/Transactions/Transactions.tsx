@@ -1,10 +1,10 @@
 import React, { FC, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 import { useAccess } from 'react-acceder';
-import { useLocation } from 'react-router-dom';
 import FormField from 'arui-feather/form-field';
 import { Label } from 'arui-feather/label';
 import Input from 'arui-feather/input';
@@ -20,7 +20,7 @@ import { Typography } from '@alfalab/core-components/typography';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardMIcon } from '@alfalab/icons-glyph/ChevronForwardMIcon';
 
-import { selectStatusesUnique } from 'redux/slices/app-slice';
+import { selectMerchant, selectStatusesUnique } from 'redux/slices/app-slice';
 import { useGetTransactionsQuery } from 'services/api/transactionAPI';
 import { IOrderFilter, IOrderSort } from 'models/IOrder';
 import { RootStateType } from 'redux/store';
@@ -42,8 +42,11 @@ type IFormValues = {
 
 const Transactions: FC = () => {
   const { t } = useTranslation();
+  const [search, setSearch] = useSearchParams();
   const user = useAccess();
-  const { state: merchantId } = useLocation();
+  const merchantId = useSelector((state: RootStateType) =>
+    selectMerchant(state)
+  );
 
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
@@ -67,7 +70,7 @@ const Transactions: FC = () => {
     ph_number: ''
   });
   const [isFilterVisible, setIsFilterVisible] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+
   const [limit, setLimit] = useState(25);
   const [tableSort, setTableSort] = useState<IOrderSort>({
     field: '',
@@ -80,9 +83,9 @@ const Transactions: FC = () => {
 
   const { currentData, isFetching, isSuccess } = useGetTransactionsQuery({
     ...objectClear(queryParams),
-    merchantId: merchantId ?? 1,
+    merchantId,
     sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
-    page: currentPage,
+    page: search.get('page') || 1,
     limit
   });
 
@@ -95,7 +98,7 @@ const Transactions: FC = () => {
   };
 
   const handlePageChange = (value: number) => {
-    setCurrentPage(value + 1);
+    setSearch(`?page=${value + 1}`);
   };
 
   const handleChangeSort = (value: IOrderSort) => {
@@ -378,12 +381,12 @@ const Transactions: FC = () => {
             onChange={(values: number[] | undefined) => {
               if (values) {
                 setLimit(values?.[0] ?? 25);
-                setCurrentPage(1);
+                setSearch('?page=1');
               }
             }}
           />
           <Pagination
-            currentPageIndex={currentPage - 1}
+            currentPageIndex={(Number(search.get('page')) || 1) - 1}
             pagesCount={currentData?.totalPages ?? 1}
             onPageChange={handlePageChange}
           />
