@@ -176,3 +176,8 @@ hr {
   background-color: var(--color-dark-bg-primary);
   color: var(--color-dark-bg-primary-inverted);
 }
+
+.text-line-through {
+  -webkit-text-decoration-line: line-through; /* Safari */
+  text-decoration-line: line-through;
+}

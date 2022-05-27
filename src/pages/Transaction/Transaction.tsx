@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@alfalab/core-components/typography';
@@ -12,8 +11,6 @@ import {
   PencilHeavyIcon
 } from 'components/ui/icons';
 import { useGetTransactionByIdQuery } from 'services/api/transactionAPI';
-import { RootStateType } from 'redux/store';
-import { selectStatusesList } from 'redux/slices/app-slice';
 import { FINAL_ORDER_STATUSES } from 'config/constants/status.constants';
 import { BuyerInfo, OrderComposition, ChangesHistory } from './partials';
 import { ModalType } from '../Transactions/Transactions.model';
@@ -32,9 +29,7 @@ const Transaction: FC = () => {
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
-  const statusList = useSelector((state: RootStateType) =>
-    selectStatusesList(state)
-  );
+
   const { data, isLoading, isSuccess } = useGetTransactionByIdQuery(id);
   const handleModalOpen = (type: ModalType) => (): void => {
     setOpen(true);
@@ -152,7 +147,7 @@ const Transaction: FC = () => {
         />
         <ChangesHistory
           order={data.changeHistory}
-          status={statusList[data.orderInfo.app_status]?.toUpperCase()}
+          appStatus={data.orderInfo.app_status}
         />
         <ModalResponsive open={open} onClose={handleModalClose} size="m">
           <ModalResponsive.Header hasCloser />

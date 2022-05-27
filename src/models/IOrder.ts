@@ -30,7 +30,7 @@ export interface IChangeHistory {
   status: string;
   action: string;
   responsible: string;
-  last: string;
+  last: number;
 }
 
 export interface IOrder {

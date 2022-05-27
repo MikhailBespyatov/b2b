@@ -6,15 +6,23 @@ import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
 
 import { IChangeHistory } from 'models/IOrder';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
+import { useSelector } from 'react-redux';
+import { RootStateType } from 'redux/store';
+import { selectStatusesList } from 'redux/slices/app-slice';
 
 type PropTypes = {
   order: IChangeHistory[];
-  status: string;
+  appStatus: string;
 };
 
-export const ChangesHistory: FC<PropTypes> = ({ order, status }) => {
+export const ChangesHistory: FC<PropTypes> = ({ order, appStatus }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
+  const statusList = useSelector((state: RootStateType) =>
+    selectStatusesList(state)
+  );
 
   return (
     <>
@@ -40,18 +48,31 @@ export const ChangesHistory: FC<PropTypes> = ({ order, status }) => {
             <tbody>
               {order?.map(item => {
                 return (
-                  <tr key={item.status}>
-                    <td>{item.adjusted}</td>
+                  <tr key={item.adjusted}>
+                    <td>
+                      {format(parseISO(item.adjusted), 'dd.MM.yyyy HH:mm')}
+                    </td>
                     <td>
                       <TagButton
                         size="s"
-                        className={`status status-${item.status} bold-700`}
+                        className={`status status-${item.status.toLowerCase()} bold-700 text-line-through`}
                       >
-                        {status ??
+                        {statusList[item.status]?.toUpperCase() ??
                           t(
                             'transactions.status.type.unexpected'
                           ).toUpperCase()}
                       </TagButton>
+                      {item.last === 1 && (
+                        <TagButton
+                          size="s"
+                          className={`status status-${appStatus.toLowerCase()} bold-700`}
+                        >
+                          {statusList[appStatus]?.toUpperCase() ??
+                            t(
+                              'transactions.status.type.unexpected'
+                            ).toUpperCase()}
+                        </TagButton>
+                      )}
                     </td>
                     <td>{item.action}</td>
                     <td>{item.responsible}</td>
