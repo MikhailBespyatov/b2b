@@ -151,7 +151,7 @@ const Transaction: FC = () => {
           applicationDetail={data.applicationDetail}
         />
         <ChangesHistory
-          order={data}
+          order={data.changeHistory}
           status={statusList[data.orderInfo.app_status]?.toUpperCase()}
         />
         <ModalResponsive open={open} onClose={handleModalClose} size="m">

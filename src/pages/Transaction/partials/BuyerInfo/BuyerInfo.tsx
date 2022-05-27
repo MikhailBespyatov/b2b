@@ -67,10 +67,6 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
                 {order.cName || t('system.param.notSpecified')}
               </span>
             </div>
-            <div className="collapse__box-item">
-              <Label>{t('user.paymentCard')}:</Label>
-              <span className="ml-4">****1234</span>
-            </div>
           </Grid.Col>
           <Grid.Col
             width={{

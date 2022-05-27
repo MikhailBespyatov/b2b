@@ -64,11 +64,7 @@ const Settings: FC = () => {
                   <td>{item.merchantId}</td>
                   <td>{item.orderCount}</td>
                   <td>{item.merchantStatus}</td>
-                  <td
-                    style={{
-                      textAlign: 'right'
-                    }}
-                  >
+                  <td className="flex-end">
                     <Button size="xxs" loading={isLoadingMerchantData}>
                       Посмотреть заказы
                     </Button>

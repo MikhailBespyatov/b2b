@@ -92,7 +92,9 @@ const RouterConfig: FC = () => {
         >
           <Header merchant={merchant} />
           <Navbar />
-          <AppRoutes />
+          <div className="mr-16">
+            <AppRoutes />
+          </div>
         </Grid.Col>
       </Grid.Row>
     </BrowserRouter>

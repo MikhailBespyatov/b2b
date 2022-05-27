@@ -25,10 +25,19 @@ export interface IOrderDetail {
   itemTotal: number;
 }
 
+export interface IChangeHistory {
+  adjusted: string;
+  status: string;
+  action: string;
+  responsible: string;
+  last: string;
+}
+
 export interface IOrder {
   applicationDetail: IOrderDetail[];
   clientInfo: IClientInfo;
   orderInfo: IOrderInfo;
+  changeHistory: IChangeHistory[];
 }
 
 export type IOrderSortFields = 'id' | 'created_at' | 'items_amount' | '';

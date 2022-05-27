@@ -1,16 +1,14 @@
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
 import { TagButton } from 'arui-feather/tag-button';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
 
-import { IOrder } from 'models/IOrder';
+import { IChangeHistory } from 'models/IOrder';
 
 type PropTypes = {
-  order: IOrder;
+  order: IChangeHistory[];
   status: string;
 };
 
@@ -40,25 +38,26 @@ export const ChangesHistory: FC<PropTypes> = ({ order, status }) => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  {format(
-                    parseISO(order.orderInfo.created_at),
-                    'dd.MM.yyyy, HH:mm'
-                  )}
-                </td>
-                <td>
-                  <TagButton
-                    size="s"
-                    className={`status status-${order.orderInfo.app_status} bold-700`}
-                  >
-                    {status ??
-                      t('transactions.status.type.unexpected').toUpperCase()}
-                  </TagButton>
-                </td>
-                <td>оформлен</td>
-                <td>Мухоряпов Рамиль Евгеньевич</td>
-              </tr>
+              {order?.map(item => {
+                return (
+                  <tr key={item.status}>
+                    <td>{item.adjusted}</td>
+                    <td>
+                      <TagButton
+                        size="s"
+                        className={`status status-${item.status} bold-700`}
+                      >
+                        {status ??
+                          t(
+                            'transactions.status.type.unexpected'
+                          ).toUpperCase()}
+                      </TagButton>
+                    </td>
+                    <td>{item.action}</td>
+                    <td>{item.responsible}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
