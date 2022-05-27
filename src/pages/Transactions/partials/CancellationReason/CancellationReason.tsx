@@ -29,7 +29,7 @@ const CancellationReason: FC<PropTypes> = ({
   handleClose
 }) => {
   const { t } = useTranslation();
-  const merchantId = useSelector((state: RootStateType) =>
+  const { partnerCode } = useSelector((state: RootStateType) =>
     selectMerchant(state)
   );
   const { handleSubmit, control } = useForm();
@@ -58,7 +58,7 @@ const CancellationReason: FC<PropTypes> = ({
       id,
       body: [
         {
-          merchantId,
+          merchantId: partnerCode,
           orders: [
             {
               orderId: merchantOrderId,

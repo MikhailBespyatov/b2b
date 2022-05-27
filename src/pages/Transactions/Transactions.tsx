@@ -44,7 +44,7 @@ const Transactions: FC = () => {
   const { t } = useTranslation();
   const [search, setSearch] = useSearchParams();
   const user = useAccess();
-  const merchantId = useSelector((state: RootStateType) =>
+  const { partnerCode } = useSelector((state: RootStateType) =>
     selectMerchant(state)
   );
 
@@ -83,7 +83,7 @@ const Transactions: FC = () => {
 
   const { currentData, isFetching, isSuccess } = useGetTransactionsQuery({
     ...objectClear(queryParams),
-    merchantId,
+    merchantId: partnerCode,
     sort: tableSort.field ? `${tableSort.sort},${tableSort.field}` : undefined,
     page: search.get('page') || 1,
     limit

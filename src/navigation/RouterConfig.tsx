@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, BrowserRouter, useRoutes } from 'react-router-dom';
+import { Grid } from '@alfalab/core-components/grid';
 import { RootStateType } from 'redux/store';
-import { selectAppError } from 'redux/slices/app-slice';
+import { selectAppError, selectMerchant } from 'redux/slices/app-slice';
 import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
 
 import {
@@ -22,6 +23,8 @@ import {
 } from '../pages';
 import configs from '../config/enviroments';
 import { Navbar } from '../components';
+import { Header } from '../components/ui/Header';
+import { Sidebar } from '../components/ui/Sidebar';
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -62,6 +65,7 @@ const RouterConfig: FC = () => {
   const { code: errorCode } = useSelector((state: RootStateType) =>
     selectAppError(state)
   );
+  const merchant = useSelector((state: RootStateType) => selectMerchant(state));
 
   if (errorCode) {
     return <TechnicalWork />;
@@ -69,8 +73,28 @@ const RouterConfig: FC = () => {
 
   return (
     <BrowserRouter basename={configs.PUBLIC_URL}>
-      <Navbar />
-      <AppRoutes />
+      <Grid.Row gutter={0}>
+        <Grid.Col
+          width={{
+            mobile: { s: 0, m: 0, l: 0 },
+            tablet: { s: 0, m: 0, l: 0 },
+            desktop: { s: 3, m: 2, l: 2 }
+          }}
+        >
+          <Sidebar />
+        </Grid.Col>
+        <Grid.Col
+          width={{
+            mobile: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 12, l: 12 },
+            desktop: { s: 9, m: 10, l: 10 }
+          }}
+        >
+          <Header merchant={merchant} />
+          <Navbar />
+          <AppRoutes />
+        </Grid.Col>
+      </Grid.Row>
     </BrowserRouter>
   );
 };

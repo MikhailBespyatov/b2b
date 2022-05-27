@@ -26,7 +26,7 @@ type PropTypes = {
 
 const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
   const { t } = useTranslation();
-  const merchantId = useSelector((state: RootStateType) =>
+  const { partnerCode } = useSelector((state: RootStateType) =>
     selectMerchant(state)
   );
   const { handleSubmit, control } = useForm();
@@ -54,18 +54,24 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
       id: order.id,
       body: {
         merchantOrderId: order.merchant_order_id,
-        merchantId,
+        merchantId: partnerCode,
         amount: order.amount
       }
     });
-  }, [postSendOtp, order.id, order.merchant_order_id]);
+  }, [
+    postSendOtp,
+    order.id,
+    order.merchant_order_id,
+    order.amount,
+    partnerCode
+  ]);
 
   const handleOtpResend = () => {
     postSendOtp({
       id: order.id,
       body: {
         merchantOrderId: order.merchant_order_id,
-        merchantId,
+        merchantId: partnerCode,
         amount: order.amount
       }
     });
@@ -77,7 +83,7 @@ const SmsConfirm: FC<PropTypes> = ({ order, successMessage }) => {
       id: order.id,
       body: {
         merchantOrderId: order.merchant_order_id,
-        merchantId,
+        merchantId: partnerCode,
         amount: order.amount,
         otp
       }

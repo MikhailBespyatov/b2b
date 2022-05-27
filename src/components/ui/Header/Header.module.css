@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  margin-right: 8px;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 16px;
+}

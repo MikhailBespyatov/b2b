@@ -3,6 +3,8 @@ import { IError } from 'models/IError';
 import { INotification } from 'models/INotification';
 import { IStatusOption } from 'models/IStatus';
 import type { RootStateType } from '../store';
+import { partnerAPI } from '../../services/api/partnerApi';
+import { IPartner } from '../../models/IPartner';
 
 const initialState = {
   notifications: [] as INotification[],
@@ -11,7 +13,16 @@ const initialState = {
     list: {} as Record<string, string>,
     unique: [] as IStatusOption[]
   },
-  merchantId: '1'
+  merchant: {
+    billingNumber: '',
+    bin: '',
+    partnerCode: '1',
+    partnerEmail: '',
+    partnerLegalName: '',
+    partnerPoints: [],
+    partnerWebsite: '',
+    transitBill: ''
+  } as IPartner
 };
 type InitialStateType = typeof initialState;
 
@@ -37,7 +48,7 @@ export const selectStatusesUnique = createSelector(
 
 export const selectMerchant = createSelector(
   selectApp,
-  state => state.merchantId
+  state => state.merchant
 );
 
 export const selectAppError = createSelector(selectApp, state => state.error);
@@ -62,11 +73,27 @@ const appSlice = createSlice({
       state.statuses.list = payload.list;
       state.statuses.unique = payload.unique;
     },
-    setMerchant: (state, { payload }) => {
-      state.merchantId = payload.merchantId;
+    resetMerchant: state => {
+      state.merchant = {
+        billingNumber: '',
+        bin: '',
+        partnerCode: '1',
+        partnerEmail: '',
+        partnerLegalName: '',
+        partnerPoints: [],
+        partnerWebsite: '',
+        transitBill: ''
+      };
     }
   },
-  extraReducers: {}
+  extraReducers: builder => {
+    builder.addMatcher(
+      partnerAPI.endpoints.getPartner.matchFulfilled,
+      (state, { payload }) => {
+        state.merchant = payload;
+      }
+    );
+  }
 });
 
 export const {
@@ -75,7 +102,7 @@ export const {
   removeToast,
   resetToast,
   setStatuses,
-  setMerchant
+  resetMerchant
 } = appSlice.actions;
 
 export default appSlice.reducer as Reducer<InitialStateType>;

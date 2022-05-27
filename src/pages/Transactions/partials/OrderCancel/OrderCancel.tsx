@@ -35,7 +35,7 @@ const OrderCancel: FC<PropTypes> = ({
   handleClose
 }) => {
   const { t } = useTranslation();
-  const merchantId = useSelector((state: RootStateType) =>
+  const { partnerCode } = useSelector((state: RootStateType) =>
     selectMerchant(state)
   );
   const {
@@ -74,7 +74,7 @@ const OrderCancel: FC<PropTypes> = ({
       id,
       body: [
         {
-          merchantId,
+          merchantId: partnerCode,
           orders: [
             {
               amount:

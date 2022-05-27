@@ -27,7 +27,7 @@ const DeliveryToCourier: FC<PropTypes> = ({
   merchantOrderId
 }) => {
   const { t } = useTranslation();
-  const merchantId = useSelector((state: RootStateType) =>
+  const { partnerCode } = useSelector((state: RootStateType) =>
     selectMerchant(state)
   );
   const [updateStatus, { isLoading, isSuccess }] =
@@ -38,7 +38,7 @@ const DeliveryToCourier: FC<PropTypes> = ({
       id,
       body: [
         {
-          merchantId,
+          merchantId: partnerCode,
           orders: [
             {
               orderId: merchantOrderId,

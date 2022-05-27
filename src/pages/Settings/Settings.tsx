@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@alfalab/core-components/button';
 import { Skeleton } from '@alfalab/core-components/skeleton';
@@ -7,17 +6,23 @@ import { useGetMerchantsQuery } from '../../services/api/transactionAPI';
 import { uuid } from '../../utils/uuid';
 import { IMerchant } from '../../models/IMerchant';
 import { TRANSACTIONS } from '../../navigation/CONSTANTS';
-import { setMerchant } from '../../redux/slices/app-slice';
+import { useGetPartnerQuery } from '../../services/api/partnerApi';
 
 const Settings: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { data, isLoading, isSuccess } = useGetMerchantsQuery('');
+  const [merchantId, setMerchantId] = useState('');
 
-  const handleItemClick = (merchantId: string) => () => {
-    dispatch(setMerchant({ merchantId }));
-    navigate(TRANSACTIONS, { replace: true });
+  const { data, isLoading, isSuccess } = useGetMerchantsQuery('');
+  const { data: merchantData, isFetching: isLoadingMerchantData } =
+    useGetPartnerQuery(merchantId);
+
+  const handleItemClick = (selectedMerchantId: string) => () => {
+    setMerchantId(selectedMerchantId);
   };
+
+  if (merchantData) {
+    navigate(TRANSACTIONS, { replace: true });
+  }
 
   return (
     <div className="overflowX mb-24">
@@ -26,7 +31,7 @@ const Settings: FC = () => {
           <tr>
             <td>Идентификатор мерчанта</td>
             <td>Количество заказов</td>
-            <td>Статус Мерчанта</td>
+            <td>Статус мерчанта</td>
             <td className="flex-end">Действие</td>
           </tr>
         </thead>
@@ -64,7 +69,9 @@ const Settings: FC = () => {
                       textAlign: 'right'
                     }}
                   >
-                    <Button size="xxs">Посмотреть заказы</Button>
+                    <Button size="xxs" loading={isLoadingMerchantData}>
+                      Посмотреть заказы
+                    </Button>
                   </td>
                 </tr>
               );

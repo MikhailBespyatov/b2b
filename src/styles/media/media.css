@@ -12,7 +12,8 @@
     display: block;
   }
 
-  .desktop-only {
+  .desktop-only,
+  .sidebar {
     display: none;
   }
 }
@@ -22,6 +23,10 @@
   .table-pagination {
     display: flex;
     justify-content: space-between;
+  }
+
+  .sidebar {
+    display: none;
   }
 }
 
@@ -33,6 +38,10 @@
   }
 
   .desktop-only {
+    display: block;
+  }
+
+  .sidebar {
     display: block;
   }
 }
