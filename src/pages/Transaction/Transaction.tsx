@@ -21,6 +21,7 @@ import {
   SmsConfirm
 } from '../Transactions/partials';
 import './Transaction.css';
+import { OrderInfo } from './partials/OrderInfo';
 
 const Transaction: FC = () => {
   const { id } = useParams();
@@ -140,7 +141,8 @@ const Transaction: FC = () => {
             )}
           </div>
         )}
-        <BuyerInfo order={data.clientInfo} />
+        <OrderInfo item={data.orderInfo} />
+        <BuyerInfo item={data.clientInfo} />
         <OrderComposition
           isEdit={isEdit}
           applicationDetail={data.applicationDetail}

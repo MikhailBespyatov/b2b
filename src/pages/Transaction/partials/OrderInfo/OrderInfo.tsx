@@ -9,17 +9,22 @@ import { Link } from 'arui-feather/link';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardExtraMIcon } from '@alfalab/icons-glyph/ChevronForwardExtraMIcon';
-import { IOrder } from 'models/IOrder';
+import { IOrderInfo } from 'models/IOrder';
 import { moneyFormatter } from 'utils/formatter/moneyFormatter';
+import { useSelector } from 'react-redux';
+import { RootStateType } from 'redux/store';
+import { selectStatusesList } from 'redux/slices/app-slice';
 
 type PropTypes = {
-  order: IOrder;
-  status: string;
+  item: IOrderInfo;
 };
 
-const OrderInfo: FC<PropTypes> = ({ order, status }) => {
+const OrderInfo: FC<PropTypes> = ({ item }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
+  const statusList = useSelector((state: RootStateType) =>
+    selectStatusesList(state)
+  );
 
   return (
     <>
@@ -43,10 +48,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
             <div className="collapse__box-item">
               <Label>{t('transaction.data.registrationDate')}:</Label>
               <span className="ml-4">
-                {format(
-                  parseISO(order.orderInfo.created_at),
-                  'dd.MM.yyyy HH:mm'
-                )}
+                {format(parseISO(item.created_at), 'dd.MM.yyyy, HH:mm')}
               </span>
             </div>
           </Grid.Col>
@@ -60,10 +62,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
             <div className="collapse__box-item">
               <Label>{t('transactions.filter.deliveredDate')}:</Label>
               <span className="ml-4">
-                {format(
-                  parseISO(order.orderInfo.created_at),
-                  'dd.MM.yyyy HH:mm'
-                )}
+                {format(parseISO(item.created_at), 'dd.MM.yyyy')}
               </span>
             </div>
           </Grid.Col>
@@ -79,11 +78,18 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
               <span className="ml-4">
                 <TagButton
                   size="s"
-                  className={`status status-${order.orderInfo.app_status} bold-700`}
+                  className={`status status-${item.app_status.toLowerCase()} bold-700`}
                 >
-                  {status ??
+                  {statusList[item.app_status]?.toUpperCase() ??
                     t('transactions.status.type.unexpected').toUpperCase()}
                 </TagButton>
+                {/* <TagButton
+                  size="s"
+                  className={`status status-${order.app_status} bold-700`}
+                >
+                  {order.app_status ??
+                    t('transactions.status.type.unexpected').toUpperCase()}
+                </TagButton> */}
               </span>
             </div>
           </Grid.Col>
@@ -96,9 +102,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
           >
             <div className="collapse__box-item">
               <Label>{t('transaction.data.orderAmount')}:</Label>
-              <span className="ml-4">
-                {moneyFormatter.format(order.orderInfo.amount)}
-              </span>
+              <span className="ml-4">{moneyFormatter.format(item.amount)}</span>
             </div>
           </Grid.Col>
           <Grid.Col
@@ -110,9 +114,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
           >
             <div className="collapse__box-item">
               <Label>{t('transaction.data.bankCommission')}:</Label>
-              <span className="ml-4">
-                {moneyFormatter.format(order.orderInfo.amount)}
-              </span>
+              <span className="ml-4">{moneyFormatter.format(item.amount)}</span>
             </div>
           </Grid.Col>
           <Grid.Col
@@ -124,9 +126,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
           >
             <div className="collapse__box-item">
               <Label>{t('transaction.data.amountToBePaid')}:</Label>
-              <span className="ml-4">
-                {moneyFormatter.format(order.orderInfo.amount)}
-              </span>
+              <span className="ml-4">{moneyFormatter.format(item.amount)}</span>
             </div>
           </Grid.Col>
           <Grid.Col
@@ -138,7 +138,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
           >
             <div className="collapse__box-item">
               <Label>{t('transaction.data.installmentType')}:</Label>
-              <span className="ml-4">0-0-12</span>
+              <span className="ml-4">0-0-4</span>
             </div>
           </Grid.Col>
           <Grid.Col
@@ -152,7 +152,7 @@ const OrderInfo: FC<PropTypes> = ({ order, status }) => {
               <Label>{t('transaction.data.paymentTerms')}:</Label>
               <span className="ml-4">
                 <Link
-                  text="alfa.kz"
+                  text="alfabank.kz/bnpl"
                   url="https://alfabank.kz"
                   target="_blank"
                   size="m"

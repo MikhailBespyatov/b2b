@@ -10,10 +10,10 @@ import { IClientInfo } from 'models/IOrder';
 import { phoneNumberFormatter } from 'utils/formatter/phoneNumberFormatter';
 
 type PropTypes = {
-  order: IClientInfo;
+  item: IClientInfo;
 };
 
-export const BuyerInfo: FC<PropTypes> = ({ order }) => {
+export const BuyerInfo: FC<PropTypes> = ({ item }) => {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(true);
 
@@ -39,15 +39,15 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
             <div className="collapse__box-item">
               <Label>{t('user.surname')}:</Label>
               <span className="ml-4">
-                {order.cLastName || t('system.param.notSpecified')}
+                {item.cLastName || t('system.param.notSpecified')}
               </span>
             </div>
             <div className="collapse__box-item">
               <Label>{t('user.phoneNumber')}:</Label>
               <span className="ml-4">
                 <Link
-                  text={phoneNumberFormatter(order.phoneNumber)}
-                  url={`tel:${phoneNumberFormatter(order.phoneNumber)}`}
+                  text={phoneNumberFormatter(item.phoneNumber)}
+                  url={`tel:${phoneNumberFormatter(item.phoneNumber)}`}
                   size="m"
                   view="blue"
                 />
@@ -64,7 +64,7 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
             <div className="collapse__box-item">
               <Label>{t('user.name')}:</Label>
               <span className="ml-4">
-                {order.cName || t('system.param.notSpecified')}
+                {item.cName || t('system.param.notSpecified')}
               </span>
             </div>
           </Grid.Col>
@@ -78,7 +78,7 @@ export const BuyerInfo: FC<PropTypes> = ({ order }) => {
             <div className="collapse__box-item">
               <Label>{t('user.middleName')}:</Label>
               <span className="ml-4">
-                {order.cMiddleName || t('system.param.notSpecified')}
+                {item.cMiddleName || t('system.param.notSpecified')}
               </span>
             </div>
           </Grid.Col>
