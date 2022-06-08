@@ -33,7 +33,7 @@ const OrderInfo: FC<PropTypes> = ({ item }) => {
         className="collapsible title-3 mb-24"
         onClick={() => setExpanded(prev => !prev)}
       >
-        {t('transaction.collapse.historyOfOrder')}
+        {t('transaction.collapse.historyOfOrder')} - {item.merchant_order_id}
         {expanded ? <ChevronDownMIcon /> : <ChevronForwardExtraMIcon />}
       </button>
       <Collapse expanded={expanded} className="mb-32">
