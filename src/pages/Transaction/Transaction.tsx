@@ -20,8 +20,8 @@ import {
   PopConfirm,
   SmsConfirm
 } from '../Transactions/partials';
-import './Transaction.css';
 import { OrderInfo } from './partials/OrderInfo';
+import './Transaction.css';
 
 const Transaction: FC = () => {
   const { id } = useParams();

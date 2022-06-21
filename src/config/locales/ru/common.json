@@ -23,6 +23,8 @@
   "button.confirm": "Подтвердить",
   "button.apply": "Применить",
   "button.reset": "Сбросить",
+  "button.save": "Сохранить",
+  "button.edit": "Редактировать",
 
   "system.param.notSpecified": "Не указано",
 
@@ -33,6 +35,10 @@
   "user.email": "Email",
   "user.comment": "Комментарий",
   "user.paymentCard": "Платежная карта",
+
+  "hint.withoutQuotes": "Без кавычек",
+  "hint.ukkNumber": "См. УКК",
+  "hint.ukkDB": "См. Базу данных",
 
   "table.perPage": "Показывать по {{size}}",
 
@@ -62,7 +68,6 @@
   "transactions.modal.input.compensationAmount": "Сумма компенсации",
   "transactions.modal.button.fullReturn": "Полный возврат",
   "transactions.modal.button.partialReturn": "Частичный возврат",
-
   "transactions.modal.error.otpNoMatch": "Введенный код не совпадает",
   "transactions.modal.error.compensationEqualToAmount": "Сумма компенсации не может соответствовать сумме заказа",
   "transactions.modal.error.exceedAmount": "Сумма компенсации не может превышать сумму заказа",
@@ -70,7 +75,6 @@
   "transactions.modal.success.delivered": "Заказ подтвержден и доставлен",
   "transactions.modal.success.canceled": "Заказ №{{orderNumber}} отменён",
   "transactions.modal.subtitle.cancel": "Укажите причину отмены",
-
   "transactions.modal.select.cancel.byTheClient": "Отмена клиентом",
   "transactions.modal.select.cancel.refused": "Клиент отказался",
   "transactions.modal.select.cancel.notDelivery": "Невозможно осуществить доставку",
@@ -81,7 +85,6 @@
   "transactions.status.type.readyDelivery": "Готов к доставке",
   "transactions.status.type.delivery": "Доставлено",
   "transactions.status.type.unexpected": "Срок истек",
-
   "transactions.status.type.paid": "Оплачено",
   "transactions.status.type.refusing": "Отказ",
   "transactions.status.type.refund": "Возврат",
@@ -90,7 +93,6 @@
   "transactions.status.type.refundCompleted": "Возврат совершен",
 
   "transactions.filter.title": "Фильтры",
-
   "transactions.filter.orderId": "№ заказа",
   "transactions.filter.id": "№ транзакции",
   "transactions.filter.createdDate": "Дата оформления",
@@ -100,7 +102,6 @@
 
   "transactions.table.export.startDate": "Начало периода",
   "transactions.table.export.endDate": "Конец периода",
-
   "transactions.table.orderNumber": "№ Заказа",
   "transactions.table.amount": "Сумма заказа",
   "transactions.table.address": "Адрес доставки",
@@ -123,7 +124,6 @@
   "transaction.data.installmentType": "Тип рассрочки",
   "transaction.data.amountToBePaid": "Итого к выплате",
   "transaction.data.paymentTerms": "Условия оплаты",
-
   "transaction.data.statusChangedDate": "Дата изменения статуса",
   "transaction.data.changedStatus": "Измененный статус",
   "transaction.data.orderEdited": "Заказ отредактирован",
@@ -152,5 +152,29 @@
   "analytics.category.statisticalResults.chart4": "Статистика по регионам",
   "analytics.category.statisticalResults.chart5": "Статистика по статусам",
   "analytics.category.statisticalResults.chart6": "Статистика по предыдущим периодам",
-  "analytics.category.statisticalResults.chart7": "Процент одобрения заявок"
+  "analytics.category.statisticalResults.chart7": "Процент одобрения заявок",
+
+  "partner.new.header.title": "Добавить партнера",
+  "partner.new.header.general": "Общие сведения",
+  "partner.new.form.general.legalName": "Юридическое название компании",
+  "partner.new.form.general.entityForm": "Форма юрлица",
+  "partner.new.form.general.bin": "БИН",
+  "partner.new.form.general.website": "Адрес веб-сайта",
+  "partner.new.form.general.ukkNumber": "Код точки партнера",
+  "partner.new.form.general.phoneNumber": "Номер телефона",
+  "partner.new.form.general.archiveCode": "Код пароля для архива",
+
+  "partner.new.header.legalAddress": "Юридический адрес",
+  "partner.new.form.legal.country": "Страна",
+  "partner.new.form.legal.city": "Город/населённый пункт",
+  "partner.new.form.legal.postalCode": "Почтовый индекс",
+  "partner.new.form.legal.street": "Улица",
+  "partner.new.form.legal.house": "Дом/строение",
+  "partner.new.form.legal.office": "Офис/квартира",
+  "partner.new.form.legal.okato": "ОКАТО",
+  "partner.new.form.legal.matchEmail": "Почтовый адрес совпадает с юридическим",
+
+  "partner.new.header.mailingAddress": "Почтовый адрес",
+
+  "partner.address.add": "Добавить ещё адрес"
 }

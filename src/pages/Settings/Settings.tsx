@@ -1,80 +1,72 @@
-import React, { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@alfalab/core-components/button';
-import { Skeleton } from '@alfalab/core-components/skeleton';
-import { useGetMerchantsQuery } from '../../services/api/transactionAPI';
-import { uuid } from '../../utils/uuid';
-import { IMerchant } from '../../models/IMerchant';
-import { TRANSACTIONS } from '../../navigation/CONSTANTS';
-import { useGetPartnerQuery } from '../../services/api/partnerApi';
+import React, { FC, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Button from 'arui-feather/button';
+import { Checkbox } from '@alfalab/core-components/checkbox';
+import { Typography } from '@alfalab/core-components/typography';
+
+import GeneralInfo from './GeneralInfo';
+import LegalAddress from './LegalAddress';
+import MailingAddress from './MailingAdress';
 
 const Settings: FC = () => {
-  const navigate = useNavigate();
-  const [merchantId, setMerchantId] = useState('');
+  const { t } = useTranslation();
+  const [countAddress, setCountAddress] = useState<number>(0);
 
-  const { data, isLoading, isSuccess } = useGetMerchantsQuery('');
-  const { data: merchantData, isFetching: isLoadingMerchantData } =
-    useGetPartnerQuery(merchantId);
+  const handleIsAddressMatchChange = () => {
+    setCountAddress((prev: number) => {
+      if (prev !== 0) {
+        return 0;
+      }
 
-  const handleItemClick = (selectedMerchantId: string) => () => {
-    setMerchantId(selectedMerchantId);
+      return prev + 1;
+    });
   };
 
-  if (merchantData) {
-    navigate(TRANSACTIONS, { replace: true });
-  }
+  const handleAddAddress = () => {
+    setCountAddress(prev => prev + 1);
+  };
+
+  const generalInfoMemo = useMemo(() => {
+    return <GeneralInfo />;
+  }, []);
+
+  const legalAddressMemo = useMemo(() => {
+    return <LegalAddress />;
+  }, []);
 
   return (
-    <div className="overflowX mb-24">
-      <table className="table">
-        <thead>
-          <tr>
-            <td>Идентификатор мерчанта</td>
-            <td>Количество заказов</td>
-            <td>Статус мерчанта</td>
-            <td className="flex-end">Действие</td>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading &&
-            Array.from({ length: 10 }, (_, index) => {
-              return (
-                <tr key={index}>
-                  {Array.from({ length: 3 }, () => {
-                    return (
-                      <td key={uuid()}>
-                        <Skeleton visible animate>
-                          -
-                        </Skeleton>
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          {isSuccess &&
-            Array.isArray(data) &&
-            data.map((item: IMerchant) => {
-              return (
-                <tr
-                  key={item.merchantId}
-                  className="c-pointer"
-                  onClick={handleItemClick(item.merchantId)}
-                >
-                  <td>{item.merchantId}</td>
-                  <td>{item.orderCount}</td>
-                  <td>{item.merchantStatus}</td>
-                  <td className="flex-end">
-                    <Button size="xxs" loading={isLoadingMerchantData}>
-                      Посмотреть заказы
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className="mb-32 d-flex mobile-block">
+        <Typography.Title tag="h2" className="mr-24">
+          {t('partner.new.header.title')}
+        </Typography.Title>
+      </div>
+      {generalInfoMemo}
+      {legalAddressMemo}
+      <div className="mb-34">
+        <Checkbox
+          label={t('partner.new.form.legal.matchEmail')}
+          onChange={handleIsAddressMatchChange}
+          checked={!countAddress}
+        />
+      </div>
+      {!!countAddress && (
+        <>
+          {Array.from({ length: countAddress }, (_, index) => {
+            return <MailingAddress key={index} />;
+          })}
+
+          <div className="mt-24 mb-34">
+            <Button size="s" onClick={handleAddAddress}>
+              + {t('partner.address.add')}
+            </Button>
+          </div>
+        </>
+      )}
+      <Button view="extra" size="m" type="submit" className="mb-32">
+        {t('button.save')}
+      </Button>
+    </>
   );
 };
 

@@ -81,6 +81,9 @@ hr {
 .justify-between {
   justify-content: space-between;
 }
+.t-right {
+  text-align: right;
+}
 
 .align-end {
   align-items: end;
@@ -104,9 +107,6 @@ hr {
   color: #6d7986;
   margin: 20px 0;
 }
-/* .modal-responsive__header {
-  padding-left: 14px;
-} */
 
 .title-1 {
   font-size: 30px;
@@ -166,6 +166,14 @@ hr {
 .flex-end {
   display: flex;
   justify-content: end;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+  padding: 16px 0;
 }
 
 .btn-circle {
