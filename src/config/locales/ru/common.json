@@ -8,6 +8,9 @@
   "page.nav.tab_4": "Взаиморасчеты",
   "page.nav.tab_5": "Настройки",
 
+  "page.sidebar.root": "Бизнес-отчет",
+  "page.sidebar.settings": "Настройки",
+
   "page.error.tech_work.title": "Сейчас у нас технические работы",
   "page.error.tech_work.text": "Улучшаем сервис для вас. Попробуйте зайти чуть позже",
   "page.error.tech_work.button": "Вернуться в магазин",

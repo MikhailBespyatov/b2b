@@ -34,10 +34,6 @@ const Navbar: FC = () => {
     tab_4: {
       title: 'page.nav.tab_4',
       url: SETTLEMENTS
-    },
-    tab_5: {
-      title: 'page.nav.tab_5',
-      url: SETTINGS
     }
   };
 
@@ -49,6 +45,8 @@ const Navbar: FC = () => {
       navigate(pathname, { replace: true });
     }
   };
+
+  if (pathname === SETTINGS) return null;
 
   return (
     <Tabs className="navbar">
