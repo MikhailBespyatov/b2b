@@ -1,13 +1,18 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, BrowserRouter, useRoutes } from 'react-router-dom';
+import {
+  Navigate,
+  BrowserRouter,
+  useRoutes,
+  useLocation
+} from 'react-router-dom';
 import { Grid } from '@alfalab/core-components/grid';
 import { RootStateType } from 'redux/store';
 import { selectAppError, selectMerchant } from 'redux/slices/app-slice';
 import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
-
 import {
   ANALYTICS,
+  PARTNERS,
   ROOT,
   SETTINGS,
   SETTLEMENTS,
@@ -16,6 +21,7 @@ import {
 } from './CONSTANTS';
 import {
   TransactionsPage,
+  PartnersPage,
   StatisticsPage,
   AnalyticsPage,
   SettingsPage,
@@ -31,6 +37,10 @@ const AppRoutes = () => {
     {
       path: ROOT,
       element: <Navigate to={TRANSACTIONS} />
+    },
+    {
+      path: PARTNERS,
+      element: <PartnersPage />
     },
     {
       path: TRANSACTIONS,
@@ -59,6 +69,16 @@ const AppRoutes = () => {
   ]);
 
   return routes;
+};
+
+const NavbarWrapper = () => {
+  const { pathname } = useLocation();
+
+  if (pathname === ROOT) {
+    return <Navbar />;
+  }
+
+  return null;
 };
 
 const RouterConfig: FC = () => {
@@ -91,7 +111,7 @@ const RouterConfig: FC = () => {
           }}
         >
           <Header merchant={merchant} />
-          <Navbar />
+          <NavbarWrapper />
           <div className="mr-16">
             <AppRoutes />
           </div>

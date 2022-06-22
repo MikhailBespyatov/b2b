@@ -13,13 +13,7 @@ const Settings: FC = () => {
   const [countAddress, setCountAddress] = useState<number>(0);
 
   const handleIsAddressMatchChange = () => {
-    setCountAddress((prev: number) => {
-      if (prev !== 0) {
-        return 0;
-      }
-
-      return prev + 1;
-    });
+    setCountAddress((prev: number) => (prev !== 0 ? 0 : prev + 1));
   };
 
   const handleAddAddress = () => {

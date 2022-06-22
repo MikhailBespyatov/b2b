@@ -10,6 +10,7 @@
 
   "page.sidebar.root": "Бизнес-отчет",
   "page.sidebar.settings": "Настройки",
+  "page.sidebar.partners": "Партнёры",
 
   "page.error.tech_work.title": "Сейчас у нас технические работы",
   "page.error.tech_work.text": "Улучшаем сервис для вас. Попробуйте зайти чуть позже",
@@ -28,6 +29,7 @@
   "button.reset": "Сбросить",
   "button.save": "Сохранить",
   "button.edit": "Редактировать",
+  "button.delete": "Удалить",
 
   "system.param.notSpecified": "Не указано",
 
@@ -156,6 +158,15 @@
   "analytics.category.statisticalResults.chart5": "Статистика по статусам",
   "analytics.category.statisticalResults.chart6": "Статистика по предыдущим периодам",
   "analytics.category.statisticalResults.chart7": "Процент одобрения заявок",
+
+  "partner.header.title": "Партнёры",
+  "partner.table.companyName": "Название компании",
+  "partner.table.partnerCode": "Код партнера",
+  "partner.table.bin": "БИН",
+  "partner.table.pointCode": "Код точки",
+  "partner.table.city": "Город регистрации",
+  "partner.table.status": "Статус",
+  "partner.button.addPartner": "Добавить партнёра",
 
   "partner.new.header.title": "Добавить партнера",
   "partner.new.header.general": "Общие сведения",
