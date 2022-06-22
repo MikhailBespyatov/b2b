@@ -6,7 +6,6 @@ import TabItem from 'arui-feather/tab-item';
 
 import {
   ANALYTICS,
-  SETTINGS,
   SETTLEMENTS,
   STATISTICS,
   TRANSACTIONS
@@ -45,8 +44,6 @@ const Navbar: FC = () => {
       navigate(pathname, { replace: true });
     }
   };
-
-  if (pathname === SETTINGS) return null;
 
   return (
     <Tabs className="navbar">
