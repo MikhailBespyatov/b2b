@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
-import { format } from 'date-fns';
 import { useAccess } from 'react-acceder';
 import FormField from 'arui-feather/form-field';
 import { Label } from 'arui-feather/label';
@@ -121,13 +120,13 @@ const Transactions: FC = () => {
     }
 
     if (values.dateCreate) {
-      const createdAt = format(new Date(values.dateCreate), 'yyyy-MM-dd');
-      newParams.dateCreate = `${createdAt}T00:00:00.000000`;
+      const date = values.deliveryDate.split('.');
+      newParams.dateCreate = `${date[2]}-${date[1]}-${date[0]}T00:00:00.000000`;
     }
 
     if (values.deliveryDate) {
-      const deliveryDate = format(new Date(values.deliveryDate), 'yyyy-MM-dd');
-      newParams.deliveryDate = `${deliveryDate}T00:00:00.000000`;
+      const date = values.deliveryDate.split('.');
+      newParams.deliveryDate = `${date[2]}-${date[1]}-${date[0]}T00:00:00.000000`;
     }
 
     if (values.ph_number) {
@@ -185,7 +184,7 @@ const Transactions: FC = () => {
                           label={t('transactions.filter.orderId')}
                           width="available"
                           value={value}
-                          onChange={inputValue => onChange(inputValue)}
+                          onChange={onChange}
                         />
                       );
                     }}
@@ -201,7 +200,7 @@ const Transactions: FC = () => {
                         width="available"
                         size="s"
                         value={value}
-                        onChange={inputValue => onChange(inputValue)}
+                        onChange={onChange}
                       />
                     )}
                   />
@@ -224,7 +223,7 @@ const Transactions: FC = () => {
                         width="available"
                         label={t('transactions.filter.id')}
                         value={value}
-                        onChange={inputValue => onChange(inputValue)}
+                        onChange={onChange}
                       />
                     )}
                   />
@@ -239,7 +238,7 @@ const Transactions: FC = () => {
                         width="available"
                         size="s"
                         value={value}
-                        onChange={inputValue => onChange(inputValue)}
+                        onChange={onChange}
                       />
                     )}
                   />
@@ -295,7 +294,7 @@ const Transactions: FC = () => {
                               width="available"
                               label={t('transactions.filter.amount')}
                               value={value.toString().replace(/\s/g, '')}
-                              onChange={inputValue => onChange(inputValue)}
+                              onChange={onChange}
                               placeholder="0"
                             />
                           );

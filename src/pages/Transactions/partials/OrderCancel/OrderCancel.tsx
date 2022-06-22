@@ -205,7 +205,7 @@ const OrderCancel: FC<PropTypes> = ({
                       label={t('transactions.modal.input.compensationAmount')}
                       value={value.toString().replace(/\s/g, '')}
                       placeholder="0"
-                      onChange={inputValue => onChange(inputValue)}
+                      onChange={onChange}
                       hint={errors?.amount?.message}
                       error={!!errors?.amount?.type}
                     />
