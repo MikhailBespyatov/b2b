@@ -7,38 +7,32 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 import { Pagination } from '@alfalab/core-components/pagination';
 import { Switch } from '@alfalab/core-components/switch';
+import { Skeleton } from '@alfalab/core-components/skeleton';
+
 import { SETTINGS } from 'navigation/CONSTANTS';
+import { useGetMerchantsQuery } from 'services/api/transactionAPI';
+import { uuid } from 'utils/uuid';
+import { IMerchant } from 'models/IMerchant';
 
 const Partners: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const [checkedItems, setCheckedItems] = useState<Array<number | string>>([]);
   const [limit, setLimit] = useState(25);
   const [search, setSearch] = useSearchParams();
-
-  const partners = [
-    {
-      id: 1,
-      name: 'АО “Аленушкины сказки”',
-      code: 1,
-      bin: 'bin',
-      pointCode: '2',
-      city: 'ala',
-      status: 'active'
-    }
-  ];
+  const { data, isSuccess, isFetching } = useGetMerchantsQuery('');
 
   const handlePageChange = (value: number) => {
     setSearch(`?page=${value + 1}`);
   };
 
   const handleSelect =
-    (id: number) =>
+    (id: string | number) =>
     (_: unknown, { checked }: any) => {
       if (checked) {
-        setCheckedItems((prev: number[]) => [...prev, id]);
+        setCheckedItems((prev: Array<number | string>) => [...prev, id]);
       } else {
-        setCheckedItems((prev: number[]) => [
+        setCheckedItems((prev: Array<number | string>) => [
           ...prev.filter(prev2 => prev2 !== id)
         ]);
       }
@@ -92,30 +86,48 @@ const Partners: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {partners.map((el: any) => {
-              return (
-                <tr key={el.id} className="c-pointer">
-                  <td>
-                    <Checkbox
-                      onChange={handleSelect(el.id)}
-                      checked={checkedItems.includes(el.id)}
-                    />
-                  </td>
-                  <td>{el.name}</td>
-                  <td>{el.code}</td>
-                  <td>{el.bin}</td>
-                  <td>{el.pointCode}</td>
-                  <td>{el.city}</td>
-                  <td>{el.status}</td>
-                  <td>
-                    <Switch
-                      checked={el.status === 'active'}
-                      onChange={handleSwitch}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            {isFetching &&
+              Array.from({ length: limit }, (_, index) => {
+                return (
+                  <tr key={index}>
+                    {Array.from({ length: 8 }, () => {
+                      return (
+                        <td key={uuid()}>
+                          <Skeleton visible animate>
+                            -
+                          </Skeleton>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            {isSuccess &&
+              Array.isArray(data) &&
+              data.map((item: IMerchant) => {
+                return (
+                  <tr key={item.merchantId} className="c-pointer">
+                    <td>
+                      <Checkbox
+                        onChange={handleSelect(item.merchantId)}
+                        checked={checkedItems.includes(item.merchantId)}
+                      />
+                    </td>
+                    <td>{item.merchantId}</td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>{item.merchantId}</td>
+                    <td>
+                      <Switch
+                        checked={item.merchantId === 'active'}
+                        onChange={handleSwitch}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
 
