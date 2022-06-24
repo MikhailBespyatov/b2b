@@ -17,7 +17,8 @@ import {
   SETTINGS,
   SETTLEMENTS,
   STATISTICS,
-  TRANSACTIONS
+  TRANSACTIONS,
+  USERS
 } from './CONSTANTS';
 import {
   TransactionsPage,
@@ -25,7 +26,8 @@ import {
   StatisticsPage,
   AnalyticsPage,
   SettingsPage,
-  TransactionPage
+  TransactionPage,
+  UsersPage
 } from '../pages';
 import configs from '../config/enviroments';
 import { Navbar } from '../components';
@@ -41,6 +43,10 @@ const AppRoutes = () => {
     {
       path: PARTNERS,
       element: <PartnersPage />
+    },
+    {
+      path: USERS,
+      element: <UsersPage />
     },
     {
       path: TRANSACTIONS,

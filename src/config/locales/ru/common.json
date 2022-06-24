@@ -11,6 +11,7 @@
   "page.sidebar.root": "Бизнес-отчет",
   "page.sidebar.settings": "Настройки",
   "page.sidebar.partners": "Партнёры",
+  "page.sidebar.users": "Пользователи",
 
   "page.error.tech_work.title": "Сейчас у нас технические работы",
   "page.error.tech_work.text": "Улучшаем сервис для вас. Попробуйте зайти чуть позже",
@@ -32,6 +33,16 @@
   "button.delete": "Удалить",
 
   "system.param.notSpecified": "Не указано",
+
+  "users.header.title": "Пользователи",
+  "users.button.addUser": "Добавить пользователя",
+
+  "users.table.header.fullName": "ФИО пользователя",
+  "users.table.header.partner": "Партнёр",
+  "users.table.header.email": "E-mail",
+  "users.table.header.role": "Роль на портале",
+  "users.table.header.dateOfRegistration": "Дата регистрации",
+  "users.table.header.registeredBy": "Кем зарегистрирован",
 
   "user.surname": "Фамилия",
   "user.name": "Имя",
