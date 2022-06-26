@@ -47,35 +47,34 @@ export const Table: FC<IProps> = ({
           ))}
         </div>
         <div style={{ gridTemplateColumns }} className={s.body_item}>
-          {isLoading &&
-            Array.from({ length: limit }).map(() =>
-              columns.map(column => {
+          {isLoading
+            ? Array.from({ length: limit }).map(() =>
+                columns.map(column => {
+                  return (
+                    <div key={column.key}>
+                      <Skeleton className={s.skeleton} visible animate>
+                        -
+                      </Skeleton>
+                    </div>
+                  );
+                })
+              )
+            : dataSource?.map(item => {
                 return (
-                  <div key={column.key}>
-                    <Skeleton className={s.skeleton} visible animate>
-                      -
-                    </Skeleton>
-                  </div>
+                  <Fragment key={uuid()}>
+                    {columns.map(column => {
+                      if (typeof column.render === 'function') {
+                        return (
+                          <div key={uuid()}>
+                            {column.render(item[column.dataIndex], item)}
+                          </div>
+                        );
+                      }
+                      return <div key={uuid()}>{item[column.dataIndex]}</div>;
+                    })}
+                  </Fragment>
                 );
-              })
-            )}
-
-          {dataSource?.map(item => {
-            return (
-              <Fragment key={uuid()}>
-                {columns.map(column => {
-                  if (typeof column.render === 'function') {
-                    return (
-                      <div key={uuid()}>
-                        {column.render(item[column.dataIndex], item)}
-                      </div>
-                    );
-                  }
-                  return <div key={uuid()}>{item[column.dataIndex]}</div>;
-                })}
-              </Fragment>
-            );
-          })}
+              })}
         </div>
       </div>
     </div>
