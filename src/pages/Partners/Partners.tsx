@@ -1,18 +1,17 @@
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Select from 'arui-feather/select';
 import Button from 'arui-feather/button';
 import { Typography } from '@alfalab/core-components/typography';
-import { Checkbox } from '@alfalab/core-components/checkbox';
-import { Pagination } from '@alfalab/core-components/pagination';
-import { Switch } from '@alfalab/core-components/switch';
-import { Skeleton } from '@alfalab/core-components/skeleton';
 
 import { SETTINGS } from 'navigation/CONSTANTS';
 import { useGetMerchantsQuery } from 'services/api/transactionAPI';
 import { uuid } from 'utils/uuid';
 import { IMerchant } from 'models/IMerchant';
+import { Checkbox } from '@alfalab/core-components/checkbox';
+import { Skeleton } from '@alfalab/core-components/skeleton';
+import { Switch } from '@alfalab/core-components/switch';
+import { Pagination } from 'components/Pagination';
 
 const Partners: FC = () => {
   const { t } = useTranslation();
@@ -63,6 +62,7 @@ const Partners: FC = () => {
           {t('partner.button.addPartner')}
         </Button>
       )}
+
       <div className="overflowX mb-24">
         <table className="table">
           <thead>
@@ -131,36 +131,28 @@ const Partners: FC = () => {
           </tbody>
         </table>
 
-        <div className="mb-20">
-          <div className="table-pagination">
-            <Select
-              mode="radio"
-              className="mobile-block"
-              options={[
-                {
-                  text: t('table.perPage', { size: 25 }),
-                  value: 25
-                },
-                {
-                  text: t('table.perPage', { size: 20 }),
-                  value: 20
-                }
-              ]}
-              value={[limit]}
-              onChange={(values: number[] | undefined) => {
-                if (values) {
-                  setLimit(values?.[0] ?? 25);
-                  setSearch('?page=1');
-                }
-              }}
-            />
-            <Pagination
-              currentPageIndex={(Number(search.get('page')) || 1) - 1}
-              pagesCount={1}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        </div>
+        <Pagination
+          onPageChange={handlePageChange}
+          currentPageIndex={(Number(search.get('page')) || 1) - 1}
+          pagesCount={1}
+          onSelect={(values: number[] | undefined) => {
+            if (values) {
+              setLimit(values?.[0] ?? 25);
+              setSearch('?page=1');
+            }
+          }}
+          limit={[limit]}
+          selectOptions={[
+            {
+              text: t('table.perPage', { size: 25 }),
+              value: 25
+            },
+            {
+              text: t('table.perPage', { size: 20 }),
+              value: 20
+            }
+          ]}
+        />
       </div>
     </>
   );

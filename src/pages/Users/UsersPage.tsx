@@ -49,17 +49,6 @@ const UsersPage: FC = () => {
       }
     };
 
-  const selectOptions = [
-    {
-      text: t('table.perPage', { size: 25 }),
-      value: 25
-    },
-    {
-      text: t('table.perPage', { size: 20 }),
-      value: 20
-    }
-  ];
-
   const columns: IColumn[] = [
     {
       title: '',
@@ -129,16 +118,23 @@ const UsersPage: FC = () => {
           limit={limit}
         />
       </div>
-      <div>
-        <Pagination
-          onPageChange={onPageChange}
-          currentPageIndex={currentPageIndex}
-          selectOptions={selectOptions}
-          pagesCount={pagesCount}
-          onSelect={onSelect}
-          limit={[limit]}
-        />
-      </div>
+      <Pagination
+        onPageChange={onPageChange}
+        currentPageIndex={currentPageIndex}
+        selectOptions={[
+          {
+            text: t('table.perPage', { size: 25 }),
+            value: 25
+          },
+          {
+            text: t('table.perPage', { size: 20 }),
+            value: 20
+          }
+        ]}
+        pagesCount={pagesCount}
+        onSelect={onSelect}
+        limit={[limit]}
+      />
     </div>
   );
 };

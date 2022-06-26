@@ -3,12 +3,12 @@ import Select, { SelectOptionsShapeType } from 'arui-feather/select';
 import { Pagination as UIPagination } from '@alfalab/core-components/pagination';
 
 interface Props {
-  selectOptions: SelectOptionsShapeType[];
   limit: Array<string | number>;
   onSelect: (values: number[] | undefined) => void;
   currentPageIndex: number;
   onPageChange: (value: number) => void;
-  pagesCount: number;
+  selectOptions: SelectOptionsShapeType[];
+  pagesCount?: number;
 }
 
 export const Pagination: FC<Props> = ({
@@ -37,4 +37,8 @@ export const Pagination: FC<Props> = ({
       </div>
     </div>
   );
+};
+
+Pagination.defaultProps = {
+  pagesCount: 1
 };
