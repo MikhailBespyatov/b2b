@@ -1,23 +1,28 @@
+import React, { FC, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@alfalab/core-components/button';
 import { Typography } from '@alfalab/core-components/typography';
 import { Pagination } from 'components/Pagination';
 import { Table } from 'components/Table';
+import { IColumn } from 'components/Table/types';
 import { USERS } from 'navigation/CONSTANTS';
-import React, { FC, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetUsersQuery } from 'services/api/usersApi';
-import { tHeadItems } from './constants';
-import { DataType, TableType } from './types';
+import { Checkbox } from '@alfalab/core-components/checkbox';
+
 import s from './Users.module.css';
 
 const UsersPage: FC = () => {
   const { t } = useTranslation();
-  const { data, isFetching } = useGetUsersQuery('');
-  const [checkedItems] = useState<Array<number | string>>([]);
   const navigate = useNavigate();
   const [search, setSearch] = useSearchParams();
+  const [checkedItems] = useState<Array<number | string>>([]);
   const [limit, setLimit] = useState(25);
+  const [selectedItems, setSelectedItems] = useState<Array<string | number>>(
+    []
+  );
+
+  const { data, isFetching } = useGetUsersQuery('');
 
   const currentPageIndex = (Number(search.get('page')) || 1) - 1;
   const pagesCount = (data && Math.ceil(data.length / limit)) || 1;
@@ -33,6 +38,17 @@ const UsersPage: FC = () => {
     setSearch(`?page=${value + 1}`);
   };
 
+  const handleSelect =
+    (selectedId: string | number) => (_: unknown, checkbox: any) => {
+      if (checkbox.checked) {
+        setSelectedItems(prev => [...prev, selectedId]);
+      } else {
+        setSelectedItems(prev => [
+          ...prev.filter(prevId => prevId !== selectedId)
+        ]);
+      }
+    };
+
   const selectOptions = [
     {
       text: t('table.perPage', { size: 25 }),
@@ -44,25 +60,53 @@ const UsersPage: FC = () => {
     }
   ];
 
-  const tableData = data?.map(
-    ({
-      userLastname,
-      userName,
-      merchantId,
-      userLogin,
-      role,
-      jobTitle
-    }: DataType): TableType => {
-      return {
-        checkbox: <input type="checkbox" />,
-        fullName: `${userLastname} ${userName}`,
-        merchantId,
-        userLogin,
-        role,
-        jobTitle
-      };
+  const columns: IColumn[] = [
+    {
+      title: '',
+      grid: 0.2,
+      dataIndex: 'id',
+      key: 'id',
+      render: (value: string) => {
+        return (
+          <Checkbox
+            onChange={handleSelect(value)}
+            checked={selectedItems.includes(value)}
+          />
+        );
+      }
+    },
+    {
+      title: t('users.table.header.fullName'),
+      dataIndex: 'fullName',
+      key: 'fullName',
+      grid: 1.5
+    },
+    {
+      title: t('users.table.header.partner'),
+      dataIndex: 'merchantId',
+      key: 'merchantId'
+    },
+    {
+      title: t('users.table.header.email'),
+      dataIndex: 'userLogin',
+      key: 'userLogin'
+    },
+    {
+      title: t('users.table.header.role'),
+      dataIndex: 'role',
+      key: 'role'
+    },
+    {
+      title: t('users.table.header.dateOfRegistration'),
+      dataIndex: 'role',
+      key: 'role'
+    },
+    {
+      title: t('users.table.header.registeredBy'),
+      dataIndex: 'jobTitle',
+      key: 'jobTitle'
     }
-  );
+  ];
 
   return (
     <div>
@@ -79,9 +123,9 @@ const UsersPage: FC = () => {
           )}
         </div>
         <Table
-          tHeadItems={tHeadItems}
-          data={tableData}
-          isFetching={isFetching}
+          columns={columns}
+          dataSource={data}
+          isLoading={isFetching}
           limit={limit}
         />
       </div>
