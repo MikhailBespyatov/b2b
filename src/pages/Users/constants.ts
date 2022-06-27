@@ -8,8 +8,8 @@ export const tHeadItems: THeadItems[] = [
     grid: 1.5
   },
   { title: 'users.table.header.partner', key: 'merchantId' },
-  { title: 'users.table.header.email', key: 'userLogin' },
-  { title: 'users.table.header.role', key: 'role' },
-  { title: 'users.table.header.dateOfRegistration', key: 'role' },
-  { title: 'users.table.header.registeredBy', key: 'jobTitle' }
+  { title: 'users.table.header.email', key: 'login' },
+  { title: 'users.table.header.role', key: 'jobTitle' },
+  { title: 'users.table.header.dateOfRegistration', key: 'registeredDate' },
+  { title: 'users.table.header.registeredBy', key: 'registeredBy' }
 ];

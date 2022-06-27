@@ -7,6 +7,7 @@ import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useGetUsersQuery } from 'services/api/usersApi';
+import { toFullDate } from 'utils/helpers';
 import { tHeadItems } from './constants';
 import { DataType, TableType } from './types';
 import s from './Users.module.css';
@@ -46,20 +47,25 @@ const UsersPage: FC = () => {
 
   const tableData = data?.map(
     ({
-      userLastname,
-      userName,
+      lastName,
+      firstName,
       merchantId,
-      userLogin,
+      login,
+      middleName,
       role,
-      jobTitle
+      jobTitle,
+      registeredBy,
+      registeredDate
     }: DataType): TableType => {
       return {
         checkbox: <input type="checkbox" />,
-        fullName: `${userLastname} ${userName}`,
+        fullName: `${lastName} ${firstName} ${middleName}`,
         merchantId,
-        userLogin,
+        login,
         role,
-        jobTitle
+        jobTitle,
+        registeredBy: registeredBy === 0 ? '' : registeredBy,
+        registeredDate: toFullDate(registeredDate)
       };
     }
   );
