@@ -12,7 +12,7 @@ import { Checkbox } from '@alfalab/core-components/checkbox';
 
 import { format } from 'date-fns';
 import s from './Users.module.css';
-import { DataType, TableType } from './types';
+import { DataType } from './types';
 
 const UsersPage: FC = () => {
   const { t } = useTranslation();
@@ -28,22 +28,6 @@ const UsersPage: FC = () => {
 
   const currentPageIndex = (Number(search.get('page')) || 1) - 1;
   const pagesCount = (data && Math.ceil(data.length / limit)) || 1;
-
-  const tableData = data?.map(
-    ({
-      firstName,
-      lastName,
-      middleName,
-      registeredDate,
-      registeredBy,
-      ...rest
-    }: DataType): TableType => ({
-      ...rest,
-      fullName: `${lastName} ${firstName} ${middleName}`,
-      registeredDate: format(new Date(registeredDate), 'MM.dd.yyyy'),
-      registeredBy: typeof registeredBy === 'number' ? '' : registeredBy
-    })
-  );
 
   const onSelect = (values: number[] | undefined) => {
     if (values) {
@@ -84,9 +68,12 @@ const UsersPage: FC = () => {
     },
     {
       title: t('users.table.header.fullName'),
-      dataIndex: 'fullName',
-      key: 'fullName',
-      grid: 1.5
+      dataIndex: 'firstName',
+      key: 'firstName',
+      grid: 1.5,
+      render: (value: string, record: DataType) => {
+        return `${record.lastName} ${value} ${record.middleName}`;
+      }
     },
     {
       title: t('users.table.header.partner'),
@@ -106,12 +93,18 @@ const UsersPage: FC = () => {
     {
       title: t('users.table.header.dateOfRegistration'),
       dataIndex: 'registeredDate',
-      key: 'registeredDate'
+      key: 'registeredDate',
+      render: (value: string) => {
+        return format(new Date(value), 'MM.dd.yyyy');
+      }
     },
     {
       title: t('users.table.header.registeredBy'),
       dataIndex: 'registeredBy',
-      key: 'registeredBy'
+      key: 'registeredBy',
+      render: (value: string | number) => {
+        return typeof value === 'number' ? '' : value;
+      }
     }
   ];
 
@@ -131,7 +124,7 @@ const UsersPage: FC = () => {
         </div>
         <Table
           columns={columns}
-          dataSource={tableData}
+          dataSource={data}
           isLoading={isFetching}
           limit={limit}
         />

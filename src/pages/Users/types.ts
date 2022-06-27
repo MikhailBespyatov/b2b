@@ -9,8 +9,3 @@ export interface DataType {
   registeredBy: string | number;
   registeredDate: string;
 }
-
-export interface TableType
-  extends Omit<DataType, 'lastName' | 'firstName' | 'middleName'> {
-  fullName: string;
-}
