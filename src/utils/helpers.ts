@@ -14,10 +14,3 @@ export const toSelectOptions = <T extends unknown>(
     };
   });
 };
-
-export const toFullDate = (date: string) => date.split('T')
-.slice(0, 1)
-.join('')
-.split('-')
-.reverse()
-.join('.')

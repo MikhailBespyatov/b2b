@@ -10,7 +10,7 @@ import { USERS } from 'navigation/CONSTANTS';
 import { useGetUsersQuery } from 'services/api/usersApi';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 
-import { toFullDate } from 'utils/helpers';
+import { format } from 'date-fns';
 import s from './Users.module.css';
 import { DataType, TableType } from './types';
 
@@ -40,7 +40,7 @@ const UsersPage: FC = () => {
     }: DataType): TableType => ({
       ...rest,
       fullName: `${lastName} ${firstName} ${middleName}`,
-      registeredDate: toFullDate(registeredDate),
+      registeredDate: format(new Date(registeredDate), 'MM.dd.yyyy'),
       registeredBy: typeof registeredBy === 'number' ? '' : registeredBy
     })
   );
