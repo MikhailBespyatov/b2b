@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface DataType {
   lastName: string;
   firstName: string;
@@ -15,5 +13,4 @@ export interface DataType {
 export interface TableType
   extends Omit<DataType, 'lastName' | 'firstName' | 'middleName'> {
   fullName: string;
-  checkbox: React.ReactNode;
 }

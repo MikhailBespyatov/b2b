@@ -10,7 +10,9 @@ import { USERS } from 'navigation/CONSTANTS';
 import { useGetUsersQuery } from 'services/api/usersApi';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 
+import { toFullDate } from 'utils/helpers';
 import s from './Users.module.css';
+import { DataType, TableType } from './types';
 
 const UsersPage: FC = () => {
   const { t } = useTranslation();
@@ -26,6 +28,22 @@ const UsersPage: FC = () => {
 
   const currentPageIndex = (Number(search.get('page')) || 1) - 1;
   const pagesCount = (data && Math.ceil(data.length / limit)) || 1;
+
+  const tableData = data?.map(
+    ({
+      firstName,
+      lastName,
+      middleName,
+      registeredDate,
+      registeredBy,
+      ...rest
+    }: DataType): TableType => ({
+      ...rest,
+      fullName: `${lastName} ${firstName} ${middleName}`,
+      registeredDate: toFullDate(registeredDate),
+      registeredBy: typeof registeredBy === 'number' ? '' : registeredBy
+    })
+  );
 
   const onSelect = (values: number[] | undefined) => {
     if (values) {
@@ -52,7 +70,7 @@ const UsersPage: FC = () => {
   const columns: IColumn[] = [
     {
       title: '',
-      grid: 0.2,
+      grid: 0.3,
       dataIndex: 'id',
       key: 'id',
       render: (value: string) => {
@@ -77,23 +95,23 @@ const UsersPage: FC = () => {
     },
     {
       title: t('users.table.header.email'),
-      dataIndex: 'userLogin',
-      key: 'userLogin'
+      dataIndex: 'login',
+      key: 'login'
     },
     {
       title: t('users.table.header.role'),
-      dataIndex: 'role',
-      key: 'role'
+      dataIndex: 'jobTitle',
+      key: 'jobTitle'
     },
     {
       title: t('users.table.header.dateOfRegistration'),
-      dataIndex: 'role',
-      key: 'role'
+      dataIndex: 'registeredDate',
+      key: 'registeredDate'
     },
     {
       title: t('users.table.header.registeredBy'),
-      dataIndex: 'jobTitle',
-      key: 'jobTitle'
+      dataIndex: 'registeredBy',
+      key: 'registeredBy'
     }
   ];
 
@@ -113,7 +131,7 @@ const UsersPage: FC = () => {
         </div>
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={tableData}
           isLoading={isFetching}
           limit={limit}
         />
