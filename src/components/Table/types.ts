@@ -1,13 +1,15 @@
-export interface THeadItems {
+export interface IColumn {
   title: string;
-  grid?: number;
+  dataIndex: string;
   key: string;
+  render?: unknown;
+  grid?: number;
 }
 
-export interface Props {
-  tHeadItems: THeadItems[];
-  data: any[];
-  width?: string;
-  isFetching: boolean;
+export interface IProps {
+  dataSource: any[];
+  columns: IColumn[];
   limit: number;
+  width?: string;
+  isLoading?: boolean;
 }
