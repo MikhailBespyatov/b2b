@@ -10,7 +10,9 @@ import { Grid } from '@alfalab/core-components/grid';
 import { RootStateType } from 'redux/store';
 import { selectAppError, selectMerchant } from 'redux/slices/app-slice';
 import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
+import { AddUser } from 'pages/Users/components/AddUser';
 import {
+  ADD_USER,
   ANALYTICS,
   PARTNERS,
   ROOT,
@@ -47,6 +49,10 @@ const AppRoutes = () => {
     {
       path: USERS,
       element: <UsersPage />
+    },
+    {
+      path: ADD_USER,
+      element: <AddUser />
     },
     {
       path: TRANSACTIONS,
