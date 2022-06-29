@@ -10,7 +10,9 @@ import { USERS } from 'navigation/CONSTANTS';
 import { useGetUsersQuery } from 'services/api/usersApi';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 
+import { format } from 'date-fns';
 import s from './Users.module.css';
+import { DataType } from './types';
 
 type PropsType = {
   title?: string;
@@ -56,7 +58,7 @@ const UsersPage: FC<PropsType> = ({ title }) => {
   const columns: IColumn[] = [
     {
       title: '',
-      grid: 0.2,
+      grid: 0.3,
       dataIndex: 'id',
       key: 'id',
       render: (value: string) => {
@@ -70,9 +72,12 @@ const UsersPage: FC<PropsType> = ({ title }) => {
     },
     {
       title: t('users.table.header.fullName'),
-      dataIndex: 'fullName',
-      key: 'fullName',
-      grid: 1.5
+      dataIndex: 'firstName',
+      key: 'firstName',
+      grid: 1.5,
+      render: (value: string, record: DataType) => {
+        return `${record.lastName} ${value} ${record.middleName}`;
+      }
     },
     {
       title: t('users.table.header.partner'),
@@ -81,23 +86,29 @@ const UsersPage: FC<PropsType> = ({ title }) => {
     },
     {
       title: t('users.table.header.email'),
-      dataIndex: 'userLogin',
-      key: 'userLogin'
+      dataIndex: 'login',
+      key: 'login'
     },
     {
       title: t('users.table.header.role'),
-      dataIndex: 'role',
-      key: 'role'
+      dataIndex: 'jobTitle',
+      key: 'jobTitle'
     },
     {
       title: t('users.table.header.dateOfRegistration'),
-      dataIndex: 'role',
-      key: 'role'
+      dataIndex: 'registeredDate',
+      key: 'registeredDate',
+      render: (value: string) => {
+        return format(new Date(value), 'MM.dd.yyyy');
+      }
     },
     {
       title: t('users.table.header.registeredBy'),
-      dataIndex: 'jobTitle',
-      key: 'jobTitle'
+      dataIndex: 'registeredBy',
+      key: 'registeredBy',
+      render: (value: string | number) => {
+        return typeof value === 'number' ? '' : value;
+      }
     }
   ];
 
