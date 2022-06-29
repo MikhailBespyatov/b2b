@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import { EcobankLogoIcon } from '../icons/EcobankLogo';
 import { ROOT, SIDEBAR_ITEMS } from '../../../navigation/CONSTANTS';
 import s from './Sidebar.module.css';

@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from 'arui-feather/button';
 import { Typography } from '@alfalab/core-components/typography';
-
-import { SETTINGS } from 'navigation/CONSTANTS';
-import { useGetMerchantsQuery } from 'services/api/transactionAPI';
-import { uuid } from 'utils/uuid';
-import { IMerchant } from 'models/IMerchant';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 import { Skeleton } from '@alfalab/core-components/skeleton';
 import { Switch } from '@alfalab/core-components/switch';
+import { PARTNERS, NEW_PARTNER } from 'navigation/CONSTANTS';
+import { useGetMerchantsQuery } from 'services/api/transactionAPI';
+import { uuid } from 'utils/uuid';
+import { IMerchant } from 'models/IMerchant';
 import { Pagination } from 'components/Pagination';
+import { PartnerPage } from '../Partner';
 
 const Partners: FC = () => {
   const { t } = useTranslation();
@@ -37,8 +37,12 @@ const Partners: FC = () => {
       }
     };
 
-  const handleSwitch = () => {
-    console.log();
+  const handleSwitch = (e: any) => {
+    e.stopPropagation();
+  };
+
+  const handleItemClick = (id: string) => () => {
+    navigate(`${PARTNERS}?id=${id}`);
   };
 
   return (
@@ -57,7 +61,7 @@ const Partners: FC = () => {
           view="extra"
           size="m"
           className="mb-24"
-          onClick={() => navigate(SETTINGS)}
+          onClick={() => navigate(PARTNERS + NEW_PARTNER)}
         >
           {t('partner.button.addPartner')}
         </Button>
@@ -106,14 +110,18 @@ const Partners: FC = () => {
               Array.isArray(data) &&
               data.map((item: IMerchant) => {
                 return (
-                  <tr key={item.merchantId} className="c-pointer">
+                  <tr
+                    key={item.merchantId}
+                    className="c-pointer"
+                    onClick={handleItemClick(item.merchantId)}
+                  >
                     <td>
                       <Checkbox
                         onChange={handleSelect(item.merchantId)}
                         checked={checkedItems.includes(item.merchantId)}
                       />
                     </td>
-                    <td>{item.merchantId}</td>
+                    <td className="primary-color">{item.merchantId}</td>
                     <td> </td>
                     <td> </td>
                     <td> </td>
@@ -158,4 +166,15 @@ const Partners: FC = () => {
   );
 };
 
-export default Partners;
+const PartnersWrapper: FC = () => {
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get('id');
+
+  if (id) {
+    return <PartnerPage merchantId={id} />;
+  }
+
+  return <Partners />;
+};
+
+export default PartnersWrapper;

@@ -201,5 +201,11 @@
 
   "partner.new.header.mailingAddress": "Почтовый адрес",
 
-  "partner.address.add": "Добавить ещё адрес"
+  "partner.address.add": "Добавить ещё адрес",
+
+  "partner.nav.information": "Информация",
+  "partner.nav.users": "Пользователи",
+
+  "partner.users.title": "Все пользователи партнёра"
+
 }

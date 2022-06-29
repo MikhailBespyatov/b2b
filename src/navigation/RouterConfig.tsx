@@ -12,6 +12,7 @@ import { selectAppError, selectMerchant } from 'redux/slices/app-slice';
 import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
 import {
   ANALYTICS,
+  NEW_PARTNER,
   PARTNERS,
   ROOT,
   SETTINGS,
@@ -33,6 +34,7 @@ import configs from '../config/enviroments';
 import { Navbar } from '../components';
 import { Header } from '../components/ui/Header';
 import { Sidebar } from '../components/ui/Sidebar';
+import { NewPartnerPage } from '../pages/Partners';
 
 const AppRoutes = () => {
   const routes = useRoutes([
@@ -43,6 +45,10 @@ const AppRoutes = () => {
     {
       path: PARTNERS,
       element: <PartnersPage />
+    },
+    {
+      path: PARTNERS + NEW_PARTNER,
+      element: <NewPartnerPage />
     },
     {
       path: USERS,

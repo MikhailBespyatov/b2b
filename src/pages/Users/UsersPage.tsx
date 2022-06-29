@@ -12,7 +12,11 @@ import { Checkbox } from '@alfalab/core-components/checkbox';
 
 import s from './Users.module.css';
 
-const UsersPage: FC = () => {
+type PropsType = {
+  title?: string;
+};
+
+const UsersPage: FC<PropsType> = ({ title }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [search, setSearch] = useSearchParams();
@@ -101,7 +105,7 @@ const UsersPage: FC = () => {
     <div>
       <div>
         <Typography.Title tag="h1" className={s.title}>
-          {t('users.header.title')}
+          {title ?? t('users.header.title')}
         </Typography.Title>
         <div className={s.buttons_wrapper}>
           <Button view="primary" size="xs" onClick={() => navigate(USERS)}>
@@ -137,6 +141,10 @@ const UsersPage: FC = () => {
       />
     </div>
   );
+};
+
+UsersPage.defaultProps = {
+  title: ''
 };
 
 export default UsersPage;
