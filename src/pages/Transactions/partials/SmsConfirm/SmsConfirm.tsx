@@ -14,7 +14,7 @@ import { IOrderInfo } from 'models/IOrder';
 import {
   usePostCheckOtpMutation,
   usePostSendOtpMutation
-} from 'services/api/transactionAPI';
+} from 'services/api/transactionApi';
 import { RootStateType } from 'redux/store';
 import { selectMerchant } from 'redux/slices/app-slice';
 import { StatusMessage } from '../index';

@@ -7,7 +7,7 @@ import { Checkbox } from '@alfalab/core-components/checkbox';
 import { Skeleton } from '@alfalab/core-components/skeleton';
 import { Switch } from '@alfalab/core-components/switch';
 import { PARTNERS, NEW_PARTNER } from 'navigation/CONSTANTS';
-import { useGetMerchantsQuery } from 'services/api/transactionAPI';
+import { useGetMerchantsQuery } from 'services/api/transactionApi';
 import { uuid } from 'utils/uuid';
 import { IMerchant } from 'models/IMerchant';
 import { Pagination } from 'components/Pagination';

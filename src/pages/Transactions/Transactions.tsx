@@ -20,7 +20,7 @@ import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronForwardMIcon } from '@alfalab/icons-glyph/ChevronForwardMIcon';
 
 import { selectMerchant, selectStatusesUnique } from 'redux/slices/app-slice';
-import { useGetTransactionsQuery } from 'services/api/transactionAPI';
+import { useGetTransactionsQuery } from 'services/api/transactionApi';
 import { IOrderFilter, IOrderSort } from 'models/IOrder';
 import { RootStateType } from 'redux/store';
 import { phoneNumberWithoutFormat } from 'utils/formatter/phoneNumberFormatter';

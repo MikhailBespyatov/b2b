@@ -10,7 +10,7 @@ import { Col } from '@alfalab/core-components/grid/col';
 import { Row } from '@alfalab/core-components/grid/row';
 import { Spinner } from '@alfalab/core-components/spinner';
 
-import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
+import { useUpdateTransactionStatusMutation } from 'services/api/transactionApi';
 import { RootStateType } from 'redux/store';
 import { selectMerchant } from 'redux/slices/app-slice';
 import { StatusMessage } from '../index';

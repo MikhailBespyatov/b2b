@@ -5,8 +5,17 @@ export const partnerAPI = baseEmptyAPI.injectEndpoints({
     getPartner: builder.query({
       query: (id: string) => `partners/partner/${id}`,
       keepUnusedDataFor: 0
+    }),
+    postPartner: builder.mutation({
+      query: ({ body }) => {
+        return {
+          url: '/partners',
+          method: 'POST',
+          body
+        };
+      }
     })
   })
 });
 
-export const { useGetPartnerQuery } = partnerAPI;
+export const { useGetPartnerQuery, usePostPartnerMutation } = partnerAPI;

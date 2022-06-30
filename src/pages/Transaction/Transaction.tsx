@@ -10,7 +10,7 @@ import {
   CrossHeavyIcon,
   PencilHeavyIcon
 } from 'components/ui/icons';
-import { useGetTransactionByIdQuery } from 'services/api/transactionAPI';
+import { useGetTransactionByIdQuery } from 'services/api/transactionApi';
 import { FINAL_ORDER_STATUSES } from 'config/constants/status.constants';
 import { BuyerInfo, OrderComposition, ChangesHistory } from './partials';
 import { ModalType } from '../Transactions/Transactions.model';

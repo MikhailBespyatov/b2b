@@ -194,3 +194,7 @@ hr {
 .primary-color {
   color: #5fae50;
 }
+
+.mh-90 {
+  min-height: 90vh;
+}

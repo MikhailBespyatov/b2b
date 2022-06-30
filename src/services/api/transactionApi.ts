@@ -1,7 +1,7 @@
 import { baseEmptyAPI } from './baseQuery';
 import { IOrder } from '../../models/IOrder';
 
-export const transactionAPI = baseEmptyAPI.injectEndpoints({
+export const transactionApi = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
     getTransactions: builder.query({
       query: ({
@@ -89,4 +89,4 @@ export const {
   usePostSendOtpMutation,
   usePostCheckOtpMutation,
   useUpdateTransactionStatusMutation
-} = transactionAPI;
+} = transactionApi;

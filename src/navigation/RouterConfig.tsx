@@ -109,7 +109,7 @@ const RouterConfig: FC = () => {
         <Grid.Col
           width={{
             mobile: { s: 0, m: 0, l: 0 },
-            tablet: { s: 0, m: 0, l: 0 },
+            tablet: { s: 0, m: 3, l: 3 },
             desktop: { s: 3, m: 2, l: 2 }
           }}
         >
@@ -118,7 +118,7 @@ const RouterConfig: FC = () => {
         <Grid.Col
           width={{
             mobile: { s: 12, m: 12, l: 12 },
-            tablet: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 9, l: 9 },
             desktop: { s: 9, m: 10, l: 10 }
           }}
         >

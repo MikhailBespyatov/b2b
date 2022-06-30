@@ -11,7 +11,7 @@ import Button from 'arui-feather/button';
 import Spin from 'arui-feather/spin';
 import { Typography } from '@alfalab/core-components/typography';
 import { Space } from '@alfalab/core-components/space';
-import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
+import { useUpdateTransactionStatusMutation } from 'services/api/transactionApi';
 import { ORDER_STATUS } from 'config/constants/status.constants';
 import { RootStateType } from 'redux/store';
 import { selectMerchant } from 'redux/slices/app-slice';

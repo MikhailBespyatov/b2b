@@ -6,7 +6,7 @@ import Button from 'arui-feather/button';
 import { Typography } from '@alfalab/core-components/typography';
 import { Spinner } from '@alfalab/core-components/spinner';
 
-import { useUpdateTransactionStatusMutation } from 'services/api/transactionAPI';
+import { useUpdateTransactionStatusMutation } from 'services/api/transactionApi';
 import { RootStateType } from 'redux/store';
 import { selectMerchant } from 'redux/slices/app-slice';
 import { StatusMessage } from '../index';

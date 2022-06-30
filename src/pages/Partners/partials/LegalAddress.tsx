@@ -6,8 +6,14 @@ import FormField from 'arui-feather/form-field';
 import Input from 'arui-feather/input';
 import Select from 'arui-feather/select';
 import { Grid } from '@alfalab/core-components/grid';
+import { ISelect } from '../../../models/ISelect';
 
-const LegalAddress: FC = () => {
+type PropsType = {
+  countryList: ISelect[];
+  cityList: ISelect[];
+};
+
+const LegalAddress: FC<PropsType> = ({ countryList, cityList }) => {
   const { t } = useTranslation();
 
   const { handleSubmit, control } = useForm({
@@ -56,7 +62,8 @@ const LegalAddress: FC = () => {
                         {
                           value: '',
                           text: 'Не выбран'
-                        }
+                        },
+                        ...countryList
                       ]}
                       {...field}
                     />
@@ -90,7 +97,8 @@ const LegalAddress: FC = () => {
                         {
                           value: '',
                           text: 'Не выбран'
-                        }
+                        },
+                        ...cityList
                       ]}
                       {...field}
                     />
