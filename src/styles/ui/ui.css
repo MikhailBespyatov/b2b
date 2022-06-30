@@ -2,3 +2,8 @@
 /*  background-color: #00a755;*/
 /*  border: #00a755;*/
 /*}*/
+.primary-bg {
+  background-color: #00a755;
+  border: #00a755;
+  color: #fff;
+}

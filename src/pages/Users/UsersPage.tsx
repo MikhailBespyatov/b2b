@@ -122,7 +122,11 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
           {title ?? t('users.header.title')}
         </Typography.Title>
         <div className={s.buttons_wrapper}>
-          <Button view="extra" size="m" onClick={() => navigate(NEW_USER)}>
+          <Button
+            view="extra"
+            size="m"
+            onClick={() => navigate(NEW_USER, { state: { merchantId } })}
+          >
             {t('users.button.addUser')}
           </Button>
           {checkedItems.length !== 0 && (

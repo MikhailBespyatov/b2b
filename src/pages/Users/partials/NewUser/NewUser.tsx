@@ -1,21 +1,25 @@
-import { Button } from '@alfalab/core-components/button';
-import { Grid } from '@alfalab/core-components/grid';
-import { Typography } from '@alfalab/core-components/typography';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Button from 'arui-feather/button';
 import FormField from 'arui-feather/form-field';
 import Input from 'arui-feather/input';
 import { PhoneInput } from 'arui-feather/phone-input';
-import { Select } from 'arui-feather/select';
-import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import Select from 'arui-feather/select';
+import { Grid } from '@alfalab/core-components/grid';
+import { Typography } from '@alfalab/core-components/typography';
 import { Switch } from '@alfalab/core-components/switch';
 import { useAddNewUserMutation } from 'services/api/usersApi';
 import { phoneValidator } from 'utils/validator/phoneValidator';
 import { emailValidator } from 'utils/validator/emailValidator';
+
 import s from './NewUser.module.css';
 
 export const NewUser = () => {
   const { t } = useTranslation();
+  const { state } = useLocation();
+
   const [postNewUser] = useAddNewUserMutation({});
   const { handleSubmit, control, watch } = useForm({
     defaultValues: {
@@ -42,7 +46,8 @@ export const NewUser = () => {
             password: 'string',
             login: email,
             status: formStatus ? 'active' : 'inactive',
-            merchantId: 'adika.kz',
+            // @ts-ignore
+            merchantId: state?.merchantId ?? 'adika.kz',
             role: role[0]
           }
         ]
@@ -272,7 +277,9 @@ export const NewUser = () => {
               </FormField>
             </Grid.Col>
           </Grid.Row>
-          <Button type="submit">Добавить</Button>
+          <Button type="submit" className="primary-bg">
+            Добавить
+          </Button>
         </form>
       </div>
     </div>
