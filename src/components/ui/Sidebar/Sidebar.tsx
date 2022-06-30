@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { EcobankLogoIcon } from '../icons/EcobankLogo';
-import { ROOT, SIDEBAR_ITEMS } from '../../../navigation/CONSTANTS';
+import { SIDEBAR_ITEMS } from '../../../navigation/CONSTANTS';
 import s from './Sidebar.module.css';
 
 const Sidebar: FC = () => {
@@ -17,10 +17,7 @@ const Sidebar: FC = () => {
       </div>
       <div>
         {SIDEBAR_ITEMS.map(({ title, path }) => {
-          const isActive =
-            path === pathname ||
-            (path === ROOT &&
-              !SIDEBAR_ITEMS.find(item => item.path === pathname));
+          const isActive = pathname.includes(path);
 
           return (
             <Link

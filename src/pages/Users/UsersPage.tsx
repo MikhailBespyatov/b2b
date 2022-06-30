@@ -6,7 +6,7 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Pagination } from 'components/Pagination';
 import { Table } from 'components/Table';
 import { IColumn } from 'components/Table/types';
-import { USERS } from 'navigation/CONSTANTS';
+import { NEW_USER } from 'navigation/CONSTANTS';
 import { useGetUsersQuery } from 'services/api/usersApi';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 
@@ -91,8 +91,8 @@ const UsersPage: FC<PropsType> = ({ title }) => {
     },
     {
       title: t('users.table.header.role'),
-      dataIndex: 'jobTitle',
-      key: 'jobTitle'
+      dataIndex: 'role',
+      key: 'role'
     },
     {
       title: t('users.table.header.dateOfRegistration'),
@@ -119,7 +119,7 @@ const UsersPage: FC<PropsType> = ({ title }) => {
           {title ?? t('users.header.title')}
         </Typography.Title>
         <div className={s.buttons_wrapper}>
-          <Button view="primary" size="xs" onClick={() => navigate(USERS)}>
+          <Button view="primary" size="xs" onClick={() => navigate(NEW_USER)}>
             {t('users.button.addUser')}
           </Button>
           {checkedItems.length !== 0 && (
