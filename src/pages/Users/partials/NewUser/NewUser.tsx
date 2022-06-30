@@ -24,7 +24,7 @@ export const NewUser = () => {
       middleName: '',
       phoneNumber: '',
       email: '',
-      role: ['admin'],
+      role: ['manager'],
       status: true
     }
   });
