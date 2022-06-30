@@ -1,7 +1,8 @@
 import React, { FC, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@alfalab/core-components/button';
+import { format } from 'date-fns';
+import Button from 'arui-feather/button';
 import { Typography } from '@alfalab/core-components/typography';
 import { Pagination } from 'components/Pagination';
 import { Table } from 'components/Table';
@@ -10,15 +11,15 @@ import { NEW_USER } from 'navigation/CONSTANTS';
 import { useGetUsersQuery } from 'services/api/usersApi';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 
-import { format } from 'date-fns';
-import s from './Users.module.css';
 import { DataType } from './types';
+import s from './Users.module.css';
 
 type PropsType = {
-  title?: string;
+  title?: string | undefined;
+  merchantId?: string | undefined;
 };
 
-const UsersPage: FC<PropsType> = ({ title }) => {
+const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [search, setSearch] = useSearchParams();
@@ -28,7 +29,9 @@ const UsersPage: FC<PropsType> = ({ title }) => {
     []
   );
 
-  const { data, isFetching } = useGetUsersQuery('');
+  const { data, isFetching } = useGetUsersQuery({
+    merchantId
+  });
 
   const currentPageIndex = (Number(search.get('page')) || 1) - 1;
   const pagesCount = (data && Math.ceil(data.length / limit)) || 1;
@@ -115,15 +118,15 @@ const UsersPage: FC<PropsType> = ({ title }) => {
   return (
     <div>
       <div>
-        <Typography.Title tag="h1" className={s.title}>
+        <Typography.Title tag="h1" className="title-1 mb-42">
           {title ?? t('users.header.title')}
         </Typography.Title>
         <div className={s.buttons_wrapper}>
-          <Button view="primary" size="xs" onClick={() => navigate(NEW_USER)}>
+          <Button view="extra" size="m" onClick={() => navigate(NEW_USER)}>
             {t('users.button.addUser')}
           </Button>
           {checkedItems.length !== 0 && (
-            <Button size="xs">{t('button.delete')}</Button>
+            <Button size="m">{t('button.delete')}</Button>
           )}
         </div>
         <Table
@@ -155,7 +158,8 @@ const UsersPage: FC<PropsType> = ({ title }) => {
 };
 
 UsersPage.defaultProps = {
-  title: ''
+  title: undefined,
+  merchantId: undefined
 };
 
 export default UsersPage;

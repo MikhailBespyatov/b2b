@@ -23,7 +23,7 @@ const Partner: FC<PropsType> = ({ merchantId }) => {
       case 'INFORMATION':
         return <Information />;
       case 'USERS':
-        return <Users />;
+        return <Users merchantId={merchantId} />;
       default:
         return <Information />;
     }

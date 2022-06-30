@@ -3,7 +3,14 @@ import { baseEmptyAPI } from './baseQuery';
 export const usersAPI = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
     getUsers: builder.query({
-      query: () => `users/user`
+      query: ({ merchantId }) => {
+        return {
+          url: `users/user`,
+          params: {
+            merchantId
+          }
+        };
+      }
     }),
     addNewUser: builder.mutation({
       query: ({ body }) => {
