@@ -44,6 +44,21 @@
   "users.table.header.dateOfRegistration": "Дата регистрации",
   "users.table.header.registeredBy": "Кем зарегистрирован",
 
+  "user.new.title": "Добавить пользователя",
+  "user.new.statusTitle": "Статус учётной записи",
+  "user.new.form.statusActive": "Активный",
+  "user.new.form.statusInActive": "Не активный",
+  "user.new.form.lastName": "Фамилия",
+  "user.new.form.firstName": "Имя",
+  "user.new.form.middleName": "Отчество",
+  "user.new.form.phoneNumber": "Номер телефона",
+  "user.new.form.email": "Email",
+  "user.new.form.role": "Роль на портале",
+  "user.new.form.role.admin": "Администратор",
+  "user.new.form.role.manager": "Менеджер интернет-магазина",
+  "user.new.form.role.courier": "Курьер",
+
+
   "user.surname": "Фамилия",
   "user.name": "Имя",
   "user.middleName": "Отчество",

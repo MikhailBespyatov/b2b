@@ -1,7 +1,7 @@
 export const ROOT = '/';
 export const PARTNERS = '/partners';
 export const USERS = '/users';
-export const ADD_USER = `${USERS}/add`;
+export const NEW_USER = `${USERS}/new-user`;
 export const TRANSACTIONS = '/transactions';
 export const ANALYTICS = '/analytics';
 export const STATISTICS = '/statistics';

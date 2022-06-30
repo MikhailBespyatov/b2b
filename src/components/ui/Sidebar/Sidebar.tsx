@@ -17,7 +17,7 @@ const Sidebar: FC = () => {
       </div>
       <div>
         {SIDEBAR_ITEMS.map(({ title, path }) => {
-          const isActive = path === pathname;
+          const isActive = pathname.includes(path);
 
           return (
             <Link

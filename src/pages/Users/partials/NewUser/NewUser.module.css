@@ -1,0 +1,41 @@
+.title {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 48px;
+  color: #172A3F;
+
+  margin-bottom: 40px;
+}
+
+.statusTitleWrapper {
+  margin-bottom: 12px;
+}
+
+.statusTitle {
+  font-size: 18px;
+  line-height: 22px;
+  color: #172A3F;
+}
+
+.statusLabel {
+  font-size: 16px;
+  line-height: 24px;
+  color: #0B1F35;
+}
+
+.statusWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.roleTitle > span > span {
+  font-size: 16px !important;
+  line-height: 22px !important;
+  color: #6D7986;
+}
+
+.roleTitle {
+  padding-top: 24px !important;
+}
