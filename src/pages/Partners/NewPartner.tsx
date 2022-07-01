@@ -128,10 +128,10 @@ const NewPartner: FC = () => {
         type: 'postal',
         country: undefined,
         city: undefined,
-        postalCode: '',
+        postIndex: '',
         street: '',
         house: '',
-        office: '',
+        flat: '',
         okato: ''
       });
     }

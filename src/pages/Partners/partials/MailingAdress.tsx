@@ -38,7 +38,7 @@ const MailingAddress: FC<PropsType> = ({
         >
           <FormField size="m">
             <Controller
-              name={`Addresses[${counter}].country`}
+              name={`Adresses[${counter}].country`}
               control={control}
               render={({ field }) => {
                 return (
@@ -70,7 +70,7 @@ const MailingAddress: FC<PropsType> = ({
         >
           <FormField size="m">
             <Controller
-              name={`Addresses[${counter}].city`}
+              name={`Adresses[${counter}].city`}
               control={control}
               render={({ field }) => {
                 return (
@@ -101,7 +101,7 @@ const MailingAddress: FC<PropsType> = ({
           }}
         >
           <Controller
-            name={`Addresses[${counter}].postIndex`}
+            name={`Adresses[${counter}].postIndex`}
             control={control}
             render={({ field }) => {
               return (
@@ -111,7 +111,9 @@ const MailingAddress: FC<PropsType> = ({
                   width="available"
                   maxLength={120}
                   hint={
-                    <div className="t-right">{field.value?.length}/120</div>
+                    <div className="t-right">
+                      {field.value?.length || 0}/120
+                    </div>
                   }
                   clear
                   {...field}
@@ -128,7 +130,7 @@ const MailingAddress: FC<PropsType> = ({
           }}
         >
           <Controller
-            name={`Addresses[${counter}].street`}
+            name={`Adresses[${counter}].street`}
             control={control}
             render={({ field }) => {
               return (
@@ -138,7 +140,9 @@ const MailingAddress: FC<PropsType> = ({
                   width="available"
                   maxLength={120}
                   hint={
-                    <div className="t-right">{field.value?.length}/120</div>
+                    <div className="t-right">
+                      {field.value?.length || 0}/120
+                    </div>
                   }
                   clear
                   {...field}
@@ -155,7 +159,7 @@ const MailingAddress: FC<PropsType> = ({
           }}
         >
           <Controller
-            name={`Addresses[${counter}].house`}
+            name={`Adresses[${counter}].house`}
             control={control}
             render={({ field }) => {
               return (
@@ -165,7 +169,9 @@ const MailingAddress: FC<PropsType> = ({
                   width="available"
                   maxLength={120}
                   hint={
-                    <div className="t-right">{field.value?.length}/120</div>
+                    <div className="t-right">
+                      {field.value?.length || 0}/120
+                    </div>
                   }
                   clear
                   {...field}
@@ -182,7 +188,7 @@ const MailingAddress: FC<PropsType> = ({
           }}
         >
           <Controller
-            name={`Addresses[${counter}].flat`}
+            name={`Adresses[${counter}].flat`}
             control={control}
             render={({ field }) => {
               return (
@@ -192,7 +198,9 @@ const MailingAddress: FC<PropsType> = ({
                   width="available"
                   maxLength={120}
                   hint={
-                    <div className="t-right">{field.value?.length}/120</div>
+                    <div className="t-right">
+                      {field.value?.length || 0}/120
+                    </div>
                   }
                   clear
                   {...field}
@@ -209,7 +217,7 @@ const MailingAddress: FC<PropsType> = ({
           }}
         >
           <Controller
-            name={`Addresses[${counter}].okato`}
+            name={`Adresses[${counter}].okato`}
             control={control}
             render={({ field }) => {
               return (
@@ -219,7 +227,9 @@ const MailingAddress: FC<PropsType> = ({
                   width="available"
                   maxLength={120}
                   hint={
-                    <div className="t-right">{field.value?.length}/120</div>
+                    <div className="t-right">
+                      {field.value?.length || 0}/120
+                    </div>
                   }
                   clear
                   {...field}
