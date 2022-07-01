@@ -7,11 +7,11 @@ import { Checkbox } from '@alfalab/core-components/checkbox';
 import { Skeleton } from '@alfalab/core-components/skeleton';
 import { Switch } from '@alfalab/core-components/switch';
 import { PARTNERS, NEW_PARTNER } from 'navigation/CONSTANTS';
-import { useGetMerchantsQuery } from 'services/api/transactionApi';
 import { uuid } from 'utils/uuid';
 import { IMerchant } from 'models/IMerchant';
 import { Pagination } from 'components/Pagination';
 import { PartnerPage } from '../Partner';
+import { useGetPartnersQuery } from '../../services/api/partnerApi';
 
 const Partners: FC = () => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ const Partners: FC = () => {
   const [checkedItems, setCheckedItems] = useState<Array<number | string>>([]);
   const [limit, setLimit] = useState(25);
   const [search, setSearch] = useSearchParams();
-  const { data, isSuccess, isFetching } = useGetMerchantsQuery('');
+  const { data, isSuccess, isFetching } = useGetPartnersQuery('');
 
   const handlePageChange = (value: number) => {
     setSearch(`?page=${value + 1}`);
