@@ -7,7 +7,7 @@ export const partnerAPI = baseEmptyAPI.injectEndpoints({
       keepUnusedDataFor: 0
     }),
     postPartner: builder.mutation({
-      query: ({ body }) => {
+      query: body => {
         return {
           url: '/partners',
           method: 'POST',

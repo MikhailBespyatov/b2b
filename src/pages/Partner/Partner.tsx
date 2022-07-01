@@ -14,7 +14,6 @@ const Partner: FC<PropsType> = ({ merchantId }) => {
   const [currentTab, setCurrentTab] = useState<string>('INFORMATION');
 
   const handleClick = (tab: string) => () => {
-    console.log(currentTab, merchantId);
     setCurrentTab(tab);
   };
 
@@ -27,7 +26,7 @@ const Partner: FC<PropsType> = ({ merchantId }) => {
       default:
         return <Information />;
     }
-  }, [currentTab]);
+  }, [currentTab, merchantId]);
 
   return (
     <>

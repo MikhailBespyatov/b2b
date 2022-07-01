@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,7 @@ import { emailValidator } from 'utils/validator/emailValidator';
 
 import s from './NewUser.module.css';
 
-export const NewUser = () => {
+export const NewUser: FC = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
 

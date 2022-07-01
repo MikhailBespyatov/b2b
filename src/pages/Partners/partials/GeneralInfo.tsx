@@ -20,7 +20,7 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
       <Label size="l" className="bold-700">
         {t('partner.new.header.general')}
       </Label>
-      <Grid.Row className="container">
+      <Grid.Row className="container mb-42">
         <Grid.Col
           width={{
             mobile: { s: 12, m: 12, l: 12 },
