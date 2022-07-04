@@ -1,5 +1,6 @@
 {
   "app.name": "Бизнес отчёт",
+  "status.error": "Ошибка",
 
   "page.notFound.text": "Страница не найдена",
   "page.nav.tab_1": "Статистика",
@@ -221,6 +222,7 @@
   "partner.nav.information": "Информация",
   "partner.nav.users": "Пользователи",
 
-  "partner.users.title": "Все пользователи партнёра"
+  "partner.users.title": "Все пользователи партнёра",
+  "partner.new-partner.success": "Партнер успешно добавлен"
 
 }

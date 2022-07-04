@@ -12,9 +12,15 @@ type PropsType = {
   countryList: ISelect[];
   cityList: ISelect[];
   control: Control<any>;
+  errors: any;
 };
 
-const LegalAddress: FC<PropsType> = ({ countryList, cityList, control }) => {
+const LegalAddress: FC<PropsType> = ({
+  countryList,
+  cityList,
+  control,
+  errors
+}) => {
   const { t } = useTranslation();
   return (
     <>
@@ -70,12 +76,19 @@ const LegalAddress: FC<PropsType> = ({ countryList, cityList, control }) => {
             <Controller
               name="Adresses[0].city"
               control={control}
+              rules={{
+                required: true
+              }}
               render={({ field: { value, onChange } }) => {
                 return (
                   <Select
                     size="s"
                     width="available"
-                    label={t('partner.new.form.legal.city')}
+                    label={
+                      <span className="required">
+                        {t('partner.new.form.legal.city')}
+                      </span>
+                    }
                     mode="radio"
                     options={[
                       {
@@ -84,6 +97,7 @@ const LegalAddress: FC<PropsType> = ({ countryList, cityList, control }) => {
                       },
                       ...cityList
                     ]}
+                    error={!!errors?.city}
                     value={[value]}
                     onChange={(values: number[] | undefined) => {
                       if (values) {
@@ -106,17 +120,25 @@ const LegalAddress: FC<PropsType> = ({ countryList, cityList, control }) => {
           <Controller
             name="Adresses[0].postIndex"
             control={control}
+            rules={{
+              required: true
+            }}
             render={({ field }) => {
               return (
                 <Input
                   size="s"
-                  label={t('partner.new.form.legal.postalCode')}
+                  label={
+                    <span className="required">
+                      {t('partner.new.form.legal.postalCode')}
+                    </span>
+                  }
                   width="available"
                   maxLength={120}
                   hint={
                     <div className="t-right">{field.value?.length}/120</div>
                   }
                   clear
+                  error={!!errors?.postIndex}
                   {...field}
                 />
               );
@@ -160,17 +182,25 @@ const LegalAddress: FC<PropsType> = ({ countryList, cityList, control }) => {
           <Controller
             name="Adresses[0].house"
             control={control}
+            rules={{
+              required: true
+            }}
             render={({ field }) => {
               return (
                 <Input
                   size="s"
-                  label={t('partner.new.form.legal.house')}
+                  label={
+                    <span className="required">
+                      {t('partner.new.form.legal.house')}
+                    </span>
+                  }
                   width="available"
                   maxLength={120}
                   hint={
                     <div className="t-right">{field.value?.length}/120</div>
                   }
                   clear
+                  error={!!errors?.house}
                   {...field}
                 />
               );

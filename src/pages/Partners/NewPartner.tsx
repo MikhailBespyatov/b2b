@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, Fragment, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
@@ -17,43 +17,22 @@ import {
 import { usePostPartnerMutation } from '../../services/api/partnerApi';
 import { addToast } from '../../redux/slices/app-slice';
 import { uuid } from '../../utils/uuid';
+import { ICity } from '../../models/ICity';
+import { ICountry } from '../../models/ICountry';
 
 const NewPartner: FC = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const [countAddress, setCountAddress] = useState<number>(0);
-  const [formDefaultValues, setFormDefaultValues] = useState<any>({
-    legalEntityForm: 'TOO',
-    partnerLegalName: 'AO KONY',
-    bin: '87984455521',
-    merchantId: '',
-    pointCode: '01-LT-KOEN',
-    mSite: 'konepushka.kz',
-    phoneNumber: '+77472214849',
-    archivePassword: '1488',
-    Adresses: [
-      {
-        type: 'juridical',
-        country: 'Kazakhstan',
-        city: 'Karaganda',
-        postIndex: 'MX1200',
-        street: 'Konayev',
-        house: '12',
-        flat: '3',
-        okato: '12345'
-      }
-    ]
-  });
   const [postPartner, { isLoading }] = usePostPartnerMutation();
 
   const { data: countryData, isFetching: isCountryDataFetching } =
     useGetCountriesQuery('', {
       selectFromResult: ({ data, ...rest }) => {
-        const newData = data?.map(item => {
+        const newData = data?.map((item: ICountry) => {
           return {
-            value: item.id,
-            // @ts-ignore
-            text: item[`${i18n.language.toUpperCase()}Name`]
+            value: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`],
+            text: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`]
           };
         });
         return {
@@ -66,11 +45,10 @@ const NewPartner: FC = () => {
     '',
     {
       selectFromResult: ({ data, ...rest }) => {
-        const newData = data?.map(item => {
+        const newData = data?.map((item: ICity) => {
           return {
-            value: item.id,
-            // @ts-ignore
-            text: item[`${i18n.language.toUpperCase()}Name`]
+            text: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`],
+            value: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`]
           };
         });
 
@@ -82,8 +60,35 @@ const NewPartner: FC = () => {
     }
   );
 
-  const { handleSubmit, control } = useForm({
-    defaultValues: formDefaultValues
+  const {
+    handleSubmit,
+    control,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      legalEntityForm: '',
+      partnerLegalName: '',
+      bin: '',
+      merchantId: '',
+      pointCode: '',
+      mSite: '',
+      phoneNumber: '',
+      archivePassword: '',
+      Adresses: [
+        {
+          type: 'juridical',
+          country: '',
+          city: '',
+          postIndex: '',
+          street: '',
+          house: '',
+          flat: '',
+          okato: ''
+        }
+      ]
+    }
   });
 
   const onSubmit = handleSubmit((values: any) => {
@@ -99,11 +104,34 @@ const NewPartner: FC = () => {
             })
           );
         } else {
+          reset({
+            legalEntityForm: '',
+            partnerLegalName: '',
+            bin: '',
+            merchantId: '',
+            pointCode: '',
+            mSite: '',
+            phoneNumber: '',
+            archivePassword: '',
+            Adresses: [
+              {
+                type: 'juridical',
+                country: '',
+                city: '',
+                postIndex: '',
+                street: '',
+                house: '',
+                flat: '',
+                okato: ''
+              }
+            ]
+          });
+          setCountAddress(0);
           dispatch(
             addToast({
               id: uuid(),
               badge: 'positive',
-              text: 'Партнер успешно добавлен',
+              text: t('partner.new-partner.success'),
               title: ''
             })
           );
@@ -114,48 +142,18 @@ const NewPartner: FC = () => {
           addToast({
             id: uuid(),
             badge: 'negative',
-            text: 'Ошибка',
+            text: t('status.error'),
             title: ''
           })
         );
       });
   });
 
-  const generateFormFields = () => {
-    const mailingAddress: any[] = [];
-    for (let i = 0; i < countAddress + 1; i += 1) {
-      mailingAddress.push({
-        type: 'postal',
-        country: undefined,
-        city: undefined,
-        postIndex: '',
-        street: '',
-        house: '',
-        flat: '',
-        okato: ''
-      });
-    }
-    setFormDefaultValues((prev: any) => ({
-      ...prev,
-      Adresses: [...prev.Adresses, ...mailingAddress]
-    }));
-  };
-
   const handleIsAddressMatchChange = () => {
-    if (countAddress === 0) {
-      generateFormFields();
-    } else {
-      setFormDefaultValues((prev: any) => ({
-        ...prev,
-        Adresses: prev.Adresses[0]
-      }));
-    }
-
     setCountAddress((prev: number) => (prev !== 0 ? 0 : prev + 1));
   };
 
   const handleAddAddress = () => {
-    generateFormFields();
     setCountAddress(prev => prev + 1);
   };
 
@@ -170,11 +168,12 @@ const NewPartner: FC = () => {
           countryList={countryData}
           cityList={cityData}
           control={control}
+          errors={errors?.Adresses?.[0] ?? false}
         />
       );
     }
     return null;
-  }, [countryData, cityData, control]);
+  }, [countryData, cityData, control, errors?.Adresses]);
 
   if (isCountryDataFetching || isCityDataFetching) {
     return (
@@ -207,13 +206,20 @@ const NewPartner: FC = () => {
               cityData &&
               Array.from({ length: countAddress }, (_, index) => {
                 return (
-                  <MailingAddress
-                    key={index}
-                    counter={index + 1}
-                    control={control}
-                    countryList={countryData}
-                    cityList={cityData}
-                  />
+                  <Fragment key={index + 1}>
+                    <input
+                      type="hidden"
+                      value="postal"
+                      {...register(`Adresses.${index + 1}.type`)}
+                    />
+                    <MailingAddress
+                      counter={index + 1}
+                      control={control}
+                      countryList={countryData ?? []}
+                      cityList={cityData ?? []}
+                      errors={errors?.Adresses?.[index + 1] ?? false}
+                    />
+                  </Fragment>
                 );
               })}
             <div className="mt-24 mb-34">

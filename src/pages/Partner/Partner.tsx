@@ -20,11 +20,11 @@ const Partner: FC<PropsType> = ({ merchantId }) => {
   const tabContentMemo = useMemo(() => {
     switch (currentTab) {
       case 'INFORMATION':
-        return <Information />;
+        return <Information merchantId={merchantId} />;
       case 'USERS':
         return <Users merchantId={merchantId} />;
       default:
-        return <Information />;
+        return <Information merchantId={merchantId} />;
     }
   }, [currentTab, merchantId]);
 

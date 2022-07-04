@@ -201,3 +201,8 @@ hr {
 .mh-90 {
   min-height: 90vh;
 }
+
+.required:after {
+  content: ' *';
+  color: #f03b2f;
+}

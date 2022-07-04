@@ -20,7 +20,7 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
       <Label size="l" className="bold-700">
         {t('partner.new.header.general')}
       </Label>
-      <Grid.Row className="container mb-42">
+      <Grid.Row className="container mb-24">
         <Grid.Col
           width={{
             mobile: { s: 12, m: 12, l: 12 },
@@ -57,7 +57,7 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
             <Controller
               name="legalEntityForm"
               control={control}
-              render={({ field }) => {
+              render={({ field: { value, onChange } }) => {
                 return (
                   <Select
                     size="s"
@@ -70,19 +70,24 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
                         text: 'Не выбран'
                       },
                       {
-                        value: 'too',
+                        value: 'TOO',
                         text: 'ТОО'
                       },
                       {
-                        value: 'oao',
+                        value: 'OAO',
                         text: 'ОАО'
                       },
                       {
-                        value: 'zao',
+                        value: 'ZAO',
                         text: 'ЗАО'
                       }
                     ]}
-                    {...field}
+                    value={[value]}
+                    onChange={(values: number[] | undefined) => {
+                      if (values) {
+                        onChange(values?.[0]);
+                      }
+                    }}
                   />
                 );
               }}

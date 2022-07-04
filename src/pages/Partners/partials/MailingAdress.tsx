@@ -13,22 +13,24 @@ type PropsType = {
   cityList: ISelect[];
   counter: number;
   control: Control<any>;
+  errors: any;
 };
 
 const MailingAddress: FC<PropsType> = ({
   countryList,
   cityList,
   counter,
-  control
+  control,
+  errors
 }) => {
   const { t } = useTranslation();
 
   return (
     <>
-      <Label size="l" className="bold-700">
+      <Label size="l" className="bold-700 mb-24">
         {t('partner.new.header.mailingAddress')}
       </Label>
-      <Grid.Row className="container">
+      <Grid.Row className="container mt-16 mb-24">
         <Grid.Col
           width={{
             mobile: { s: 12, m: 12, l: 12 },
@@ -36,11 +38,11 @@ const MailingAddress: FC<PropsType> = ({
             desktop: { s: 7, m: 7, l: 7 }
           }}
         >
-          <FormField size="m">
+          <FormField size="s">
             <Controller
-              name={`Adresses[${counter}].country`}
+              name="Adresses[1].country"
               control={control}
-              render={({ field }) => {
+              render={({ field: { value, onChange } }) => {
                 return (
                   <Select
                     size="s"
@@ -54,7 +56,12 @@ const MailingAddress: FC<PropsType> = ({
                       },
                       ...countryList
                     ]}
-                    {...field}
+                    value={[value]}
+                    onChange={(values: number[] | undefined) => {
+                      if (values) {
+                        onChange(values?.[0]);
+                      }
+                    }}
                   />
                 );
               }}
@@ -68,16 +75,21 @@ const MailingAddress: FC<PropsType> = ({
             desktop: { s: 7, m: 7, l: 7 }
           }}
         >
-          <FormField size="m">
+          <FormField size="s">
             <Controller
               name={`Adresses[${counter}].city`}
               control={control}
-              render={({ field }) => {
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => {
                 return (
                   <Select
                     size="s"
                     width="available"
-                    label={t('partner.new.form.legal.city')}
+                    label={
+                      <span className="required">
+                        {t('partner.new.form.legal.city')}
+                      </span>
+                    }
                     mode="radio"
                     options={[
                       {
@@ -86,7 +98,13 @@ const MailingAddress: FC<PropsType> = ({
                       },
                       ...cityList
                     ]}
-                    {...field}
+                    value={[value]}
+                    onChange={(values: number[] | undefined) => {
+                      if (values) {
+                        onChange(values?.[0]);
+                      }
+                    }}
+                    error={!!errors?.city}
                   />
                 );
               }}
@@ -103,11 +121,16 @@ const MailingAddress: FC<PropsType> = ({
           <Controller
             name={`Adresses[${counter}].postIndex`}
             control={control}
+            rules={{ required: true }}
             render={({ field }) => {
               return (
                 <Input
                   size="s"
-                  label={t('partner.new.form.legal.postalCode')}
+                  label={
+                    <span className="required">
+                      {t('partner.new.form.legal.postalCode')}
+                    </span>
+                  }
                   width="available"
                   maxLength={120}
                   hint={
@@ -116,6 +139,7 @@ const MailingAddress: FC<PropsType> = ({
                     </div>
                   }
                   clear
+                  error={!!errors?.postIndex}
                   {...field}
                 />
               );
@@ -161,11 +185,16 @@ const MailingAddress: FC<PropsType> = ({
           <Controller
             name={`Adresses[${counter}].house`}
             control={control}
+            rules={{ required: true }}
             render={({ field }) => {
               return (
                 <Input
                   size="s"
-                  label={t('partner.new.form.legal.house')}
+                  label={
+                    <span className="required">
+                      {t('partner.new.form.legal.house')}
+                    </span>
+                  }
                   width="available"
                   maxLength={120}
                   hint={
@@ -174,6 +203,7 @@ const MailingAddress: FC<PropsType> = ({
                     </div>
                   }
                   clear
+                  error={!!errors?.house}
                   {...field}
                 />
               );
