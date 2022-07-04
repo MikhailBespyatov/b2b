@@ -1,26 +1,43 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Grid } from '@alfalab/core-components/grid';
+import { IconButton } from '@alfalab/core-components/icon-button';
 import { Label } from 'arui-feather/label';
 import PhoneInput from 'arui-feather/phone-input';
 import FormField from 'arui-feather/form-field';
 import Input from 'arui-feather/input';
 import Select from 'arui-feather/select';
+import { PencilIcon } from '../../../components/ui/icons/Pencil';
 
 type PropsType = {
   control: Control<any>;
+  isEditable?: boolean;
 };
+const EditIcon = () => <PencilIcon width={16} height={16} />;
 
-const GeneralInfo: FC<PropsType> = ({ control }) => {
+const GeneralInfo: FC<PropsType> = ({ control, isEditable }) => {
   const { t } = useTranslation();
+  const [disabledFields, setDisabledFields] = useState({
+    partnerLegalName: isEditable,
+    legalEntityForm: isEditable,
+    bin: isEditable,
+    mSite: isEditable,
+    pointCode: isEditable,
+    phoneNumber: isEditable,
+    archivePassword: isEditable
+  });
+
+  const handleEdit = (fieldName: string) => () => {
+    setDisabledFields(prev => ({ ...prev, [fieldName]: false }));
+  };
 
   return (
     <>
       <Label size="l" className="bold-700">
         {t('partner.new.header.general')}
       </Label>
-      <Grid.Row className="container mb-24">
+      <Grid.Row className="container mb-24 mt-16">
         <Grid.Col
           width={{
             mobile: { s: 12, m: 12, l: 12 },
@@ -39,6 +56,16 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
                     label={t('partner.new.form.general.legalName')}
                     width="available"
                     hint={t('hint.withoutQuotes')}
+                    disabled={disabledFields.partnerLegalName}
+                    rightAddons={
+                      disabledFields.partnerLegalName && (
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('partnerLegalName')}
+                          icon={EditIcon}
+                        />
+                      )
+                    }
                     {...field}
                   />
                 );
@@ -58,6 +85,25 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
               name="legalEntityForm"
               control={control}
               render={({ field: { value, onChange } }) => {
+                if (disabledFields.legalEntityForm) {
+                  return (
+                    <Input
+                      size="s"
+                      label={t('partner.new.form.general.entityForm')}
+                      width="available"
+                      disabled={disabledFields.legalEntityForm}
+                      rightAddons={
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('legalEntityForm')}
+                          icon={EditIcon}
+                        />
+                      }
+                      value={value}
+                    />
+                  );
+                }
+
                 return (
                   <Select
                     size="s"
@@ -111,6 +157,16 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
                     size="s"
                     label={t('partner.new.form.general.bin')}
                     width="available"
+                    disabled={disabledFields.bin}
+                    rightAddons={
+                      disabledFields.bin && (
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('bin')}
+                          icon={EditIcon}
+                        />
+                      )
+                    }
                     {...field}
                   />
                 );
@@ -135,6 +191,16 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
                     size="s"
                     label={t('partner.new.form.general.website')}
                     width="available"
+                    disabled={disabledFields.mSite}
+                    rightAddons={
+                      disabledFields.mSite && (
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('mSite')}
+                          icon={EditIcon}
+                        />
+                      )
+                    }
                     {...field}
                   />
                 );
@@ -160,6 +226,16 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
                     label={t('partner.new.form.general.ukkNumber')}
                     width="available"
                     hint={t('hint.ukkNumber')}
+                    disabled={disabledFields.pointCode}
+                    rightAddons={
+                      disabledFields.pointCode && (
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('pointCode')}
+                          icon={EditIcon}
+                        />
+                      )
+                    }
                     {...field}
                   />
                 );
@@ -185,6 +261,16 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
                     label={t('partner.new.form.general.phoneNumber')}
                     width="available"
                     placeholder="+7 000 000 00 00"
+                    disabled={disabledFields.phoneNumber}
+                    rightAddons={
+                      disabledFields.phoneNumber && (
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('phoneNumber')}
+                          icon={EditIcon}
+                        />
+                      )
+                    }
                     {...field}
                   />
                 );
@@ -210,6 +296,16 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
                     label={t('partner.new.form.general.archiveCode')}
                     width="available"
                     hint={t('hint.ukkDB')}
+                    disabled={disabledFields.archivePassword}
+                    rightAddons={
+                      disabledFields.archivePassword && (
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('archivePassword')}
+                          icon={EditIcon}
+                        />
+                      )
+                    }
                     {...field}
                   />
                 );
@@ -220,6 +316,10 @@ const GeneralInfo: FC<PropsType> = ({ control }) => {
       </Grid.Row>
     </>
   );
+};
+
+GeneralInfo.defaultProps = {
+  isEditable: false
 };
 
 export default GeneralInfo;

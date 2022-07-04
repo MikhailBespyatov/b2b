@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Label } from 'arui-feather/label';
@@ -6,22 +6,44 @@ import FormField from 'arui-feather/form-field';
 import Input from 'arui-feather/input';
 import Select from 'arui-feather/select';
 import { Grid } from '@alfalab/core-components/grid';
+import { IconButton } from '@alfalab/core-components/icon-button';
+
 import { ISelect } from '../../../models/ISelect';
+import { PencilIcon } from '../../../components/ui/icons/Pencil';
+
+const EditIcon = () => <PencilIcon width={16} height={16} />;
 
 type PropsType = {
   countryList: ISelect[];
   cityList: ISelect[];
   control: Control<any>;
   errors: any;
+  isEditable?: boolean;
 };
 
 const LegalAddress: FC<PropsType> = ({
   countryList,
   cityList,
   control,
+  isEditable,
   errors
 }) => {
   const { t } = useTranslation();
+
+  const [disabledFields, setDisabledFields] = useState({
+    country: isEditable,
+    city: isEditable,
+    postIndex: isEditable,
+    street: isEditable,
+    house: isEditable,
+    flat: isEditable,
+    okato: isEditable
+  });
+
+  const handleEdit = (fieldName: string) => () => {
+    setDisabledFields(prev => ({ ...prev, [fieldName]: false }));
+  };
+
   return (
     <>
       <Label size="l" className="bold-700">
@@ -40,6 +62,24 @@ const LegalAddress: FC<PropsType> = ({
               name="Adresses[0].country"
               control={control}
               render={({ field: { value, onChange } }) => {
+                if (disabledFields.country) {
+                  return (
+                    <Input
+                      size="s"
+                      label={t('partner.new.form.legal.country')}
+                      width="available"
+                      disabled={disabledFields.country}
+                      rightAddons={
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('country')}
+                          icon={EditIcon}
+                        />
+                      }
+                      value={value}
+                    />
+                  );
+                }
                 return (
                   <Select
                     size="s"
@@ -80,6 +120,26 @@ const LegalAddress: FC<PropsType> = ({
                 required: true
               }}
               render={({ field: { value, onChange } }) => {
+                if (disabledFields.city) {
+                  return (
+                    <Input
+                      size="s"
+                      label={t('partner.new.form.legal.city')}
+                      width="available"
+                      disabled={disabledFields.city}
+                      error={!!errors?.city}
+                      rightAddons={
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('city')}
+                          icon={EditIcon}
+                        />
+                      }
+                      value={value}
+                    />
+                  );
+                }
+
                 return (
                   <Select
                     size="s"
@@ -137,7 +197,16 @@ const LegalAddress: FC<PropsType> = ({
                   hint={
                     <div className="t-right">{field.value?.length}/120</div>
                   }
-                  clear
+                  disabled={disabledFields.postIndex}
+                  rightAddons={
+                    disabledFields.postIndex && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('postIndex')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
                   error={!!errors?.postIndex}
                   {...field}
                 />
@@ -165,7 +234,16 @@ const LegalAddress: FC<PropsType> = ({
                   hint={
                     <div className="t-right">{field.value?.length}/120</div>
                   }
-                  clear
+                  disabled={disabledFields.street}
+                  rightAddons={
+                    disabledFields.street && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('street')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
                   {...field}
                 />
               );
@@ -199,7 +277,16 @@ const LegalAddress: FC<PropsType> = ({
                   hint={
                     <div className="t-right">{field.value?.length}/120</div>
                   }
-                  clear
+                  disabled={disabledFields.house}
+                  rightAddons={
+                    disabledFields.house && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('house')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
                   error={!!errors?.house}
                   {...field}
                 />
@@ -227,7 +314,16 @@ const LegalAddress: FC<PropsType> = ({
                   hint={
                     <div className="t-right">{field.value?.length}/120</div>
                   }
-                  clear
+                  disabled={disabledFields.flat}
+                  rightAddons={
+                    disabledFields.flat && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('flat')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
                   {...field}
                 />
               );
@@ -254,7 +350,16 @@ const LegalAddress: FC<PropsType> = ({
                   hint={
                     <div className="t-right">{field.value?.length}/120</div>
                   }
-                  clear
+                  disabled={disabledFields.okato}
+                  rightAddons={
+                    disabledFields.okato && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('okato')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
                   {...field}
                 />
               );
@@ -264,6 +369,10 @@ const LegalAddress: FC<PropsType> = ({
       </Grid.Row>
     </>
   );
+};
+
+LegalAddress.defaultProps = {
+  isEditable: false
 };
 
 export default LegalAddress;
