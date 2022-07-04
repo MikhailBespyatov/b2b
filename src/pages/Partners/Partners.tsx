@@ -78,7 +78,6 @@ const Partners: FC = () => {
               <td>
                 <div>{t('partner.table.pointCode')}</div>
               </td>
-              <td>{t('partner.table.city')}</td>
               <td>{t('partner.table.status')}</td>
               <td> </td>
             </tr>
@@ -88,7 +87,7 @@ const Partners: FC = () => {
               Array.from({ length: limit }, (_, index) => {
                 return (
                   <tr key={index}>
-                    {Array.from({ length: 8 }, () => {
+                    {Array.from({ length: 7 }, () => {
                       return (
                         <td key={uuid()}>
                           <Skeleton visible animate>
@@ -116,17 +115,16 @@ const Partners: FC = () => {
                         to={`${PARTNERS}?id=${item.merchantId}`}
                         className="primary-color"
                       >
-                        {item.merchantId}
+                        {item.partnerLegalName}
                       </Link>
                     </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
                     <td>{item.merchantId}</td>
+                    <td>{item.bin}</td>
+                    <td>{item.pointCode}</td>
+                    <td>{item.status}</td>
                     <td>
                       <Switch
-                        checked={item.merchantId === 'active'}
+                        checked={item.status === 'active'}
                         onChange={handleSwitch}
                       />
                     </td>
