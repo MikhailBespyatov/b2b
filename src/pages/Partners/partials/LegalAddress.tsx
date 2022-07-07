@@ -1,251 +1,378 @@
-import React, { FC } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { FC, useState } from 'react';
+import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Label } from 'arui-feather/label';
 import FormField from 'arui-feather/form-field';
 import Input from 'arui-feather/input';
 import Select from 'arui-feather/select';
 import { Grid } from '@alfalab/core-components/grid';
+import { IconButton } from '@alfalab/core-components/icon-button';
+
 import { ISelect } from '../../../models/ISelect';
+import { PencilIcon } from '../../../components/ui/icons/Pencil';
+
+const EditIcon = () => <PencilIcon width={16} height={16} />;
 
 type PropsType = {
   countryList: ISelect[];
   cityList: ISelect[];
+  control: Control<any>;
+  errors: any;
+  isEditable?: boolean;
 };
 
-const LegalAddress: FC<PropsType> = ({ countryList, cityList }) => {
+const LegalAddress: FC<PropsType> = ({
+  countryList,
+  cityList,
+  control,
+  isEditable,
+  errors
+}) => {
   const { t } = useTranslation();
 
-  const { handleSubmit, control } = useForm({
-    defaultValues: {
-      country: undefined,
-      city: undefined,
-      postalCode: '',
-      street: '',
-      house: '',
-      office: '',
-      okato: '',
-      matchEmail: false
-    }
+  const [disabledFields, setDisabledFields] = useState({
+    country: isEditable,
+    city: isEditable,
+    postIndex: isEditable,
+    street: isEditable,
+    house: isEditable,
+    flat: isEditable,
+    okato: isEditable
   });
 
-  const onSubmit = handleSubmit((values: any) => {
-    console.log(values);
-  });
+  const handleEdit = (fieldName: string) => () => {
+    setDisabledFields(prev => ({ ...prev, [fieldName]: false }));
+  };
 
   return (
     <>
       <Label size="l" className="bold-700">
         {t('partner.new.header.legalAddress')}
       </Label>
-      <form onSubmit={onSubmit} className="mt-16">
-        <Grid.Row className="container">
-          <Grid.Col
-            width={{
-              mobile: { s: 12, m: 12, l: 12 },
-              tablet: { s: 12, m: 8, l: 8 },
-              desktop: { s: 7, m: 7, l: 7 }
-            }}
-          >
-            <FormField size="s">
-              <Controller
-                name="country"
-                control={control}
-                render={({ field }) => {
+      <Grid.Row className="container mt-16">
+        <Grid.Col
+          width={{
+            mobile: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 8, l: 8 },
+            desktop: { s: 7, m: 7, l: 7 }
+          }}
+        >
+          <FormField size="s">
+            <Controller
+              name="Adresses[0].country"
+              control={control}
+              render={({ field: { value, onChange } }) => {
+                if (disabledFields.country) {
                   return (
-                    <Select
+                    <Input
                       size="s"
-                      width="available"
                       label={t('partner.new.form.legal.country')}
-                      mode="radio"
-                      options={[
-                        {
-                          value: '',
-                          text: 'Не выбран'
-                        },
-                        ...countryList
-                      ]}
-                      {...field}
-                    />
-                  );
-                }}
-              />
-            </FormField>
-          </Grid.Col>
-          <Grid.Col
-            width={{
-              mobile: { s: 12, m: 12, l: 12 },
-              tablet: { s: 12, m: 8, l: 8 },
-              desktop: { s: 7, m: 7, l: 7 }
-            }}
-          >
-            <FormField size="s">
-              <Controller
-                name="city"
-                control={control}
-                rules={{
-                  required: true
-                }}
-                render={({ field }) => {
-                  return (
-                    <Select
-                      size="s"
                       width="available"
-                      label={t('partner.new.form.legal.city')}
-                      mode="radio"
-                      options={[
-                        {
-                          value: '',
-                          text: 'Не выбран'
-                        },
-                        ...cityList
-                      ]}
-                      {...field}
+                      disabled={disabledFields.country}
+                      rightAddons={
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('country')}
+                          icon={EditIcon}
+                        />
+                      }
+                      value={value}
                     />
                   );
-                }}
-              />
-            </FormField>
-          </Grid.Col>
-          <Grid.Col
-            width={{
-              mobile: { s: 12, m: 12, l: 12 },
-              tablet: { s: 12, m: 8, l: 8 },
-              desktop: { s: 7, m: 7, l: 7 }
-            }}
-          >
-            <Controller
-              name="postalCode"
-              control={control}
-              render={({ field }) => {
+                }
                 return (
-                  <Input
+                  <Select
                     size="s"
-                    label={t('partner.new.form.legal.postalCode')}
                     width="available"
-                    maxLength={120}
-                    hint={
-                      <div className="t-right">{field.value.length}/120</div>
-                    }
-                    clear
-                    {...field}
+                    label={t('partner.new.form.legal.country')}
+                    mode="radio"
+                    options={[
+                      {
+                        value: '',
+                        text: 'Не выбран'
+                      },
+                      ...countryList
+                    ]}
+                    value={[value]}
+                    onChange={(values: number[] | undefined) => {
+                      if (values) {
+                        onChange(values?.[0]);
+                      }
+                    }}
                   />
                 );
               }}
             />
-          </Grid.Col>
-          <Grid.Col
-            width={{
-              mobile: { s: 12, m: 12, l: 12 },
-              tablet: { s: 12, m: 8, l: 8 },
-              desktop: { s: 7, m: 7, l: 7 }
-            }}
-          >
+          </FormField>
+        </Grid.Col>
+        <Grid.Col
+          width={{
+            mobile: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 8, l: 8 },
+            desktop: { s: 7, m: 7, l: 7 }
+          }}
+        >
+          <FormField size="s">
             <Controller
-              name="street"
+              name="Adresses[0].city"
               control={control}
-              render={({ field }) => {
+              rules={{
+                required: true
+              }}
+              render={({ field: { value, onChange } }) => {
+                if (disabledFields.city) {
+                  return (
+                    <Input
+                      size="s"
+                      label={t('partner.new.form.legal.city')}
+                      width="available"
+                      disabled={disabledFields.city}
+                      error={!!errors?.city}
+                      rightAddons={
+                        <IconButton
+                          size="xxs"
+                          onClick={handleEdit('city')}
+                          icon={EditIcon}
+                        />
+                      }
+                      value={value}
+                    />
+                  );
+                }
+
                 return (
-                  <Input
+                  <Select
                     size="s"
-                    label={t('partner.new.form.legal.street')}
                     width="available"
-                    maxLength={120}
-                    hint={
-                      <div className="t-right">{field.value.length}/120</div>
+                    label={
+                      <span className="required">
+                        {t('partner.new.form.legal.city')}
+                      </span>
                     }
-                    clear
-                    {...field}
+                    mode="radio"
+                    options={[
+                      {
+                        value: '',
+                        text: 'Не выбран'
+                      },
+                      ...cityList
+                    ]}
+                    error={!!errors?.city}
+                    value={[value]}
+                    onChange={(values: number[] | undefined) => {
+                      if (values) {
+                        onChange(values?.[0]);
+                      }
+                    }}
                   />
                 );
               }}
             />
-          </Grid.Col>
-          <Grid.Col
-            width={{
-              mobile: { s: 12, m: 12, l: 12 },
-              tablet: { s: 12, m: 8, l: 8 },
-              desktop: { s: 7, m: 7, l: 7 }
+          </FormField>
+        </Grid.Col>
+        <Grid.Col
+          width={{
+            mobile: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 8, l: 8 },
+            desktop: { s: 7, m: 7, l: 7 }
+          }}
+        >
+          <Controller
+            name="Adresses[0].postIndex"
+            control={control}
+            rules={{
+              required: true
             }}
-          >
-            <Controller
-              name="house"
-              control={control}
-              render={({ field }) => {
-                return (
-                  <Input
-                    size="s"
-                    label={t('partner.new.form.legal.house')}
-                    width="available"
-                    maxLength={120}
-                    hint={
-                      <div className="t-right">{field.value.length}/120</div>
-                    }
-                    clear
-                    {...field}
-                  />
-                );
-              }}
-            />
-          </Grid.Col>
-          <Grid.Col
-            width={{
-              mobile: { s: 12, m: 12, l: 12 },
-              tablet: { s: 12, m: 8, l: 8 },
-              desktop: { s: 7, m: 7, l: 7 }
+            render={({ field }) => {
+              return (
+                <Input
+                  size="s"
+                  label={
+                    <span className="required">
+                      {t('partner.new.form.legal.postalCode')}
+                    </span>
+                  }
+                  width="available"
+                  maxLength={120}
+                  hint={
+                    <div className="t-right">{field.value?.length}/120</div>
+                  }
+                  disabled={disabledFields.postIndex}
+                  rightAddons={
+                    disabledFields.postIndex && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('postIndex')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
+                  error={!!errors?.postIndex}
+                  {...field}
+                />
+              );
             }}
-          >
-            <Controller
-              name="office"
-              control={control}
-              render={({ field }) => {
-                return (
-                  <Input
-                    size="s"
-                    label={t('partner.new.form.legal.office')}
-                    width="available"
-                    maxLength={120}
-                    hint={
-                      <div className="t-right">{field.value.length}/120</div>
-                    }
-                    clear
-                    {...field}
-                  />
-                );
-              }}
-            />
-          </Grid.Col>
-          <Grid.Col
-            width={{
-              mobile: { s: 12, m: 12, l: 12 },
-              tablet: { s: 12, m: 8, l: 8 },
-              desktop: { s: 7, m: 7, l: 7 }
+          />
+        </Grid.Col>
+        <Grid.Col
+          width={{
+            mobile: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 8, l: 8 },
+            desktop: { s: 7, m: 7, l: 7 }
+          }}
+        >
+          <Controller
+            name="Adresses[0].street"
+            control={control}
+            render={({ field }) => {
+              return (
+                <Input
+                  size="s"
+                  label={t('partner.new.form.legal.street')}
+                  width="available"
+                  maxLength={120}
+                  hint={
+                    <div className="t-right">{field.value?.length}/120</div>
+                  }
+                  disabled={disabledFields.street}
+                  rightAddons={
+                    disabledFields.street && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('street')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
+                  {...field}
+                />
+              );
             }}
-          >
-            <Controller
-              name="okato"
-              control={control}
-              render={({ field }) => {
-                return (
-                  <Input
-                    size="s"
-                    label={t('partner.new.form.legal.okato')}
-                    width="available"
-                    maxLength={120}
-                    hint={
-                      <div className="t-right">{field.value.length}/120</div>
-                    }
-                    clear
-                    {...field}
-                  />
-                );
-              }}
-            />
-          </Grid.Col>
-        </Grid.Row>
-      </form>
+          />
+        </Grid.Col>
+        <Grid.Col
+          width={{
+            mobile: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 8, l: 8 },
+            desktop: { s: 7, m: 7, l: 7 }
+          }}
+        >
+          <Controller
+            name="Adresses[0].house"
+            control={control}
+            rules={{
+              required: true
+            }}
+            render={({ field }) => {
+              return (
+                <Input
+                  size="s"
+                  label={
+                    <span className="required">
+                      {t('partner.new.form.legal.house')}
+                    </span>
+                  }
+                  width="available"
+                  maxLength={120}
+                  hint={
+                    <div className="t-right">{field.value?.length}/120</div>
+                  }
+                  disabled={disabledFields.house}
+                  rightAddons={
+                    disabledFields.house && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('house')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
+                  error={!!errors?.house}
+                  {...field}
+                />
+              );
+            }}
+          />
+        </Grid.Col>
+        <Grid.Col
+          width={{
+            mobile: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 8, l: 8 },
+            desktop: { s: 7, m: 7, l: 7 }
+          }}
+        >
+          <Controller
+            name="Adresses[0].flat"
+            control={control}
+            render={({ field }) => {
+              return (
+                <Input
+                  size="s"
+                  label={t('partner.new.form.legal.office')}
+                  width="available"
+                  maxLength={120}
+                  hint={
+                    <div className="t-right">{field.value?.length}/120</div>
+                  }
+                  disabled={disabledFields.flat}
+                  rightAddons={
+                    disabledFields.flat && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('flat')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
+                  {...field}
+                />
+              );
+            }}
+          />
+        </Grid.Col>
+        <Grid.Col
+          width={{
+            mobile: { s: 12, m: 12, l: 12 },
+            tablet: { s: 12, m: 8, l: 8 },
+            desktop: { s: 7, m: 7, l: 7 }
+          }}
+        >
+          <Controller
+            name="Adresses[0].okato"
+            control={control}
+            render={({ field }) => {
+              return (
+                <Input
+                  size="s"
+                  label={t('partner.new.form.legal.okato')}
+                  width="available"
+                  maxLength={120}
+                  hint={
+                    <div className="t-right">{field.value?.length}/120</div>
+                  }
+                  disabled={disabledFields.okato}
+                  rightAddons={
+                    disabledFields.okato && (
+                      <IconButton
+                        size="xxs"
+                        onClick={handleEdit('okato')}
+                        icon={EditIcon}
+                      />
+                    )
+                  }
+                  {...field}
+                />
+              );
+            }}
+          />
+        </Grid.Col>
+      </Grid.Row>
     </>
   );
+};
+
+LegalAddress.defaultProps = {
+  isEditable: false
 };
 
 export default LegalAddress;

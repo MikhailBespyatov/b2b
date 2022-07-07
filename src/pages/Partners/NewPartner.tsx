@@ -1,4 +1,5 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, Fragment, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Button from 'arui-feather/button';
@@ -14,19 +15,24 @@ import {
   useGetCountriesQuery
 } from '../../services/api/countryApi';
 import { usePostPartnerMutation } from '../../services/api/partnerApi';
+import { addToast } from '../../redux/slices/app-slice';
+import { uuid } from '../../utils/uuid';
+import { ICity } from '../../models/ICity';
+import { ICountry } from '../../models/ICountry';
 
 const NewPartner: FC = () => {
   const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
   const [countAddress, setCountAddress] = useState<number>(0);
-  const [postPartner] = usePostPartnerMutation();
+  const [postPartner, { isLoading }] = usePostPartnerMutation();
+
   const { data: countryData, isFetching: isCountryDataFetching } =
     useGetCountriesQuery('', {
       selectFromResult: ({ data, ...rest }) => {
-        const newData = data?.map(item => {
+        const newData = data?.map((item: ICountry) => {
           return {
-            value: item.id,
-            // @ts-ignore
-            text: item[`${i18n.language.toUpperCase()}Name`]
+            value: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`],
+            text: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`]
           };
         });
         return {
@@ -39,11 +45,10 @@ const NewPartner: FC = () => {
     '',
     {
       selectFromResult: ({ data, ...rest }) => {
-        const newData = data?.map(item => {
+        const newData = data?.map((item: ICity) => {
           return {
-            value: item.id,
-            // @ts-ignore
-            text: item[`${i18n.language.toUpperCase()}Name`]
+            text: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`],
+            value: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`]
           };
         });
 
@@ -55,22 +60,93 @@ const NewPartner: FC = () => {
     }
   );
 
-  const { handleSubmit, control } = useForm({
+  const {
+    handleSubmit,
+    control,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm({
     defaultValues: {
-      legalEntityForm: undefined,
-      partnerLegalName: undefined,
-      bin: undefined,
-      mSite: '',
+      legalEntityForm: '',
+      partnerLegalName: '',
+      bin: '',
+      merchantId: '',
       pointCode: '',
+      mSite: '',
       phoneNumber: '',
       archivePassword: '',
-      Adresses: []
+      Adresses: [
+        {
+          type: 'juridical',
+          country: '',
+          city: '',
+          postIndex: '',
+          street: '',
+          house: '',
+          flat: '',
+          okato: ''
+        }
+      ]
     }
   });
 
   const onSubmit = handleSubmit((values: any) => {
-    postPartner(values);
-    console.log(values);
+    postPartner({ ...values, merchantId: uuid().substr(-8, 8) })
+      .then(({ error }: any) => {
+        if (error) {
+          dispatch(
+            addToast({
+              id: uuid(),
+              badge: 'negative',
+              text: error?.data?.errorMessage,
+              title: ''
+            })
+          );
+        } else {
+          reset({
+            legalEntityForm: '',
+            partnerLegalName: '',
+            bin: '',
+            merchantId: '',
+            pointCode: '',
+            mSite: '',
+            phoneNumber: '',
+            archivePassword: '',
+            Adresses: [
+              {
+                type: 'juridical',
+                country: '',
+                city: '',
+                postIndex: '',
+                street: '',
+                house: '',
+                flat: '',
+                okato: ''
+              }
+            ]
+          });
+          setCountAddress(0);
+          dispatch(
+            addToast({
+              id: uuid(),
+              badge: 'positive',
+              text: t('partner.new-partner.success'),
+              title: ''
+            })
+          );
+        }
+      })
+      .catch(() => {
+        dispatch(
+          addToast({
+            id: uuid(),
+            badge: 'negative',
+            text: t('status.error'),
+            title: ''
+          })
+        );
+      });
   });
 
   const handleIsAddressMatchChange = () => {
@@ -87,10 +163,17 @@ const NewPartner: FC = () => {
 
   const legalAddressMemo = useMemo(() => {
     if (countryData && cityData) {
-      return <LegalAddress countryList={countryData} cityList={cityData} />;
+      return (
+        <LegalAddress
+          countryList={countryData}
+          cityList={cityData}
+          control={control}
+          errors={errors?.Adresses?.[0] ?? false}
+        />
+      );
     }
     return null;
-  }, [countryData, cityData]);
+  }, [countryData, cityData, control, errors?.Adresses]);
 
   if (isCountryDataFetching || isCityDataFetching) {
     return (
@@ -123,11 +206,20 @@ const NewPartner: FC = () => {
               cityData &&
               Array.from({ length: countAddress }, (_, index) => {
                 return (
-                  <MailingAddress
-                    key={index}
-                    countryList={countryData}
-                    cityList={cityData}
-                  />
+                  <Fragment key={index + 1}>
+                    <input
+                      type="hidden"
+                      value="postal"
+                      {...register(`Adresses.${index + 1}.type`)}
+                    />
+                    <MailingAddress
+                      counter={index + 1}
+                      control={control}
+                      countryList={countryData ?? []}
+                      cityList={cityData ?? []}
+                      errors={errors?.Adresses?.[index + 1] ?? false}
+                    />
+                  </Fragment>
                 );
               })}
             <div className="mt-24 mb-34">
@@ -137,7 +229,14 @@ const NewPartner: FC = () => {
             </div>
           </>
         )}
-        <Button view="extra" size="m" type="submit" className="mb-32">
+        <Button
+          view="extra"
+          size="m"
+          type="submit"
+          className="mb-32"
+          disabled={isLoading}
+          icon={isLoading && <Spinner visible />}
+        >
           {t('button.save')}
         </Button>
       </form>

@@ -1,17 +1,17 @@
 import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Button from 'arui-feather/button';
 import { Typography } from '@alfalab/core-components/typography';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 import { Skeleton } from '@alfalab/core-components/skeleton';
 import { Switch } from '@alfalab/core-components/switch';
 import { PARTNERS, NEW_PARTNER } from 'navigation/CONSTANTS';
-import { useGetMerchantsQuery } from 'services/api/transactionApi';
 import { uuid } from 'utils/uuid';
 import { IMerchant } from 'models/IMerchant';
 import { Pagination } from 'components/Pagination';
 import { PartnerPage } from '../Partner';
+import { useGetPartnersQuery } from '../../services/api/partnerApi';
 
 const Partners: FC = () => {
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ const Partners: FC = () => {
   const [checkedItems, setCheckedItems] = useState<Array<number | string>>([]);
   const [limit, setLimit] = useState(25);
   const [search, setSearch] = useSearchParams();
-  const { data, isSuccess, isFetching } = useGetMerchantsQuery('');
+  const { data, isSuccess, isFetching } = useGetPartnersQuery('');
 
   const handlePageChange = (value: number) => {
     setSearch(`?page=${value + 1}`);
@@ -41,17 +41,11 @@ const Partners: FC = () => {
     e.stopPropagation();
   };
 
-  const handleItemClick = (id: string) => () => {
-    navigate(`${PARTNERS}?id=${id}`);
-  };
-
   return (
     <>
-      <div className="mb-32 d-flex mobile-block">
-        <Typography.Title tag="h2" className="mr-24">
-          {t('partner.header.title')}
-        </Typography.Title>
-      </div>
+      <Typography.Title tag="h1" className="title-1 mb-42">
+        {t('partner.header.title')}
+      </Typography.Title>
       {checkedItems.length ? (
         <Button size="m" className="mb-24">
           {t('button.delete')}
@@ -84,7 +78,6 @@ const Partners: FC = () => {
               <td>
                 <div>{t('partner.table.pointCode')}</div>
               </td>
-              <td>{t('partner.table.city')}</td>
               <td>{t('partner.table.status')}</td>
               <td> </td>
             </tr>
@@ -94,7 +87,7 @@ const Partners: FC = () => {
               Array.from({ length: limit }, (_, index) => {
                 return (
                   <tr key={index}>
-                    {Array.from({ length: 8 }, () => {
+                    {Array.from({ length: 7 }, () => {
                       return (
                         <td key={uuid()}>
                           <Skeleton visible animate>
@@ -110,26 +103,28 @@ const Partners: FC = () => {
               Array.isArray(data) &&
               data.map((item: IMerchant) => {
                 return (
-                  <tr
-                    key={item.merchantId}
-                    className="c-pointer"
-                    onClick={handleItemClick(item.merchantId)}
-                  >
+                  <tr key={item.merchantId}>
                     <td>
                       <Checkbox
                         onChange={handleSelect(item.merchantId)}
                         checked={checkedItems.includes(item.merchantId)}
                       />
                     </td>
-                    <td className="primary-color">{item.merchantId}</td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
+                    <td>
+                      <Link
+                        to={`${PARTNERS}?id=${item.merchantId}`}
+                        className="primary-color"
+                      >
+                        {item.partnerLegalName}
+                      </Link>
+                    </td>
                     <td>{item.merchantId}</td>
+                    <td>{item.bin}</td>
+                    <td>{item.pointCode}</td>
+                    <td>{item.status}</td>
                     <td>
                       <Switch
-                        checked={item.merchantId === 'active'}
+                        checked={item.status === 'active'}
                         onChange={handleSwitch}
                       />
                     </td>

@@ -42,6 +42,9 @@ hr {
 .mb-34 {
   margin-bottom: 34px;
 }
+.mb-42 {
+  margin-bottom: 42px;
+}
 .mr-32 {
   margin-right: 32px;
 }
@@ -110,9 +113,9 @@ hr {
 }
 
 .title-1 {
-  font-size: 30px;
-  line-height: 36px;
-  color: #172a3f;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
 }
 .title-3 {
   font-size: 18px;
@@ -197,4 +200,9 @@ hr {
 
 .mh-90 {
   min-height: 90vh;
+}
+
+.required:after {
+  content: ' *';
+  color: #f03b2f;
 }

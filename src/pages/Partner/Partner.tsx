@@ -14,20 +14,19 @@ const Partner: FC<PropsType> = ({ merchantId }) => {
   const [currentTab, setCurrentTab] = useState<string>('INFORMATION');
 
   const handleClick = (tab: string) => () => {
-    console.log(currentTab, merchantId);
     setCurrentTab(tab);
   };
 
   const tabContentMemo = useMemo(() => {
     switch (currentTab) {
       case 'INFORMATION':
-        return <Information />;
+        return <Information merchantId={merchantId} />;
       case 'USERS':
-        return <Users />;
+        return <Users merchantId={merchantId} />;
       default:
-        return <Information />;
+        return <Information merchantId={merchantId} />;
     }
-  }, [currentTab]);
+  }, [currentTab, merchantId]);
 
   return (
     <>
