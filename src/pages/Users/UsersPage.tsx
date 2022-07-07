@@ -7,7 +7,7 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Pagination } from 'components/Pagination';
 import { Table } from 'components/Table';
 import { IColumn } from 'components/Table/types';
-import { NEW_USER } from 'navigation/CONSTANTS';
+import { NEW_USER, USERS } from 'navigation/CONSTANTS';
 import { useGetUsersQuery } from 'services/api/usersApi';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 
@@ -99,8 +99,8 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
     },
     {
       title: t('users.table.header.dateOfRegistration'),
-      dataIndex: 'registeredDate',
-      key: 'registeredDate',
+      dataIndex: 'registeredAt',
+      key: 'registeredAt',
       render: (value: string) => {
         return format(new Date(value), 'MM.dd.yyyy');
       }
@@ -118,8 +118,8 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
   return (
     <div>
       <div>
-        <Typography.Title tag="h1" className="title-1 mb-42">
-          {title ?? t('users.header.title')}
+        <Typography.Title tag="h1" className={s.title}>
+          {title || t('users.header.title')}
         </Typography.Title>
         <div className={s.buttons_wrapper}>
           <Button
@@ -138,6 +138,7 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
           dataSource={data}
           isLoading={isFetching}
           limit={limit}
+          onClick={item => navigate(`${USERS}/${item.login}/`)}
         />
       </div>
       <Pagination

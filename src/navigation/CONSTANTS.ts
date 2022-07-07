@@ -3,6 +3,7 @@ export const PARTNERS = '/partners';
 export const NEW_PARTNER = '/new-partner';
 export const USERS = '/users';
 export const NEW_USER = `${USERS}/new-user`;
+export const USER = `${USERS}/:login`;
 export const TRANSACTIONS = '/transactions';
 export const ANALYTICS = '/analytics';
 export const STATISTICS = '/statistics';
