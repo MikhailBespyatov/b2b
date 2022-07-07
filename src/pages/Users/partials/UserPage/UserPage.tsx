@@ -53,7 +53,7 @@ export const UserPage = () => {
   const { handleSubmit, control, setValue, watch } = useForm({
     defaultValues: {
       lastName: '',
-      name: '',
+      firstName: '',
       middleName: '',
       phoneNumber: '',
       login: '',
@@ -106,7 +106,7 @@ export const UserPage = () => {
         status
       } = userData;
       setValue('lastName', lastName);
-      setValue('name', firstName);
+      setValue('firstName', firstName);
       setValue('middleName', middleName);
       setValue('phoneNumber', phoneNumber);
       setValue('login', login);
@@ -156,7 +156,10 @@ export const UserPage = () => {
                     return (
                       <Switch
                         onBlur={onBlur}
-                        onChange={onChange}
+                        onChange={checked => {
+                          onChange(checked);
+                          onSubmit();
+                        }}
                         checked={value}
                         align="center"
                       />
@@ -213,7 +216,7 @@ export const UserPage = () => {
               {isFirstNameEdit ? (
                 <FormField size="m">
                   <Controller
-                    name="name"
+                    name="firstName"
                     rules={{ required: true }}
                     control={control}
                     render={({ field }) => {

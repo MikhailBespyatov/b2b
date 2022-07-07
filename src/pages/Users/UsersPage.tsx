@@ -79,7 +79,7 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
       key: 'firstName',
       grid: 1.5,
       render: (value: string, record: DataType) => {
-        return `${record.lastname} ${value} ${record.middleName}`;
+        return `${record.lastName} ${value} ${record.middleName}`;
       }
     },
     {
