@@ -1,16 +1,17 @@
-import React, { FC, Fragment, useRef, WheelEventHandler } from 'react';
+import React, { FC, useRef, WheelEventHandler } from 'react';
 import { Skeleton } from '@alfalab/core-components/skeleton';
 import { uuid } from 'utils/uuid';
 import { IProps } from './types';
 
 import s from './Table.module.css';
-
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-static-element-interactions */
 export const Table: FC<IProps> = ({
   columns,
   dataSource,
   width = '1132px',
   isLoading,
-  limit
+  limit,
+  onClick
 }) => {
   const tableRef = useRef<HTMLDivElement>(null);
 
@@ -46,10 +47,10 @@ export const Table: FC<IProps> = ({
             </div>
           ))}
         </div>
-        <div style={{ gridTemplateColumns }} className={s.body_item}>
-          {isLoading
-            ? Array.from({ length: limit }).map(() =>
-                columns.map(column => {
+        {isLoading
+          ? Array.from({ length: limit }).map(() => (
+              <div style={{ gridTemplateColumns }} className={s.body_item}>
+                {columns.map(column => {
                   return (
                     <div key={column.key}>
                       <Skeleton className={s.skeleton} visible animate>
@@ -57,25 +58,24 @@ export const Table: FC<IProps> = ({
                       </Skeleton>
                     </div>
                   );
-                })
-              )
-            : dataSource?.map(item => {
-                return (
-                  <Fragment key={uuid()}>
-                    {columns.map(column => {
-                      if (typeof column.render === 'function') {
-                        return (
-                          <div key={uuid()}>
-                            {column.render(item[column.dataIndex], item)}
-                          </div>
-                        );
-                      }
-                      return <div key={uuid()}>{item[column.dataIndex]}</div>;
-                    })}
-                  </Fragment>
-                );
-              })}
-        </div>
+                })}
+              </div>
+            ))
+          : dataSource?.map(item => {
+              return (
+                <div style={{ gridTemplateColumns }} className={s.body_item}>
+                  {columns.map(column => {
+                    return (
+                      <div key={uuid()} onClick={() => onClick(item)}>
+                        {typeof column.render === 'function'
+                          ? column.render(item[column.dataIndex], item)
+                          : item[column.dataIndex]}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
       </div>
     </div>
   );

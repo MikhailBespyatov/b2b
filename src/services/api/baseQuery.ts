@@ -52,7 +52,7 @@ const baseQuery: BaseQueryFn<string | FetchArgs, unknown, CustomError> = async (
 
 export const baseEmptyAPI = createApi({
   reducerPath: 'api',
-  tagTypes: ['Directory', 'Transactions'],
+  tagTypes: ['Directory', 'Transactions', 'User'],
   baseQuery,
   endpoints: () => ({})
 });

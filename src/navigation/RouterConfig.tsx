@@ -11,6 +11,7 @@ import { RootStateType } from 'redux/store';
 import { selectAppError, selectMerchant } from 'redux/slices/app-slice';
 import TechnicalWork from 'pages/ErrorPages/TechnicalWork/TechnicalWork';
 import { NewUser } from 'pages/Users/partials/NewUser';
+import { UserPage } from 'pages/Users/partials/UserPage';
 import {
   NEW_USER,
   ANALYTICS,
@@ -21,7 +22,8 @@ import {
   SETTLEMENTS,
   STATISTICS,
   TRANSACTIONS,
-  USERS
+  USERS,
+  USER
 } from './CONSTANTS';
 import {
   TransactionsPage,
@@ -55,6 +57,10 @@ const AppRoutes = () => {
     {
       path: USERS,
       element: <UsersPage />
+    },
+    {
+      path: USER,
+      element: <UserPage />
     },
     {
       path: NEW_USER,
