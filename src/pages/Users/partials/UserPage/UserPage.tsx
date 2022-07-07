@@ -78,7 +78,6 @@ export const UserPage = () => {
   };
 
   const onSubmit = handleSubmit((data: any) => {
-    console.log(data);
     updateUser({
       body: {
         ...data,
@@ -90,9 +89,9 @@ export const UserPage = () => {
     });
   });
 
-  const onSuccess = async (itemName: string) => {
+  const onSuccess = async () => {
     await onSubmit();
-    setEditItems({ ...editItems, [itemName]: false });
+    setEditItems(defaultEditState);
   };
 
   useEffect(() => {
@@ -187,9 +186,7 @@ export const UserPage = () => {
                           width="available"
                           {...field}
                           rightAddons={
-                            <SuccesButton
-                              onClick={() => onSuccess('isLastNameEdit')}
-                            />
+                            <SuccesButton onClick={() => onSuccess()} />
                           }
                         />
                       );
@@ -227,9 +224,7 @@ export const UserPage = () => {
                           width="available"
                           {...field}
                           rightAddons={
-                            <SuccesButton
-                              onClick={() => onSuccess('isFirstNameEdit')}
-                            />
+                            <SuccesButton onClick={() => onSuccess()} />
                           }
                         />
                       );
@@ -266,9 +261,7 @@ export const UserPage = () => {
                           width="available"
                           {...field}
                           rightAddons={
-                            <SuccesButton
-                              onClick={() => onSuccess('isMiddleNameEdit')}
-                            />
+                            <SuccesButton onClick={() => onSuccess()} />
                           }
                         />
                       );
@@ -310,9 +303,7 @@ export const UserPage = () => {
                           placeholder="+7 000 000 00 00"
                           {...field}
                           rightAddons={
-                            <SuccesButton
-                              onClick={() => onSuccess('isPhoneNumberEdit')}
-                            />
+                            <SuccesButton onClick={() => onSuccess()} />
                           }
                         />
                       );
@@ -353,9 +344,7 @@ export const UserPage = () => {
                           width="available"
                           {...field}
                           rightAddons={
-                            <SuccesButton
-                              onClick={() => onSuccess('isEmailEdit')}
-                            />
+                            <SuccesButton onClick={() => onSuccess()} />
                           }
                         />
                       );
@@ -396,7 +385,7 @@ export const UserPage = () => {
                           value={value}
                           onChange={role => {
                             onChange(role);
-                            onSuccess('isRoleEdit');
+                            onSuccess();
                           }}
                           options={[
                             {

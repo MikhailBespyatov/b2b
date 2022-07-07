@@ -20,18 +20,16 @@ export const Table: FC<IProps> = ({
     .join(' ');
 
   const onWheel: WheelEventHandler = e => {
-    const scrollSpeed = 75;
+    const scrollSpeed = 50;
     if (tableRef) {
       const target = tableRef.current as HTMLDivElement;
       if (e.deltaY > 0) {
         target.scrollTo({
-          left: target.scrollLeft + scrollSpeed,
-          behavior: 'smooth'
+          left: target.scrollLeft + scrollSpeed
         });
       } else if (e.deltaY < 0) {
         target.scrollTo({
-          left: target.scrollLeft - scrollSpeed,
-          behavior: 'smooth'
+          left: target.scrollLeft - scrollSpeed
         });
       }
     }

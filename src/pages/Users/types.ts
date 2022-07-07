@@ -1,5 +1,5 @@
 export interface DataType {
-  lastName: string;
+  lastname: string;
   firstName: string;
   merchantId: string;
   login: string;
