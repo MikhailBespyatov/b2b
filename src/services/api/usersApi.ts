@@ -3,11 +3,23 @@ import { baseEmptyAPI } from './baseQuery';
 export const usersAPI = baseEmptyAPI.injectEndpoints({
   endpoints: builder => ({
     getUsers: builder.query({
-      query: ({ merchantId }) => {
+      query: ({
+        merchantId,
+        fullName,
+        login,
+        registeredAt,
+        role,
+        registeredByFIO
+      }) => {
         return {
           url: `users/user`,
           params: {
-            merchantId
+            merchantId,
+            fullName,
+            login,
+            registeredAt,
+            role,
+            registeredByFIO
           }
         };
       }

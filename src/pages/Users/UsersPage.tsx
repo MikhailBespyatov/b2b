@@ -10,6 +10,8 @@ import { IColumn } from 'components/Table/types';
 import { NEW_USER, USERS } from 'navigation/CONSTANTS';
 import { useGetUsersQuery } from 'services/api/usersApi';
 import { Checkbox } from '@alfalab/core-components/checkbox';
+import { objectClear } from 'utils/objectClear';
+import { Filter } from './partials/Filter';
 
 import { DataType } from './types';
 import s from './Users.module.css';
@@ -28,9 +30,17 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
   const [selectedItems, setSelectedItems] = useState<Array<string | number>>(
     []
   );
+  const [queryParams, setQueryParams] = useState({
+    fullName: '',
+    login: '',
+    registeredAt: '',
+    merchantId: '',
+    role: '',
+    registeredByFIO: ''
+  });
 
   const { data, isFetching } = useGetUsersQuery({
-    merchantId
+    ...objectClear(queryParams)
   });
 
   const currentPageIndex = (Number(search.get('page')) || 1) - 1;
@@ -102,15 +112,15 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
       dataIndex: 'registeredAt',
       key: 'registeredAt',
       render: (value: string) => {
-        return format(new Date(value), 'MM.dd.yyyy');
+        return format(new Date(value), 'dd.MM.yyyy');
       }
     },
     {
       title: t('users.table.header.registeredBy'),
-      dataIndex: 'registeredBy',
-      key: 'registeredBy',
+      dataIndex: 'registeredByFIO',
+      key: 'registeredByFIO',
       render: (value: string | number) => {
-        return typeof value === 'number' ? '' : value;
+        return value;
       }
     }
   ];
@@ -121,6 +131,9 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
         <Typography.Title tag="h1" className={s.title}>
           {title || t('users.header.title')}
         </Typography.Title>
+
+        <Filter setFilter={setQueryParams} />
+
         <div className={s.buttons_wrapper}>
           <Button
             view="extra"

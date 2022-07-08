@@ -1,0 +1,14 @@
+.wrapper {
+  margin-bottom: 40px;
+}
+
+.button {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+  color: #172A3F;
+}
