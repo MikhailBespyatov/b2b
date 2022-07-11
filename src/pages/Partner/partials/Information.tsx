@@ -149,6 +149,7 @@ const Information: FC<PropsType> = ({ merchantId }) => {
 
   const handleIsAddressMatchChange = () => {
     setCountAddress((prev: number) => (prev !== 0 ? 0 : prev + 1));
+    setIsButtonDisabled(false);
   };
 
   const handleAddAddress = () => {
