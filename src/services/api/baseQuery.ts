@@ -41,8 +41,8 @@ const baseQuery: BaseQueryFn<string | FetchArgs, unknown, CustomError> = async (
       addToast({
         id: uuid(),
         badge: 'negative',
-        text: 'Внутренняя ошибка',
-        title: 'Ошибка'
+        text: 'Ошибка на стороне сервера',
+        title: ''
       })
     );
   }

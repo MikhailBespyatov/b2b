@@ -1,5 +1,6 @@
 import React, { FC, Fragment, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Button from 'arui-feather/button';
@@ -20,6 +21,7 @@ import {
 } from '../../../services/api/countryApi';
 import { ICountry } from '../../../models/ICountry';
 import { ICity } from '../../../models/ICity';
+import { PARTNERS } from '../../../navigation/CONSTANTS';
 
 type PropsType = {
   merchantId: string;
@@ -60,7 +62,11 @@ const Information: FC<PropsType> = ({ merchantId }) => {
     }
   });
 
-  const { data } = useGetPartnerQuery(merchantId);
+  const {
+    data,
+    isError,
+    isFetching: isMerchantLoading
+  } = useGetPartnerQuery(merchantId);
   const [updatePartner, { isLoading, isSuccess }] = useUpdatePartnerMutation();
 
   const {
@@ -102,7 +108,7 @@ const Information: FC<PropsType> = ({ merchantId }) => {
         mSite: data?.partnerWebsite
       });
     }
-  }, [data]);
+  }, [data, reset]);
 
   const onSubmit = handleSubmit((values: any) => {
     updatePartner({ ...values, merchantId })
@@ -188,6 +194,18 @@ const Information: FC<PropsType> = ({ merchantId }) => {
     }
     return null;
   }, [countryData, cityData, control, errors?.Adresses]);
+
+  if (isError) {
+    return <Navigate to={PARTNERS} />;
+  }
+
+  if (isMerchantLoading) {
+    return (
+      <div className="absolute-center">
+        <Spinner visible size="m" />
+      </div>
+    );
+  }
 
   return (
     <form key={`${isSuccess}`} onSubmit={onSubmit} className="mt-24 mb-24">
