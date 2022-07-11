@@ -7,9 +7,11 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Pagination } from 'components/Pagination';
 import { Table } from 'components/Table';
 import { IColumn } from 'components/Table/types';
-import { NEW_USER } from 'navigation/CONSTANTS';
+import { NEW_USER, USERS } from 'navigation/CONSTANTS';
 import { useGetUsersQuery } from 'services/api/usersApi';
 import { Checkbox } from '@alfalab/core-components/checkbox';
+import { objectClear } from 'utils/objectClear';
+import { Filter } from './partials/Filter';
 
 import { DataType } from './types';
 import s from './Users.module.css';
@@ -28,9 +30,17 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
   const [selectedItems, setSelectedItems] = useState<Array<string | number>>(
     []
   );
+  const [queryParams, setQueryParams] = useState({
+    fullName: '',
+    login: '',
+    registeredAt: '',
+    merchantId: '',
+    role: '',
+    registeredByFIO: ''
+  });
 
   const { data, isFetching } = useGetUsersQuery({
-    merchantId
+    ...objectClear(queryParams)
   });
 
   const currentPageIndex = (Number(search.get('page')) || 1) - 1;
@@ -99,18 +109,18 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
     },
     {
       title: t('users.table.header.dateOfRegistration'),
-      dataIndex: 'registeredDate',
-      key: 'registeredDate',
+      dataIndex: 'registeredAt',
+      key: 'registeredAt',
       render: (value: string) => {
-        return format(new Date(value), 'MM.dd.yyyy');
+        return format(new Date(value), 'dd.MM.yyyy');
       }
     },
     {
       title: t('users.table.header.registeredBy'),
-      dataIndex: 'registeredBy',
-      key: 'registeredBy',
+      dataIndex: 'registeredByFIO',
+      key: 'registeredByFIO',
       render: (value: string | number) => {
-        return typeof value === 'number' ? '' : value;
+        return value;
       }
     }
   ];
@@ -118,9 +128,12 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
   return (
     <div>
       <div>
-        <Typography.Title tag="h1" className="title-1 mb-42">
-          {title ?? t('users.header.title')}
+        <Typography.Title tag="h1" className={s.title}>
+          {title || t('users.header.title')}
         </Typography.Title>
+
+        <Filter setFilter={setQueryParams} />
+
         <div className={s.buttons_wrapper}>
           <Button
             view="extra"
@@ -138,6 +151,7 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
           dataSource={data}
           isLoading={isFetching}
           limit={limit}
+          onClick={item => navigate(`${USERS}/${item.login}/`)}
         />
       </div>
       <Pagination

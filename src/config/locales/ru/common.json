@@ -45,6 +45,13 @@
   "users.table.header.dateOfRegistration": "Дата регистрации",
   "users.table.header.registeredBy": "Кем зарегистрирован",
 
+  "users.filter.fullName": "ФИО пользователя",
+  "users.filter.email": "Email",
+  "users.filter.registeredAt": "Дата регистрации",
+  "users.filter.merchantId": "Партнёр",
+  "users.filter.role": "Роль на портале",
+  "users.filter.registeredBy": "Кем зарегистрирован",
+
   "user.new.title": "Добавить пользователя",
   "user.new.statusTitle": "Статус учётной записи",
   "user.new.form.statusActive": "Активный",
@@ -59,6 +66,7 @@
   "user.new.form.role.manager": "Менеджер интернет-магазина",
   "user.new.form.role.courier": "Курьер",
 
+  "user.single.title": "Учётная запись пользователя",
 
   "user.surname": "Фамилия",
   "user.name": "Имя",

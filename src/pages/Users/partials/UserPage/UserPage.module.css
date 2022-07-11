@@ -1,0 +1,78 @@
+.title {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 48px;
+  color: #172A3F;
+
+  margin-bottom: 40px;
+}
+
+.statusTitleWrapper {
+  margin-bottom: 12px;
+}
+
+.statusTitle {
+  font-size: 18px;
+  line-height: 22px;
+  color: #172A3F;
+}
+
+.statusLabel {
+  font-size: 16px;
+  line-height: 24px;
+  color: #0B1F35;
+}
+
+.statusWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.roleTitle > span > span {
+  font-size: 16px !important;
+  line-height: 22px !important;
+  color: #6D7986;
+}
+
+.roleTitle {
+  padding-top: 24px !important;
+}
+
+.userItemWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.userItemContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.userItemTitle {
+  font-size: 12px;
+  line-height: 18px;
+  color: #6D7986;
+
+  margin-bottom: 6px;
+}
+
+.userItemValue {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #172A3F;
+}
+
+.userItemButton {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}

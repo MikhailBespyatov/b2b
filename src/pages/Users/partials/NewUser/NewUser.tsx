@@ -16,15 +16,17 @@ import { emailValidator } from 'utils/validator/emailValidator';
 
 import s from './NewUser.module.css';
 
+const emailErrorMessage = 'Пользователь с таким логином уже существует';
+
 export const NewUser: FC = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
 
-  const [postNewUser] = useAddNewUserMutation({});
+  const [postNewUser, { error, isError }] = useAddNewUserMutation({});
   const { handleSubmit, control, watch } = useForm({
     defaultValues: {
       lastName: '',
-      name: '',
+      firstName: '',
       middleName: '',
       phoneNumber: '',
       email: '',
@@ -40,17 +42,13 @@ export const NewUser: FC = () => {
 
     postNewUser({
       body: {
-        users: [
-          {
-            ...restData,
-            password: 'string',
-            login: email,
-            status: formStatus ? 'active' : 'inactive',
-            // @ts-ignore
-            merchantId: state?.merchantId ?? 'adika.kz',
-            role: role[0]
-          }
-        ]
+        ...restData,
+        password: 'string',
+        login: email,
+        status: formStatus ? 'active' : 'inactive',
+        // @ts-ignore
+        merchantId: state?.merchantId ?? 'adika.kz',
+        role: role[0]
       }
     });
   });
@@ -139,7 +137,7 @@ export const NewUser: FC = () => {
             >
               <FormField size="m">
                 <Controller
-                  name="name"
+                  name="firstName"
                   rules={{ required: true }}
                   control={control}
                   render={({ field }) => {
@@ -227,6 +225,12 @@ export const NewUser: FC = () => {
                     return (
                       <Input
                         size="s"
+                        error={
+                          isError &&
+                          // @ts-ignore
+                          error?.data?.message === emailErrorMessage &&
+                          emailErrorMessage
+                        }
                         label={t('user.new.form.email')}
                         width="available"
                         {...field}
