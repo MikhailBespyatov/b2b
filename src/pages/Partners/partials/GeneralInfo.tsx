@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Grid } from '@alfalab/core-components/grid';
@@ -13,10 +13,17 @@ import { PencilIcon } from '../../../components/ui/icons/Pencil';
 type PropsType = {
   control: Control<any>;
   isEditable?: boolean;
+  isButtonDisabled?: boolean;
+  setIsButtonDisabled?: Dispatch<SetStateAction<boolean>>;
 };
 const EditIcon = () => <PencilIcon width={16} height={16} />;
 
-const GeneralInfo: FC<PropsType> = ({ control, isEditable }) => {
+const GeneralInfo: FC<PropsType> = ({
+  control,
+  isEditable,
+  isButtonDisabled,
+  setIsButtonDisabled
+}) => {
   const { t } = useTranslation();
   const [disabledFields, setDisabledFields] = useState({
     partnerLegalName: isEditable,
@@ -30,6 +37,10 @@ const GeneralInfo: FC<PropsType> = ({ control, isEditable }) => {
 
   const handleEdit = (fieldName: string) => () => {
     setDisabledFields(prev => ({ ...prev, [fieldName]: false }));
+
+    if (isButtonDisabled && setIsButtonDisabled) {
+      setIsButtonDisabled(false);
+    }
   };
 
   return (
@@ -319,7 +330,9 @@ const GeneralInfo: FC<PropsType> = ({ control, isEditable }) => {
 };
 
 GeneralInfo.defaultProps = {
-  isEditable: false
+  isEditable: false,
+  isButtonDisabled: true,
+  setIsButtonDisabled: () => null
 };
 
 export default GeneralInfo;

@@ -6,3 +6,4 @@ export { StatisticsPage } from './Statistics';
 export { AnalyticsPage } from './Analytics';
 export { SettingsPage } from './Settings';
 export { UsersPage } from './Users';
+export { LoginPage } from './Login';

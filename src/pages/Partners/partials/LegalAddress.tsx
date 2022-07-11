@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Label } from 'arui-feather/label';
@@ -19,6 +19,8 @@ type PropsType = {
   control: Control<any>;
   errors: any;
   isEditable?: boolean;
+  isButtonDisabled?: boolean;
+  setIsButtonDisabled?: Dispatch<SetStateAction<boolean>>;
 };
 
 const LegalAddress: FC<PropsType> = ({
@@ -26,6 +28,8 @@ const LegalAddress: FC<PropsType> = ({
   cityList,
   control,
   isEditable,
+  isButtonDisabled,
+  setIsButtonDisabled,
   errors
 }) => {
   const { t } = useTranslation();
@@ -42,6 +46,10 @@ const LegalAddress: FC<PropsType> = ({
 
   const handleEdit = (fieldName: string) => () => {
     setDisabledFields(prev => ({ ...prev, [fieldName]: false }));
+
+    if (isButtonDisabled && setIsButtonDisabled) {
+      setIsButtonDisabled(false);
+    }
   };
 
   return (
@@ -372,7 +380,9 @@ const LegalAddress: FC<PropsType> = ({
 };
 
 LegalAddress.defaultProps = {
-  isEditable: false
+  isEditable: false,
+  isButtonDisabled: true,
+  setIsButtonDisabled: () => null
 };
 
 export default LegalAddress;

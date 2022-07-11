@@ -1,4 +1,5 @@
 export const ROOT = '/';
+export const LOGIN = '/login';
 export const PARTNERS = '/partners';
 export const NEW_PARTNER = '/new-partner';
 export const USERS = '/users';

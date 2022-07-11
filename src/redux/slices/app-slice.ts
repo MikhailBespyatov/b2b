@@ -7,6 +7,7 @@ import { partnerAPI } from '../../services/api/partnerApi';
 import { IPartner } from '../../models/IPartner';
 
 const initialState = {
+  isAuth: false as boolean,
   notifications: [] as INotification[],
   error: {} as IError,
   statuses: {

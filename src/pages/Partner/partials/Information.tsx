@@ -31,6 +31,7 @@ const Information: FC<PropsType> = ({ merchantId }) => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const [countAddress, setCountAddress] = useState<number>(0);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const { data: countryData } = useGetCountriesQuery('', {
     selectFromResult: ({ data, ...rest }) => {
@@ -123,29 +124,7 @@ const Information: FC<PropsType> = ({ merchantId }) => {
             })
           );
         } else {
-          reset({
-            legalEntityForm: '',
-            partnerLegalName: '',
-            bin: '',
-            merchantId: '',
-            pointCode: '',
-            mSite: '',
-            phoneNumber: '',
-            archivePassword: '',
-            Adresses: [
-              {
-                type: 'juridical',
-                country: '',
-                city: '',
-                postIndex: '',
-                street: '',
-                house: '',
-                flat: '',
-                okato: ''
-              }
-            ]
-          });
-          setCountAddress(0);
+          setIsButtonDisabled(true);
           dispatch(
             addToast({
               id: uuid(),
@@ -177,7 +156,14 @@ const Information: FC<PropsType> = ({ merchantId }) => {
   };
 
   const generalInfoMemo = useMemo(() => {
-    return <GeneralInfo control={control} isEditable />;
+    return (
+      <GeneralInfo
+        control={control}
+        isButtonDisabled={isButtonDisabled}
+        setIsButtonDisabled={setIsButtonDisabled}
+        isEditable
+      />
+    );
   }, [control]);
 
   const legalAddressMemo = useMemo(() => {
@@ -188,6 +174,8 @@ const Information: FC<PropsType> = ({ merchantId }) => {
           cityList={cityData}
           control={control}
           errors={errors?.Adresses?.[0] ?? false}
+          isButtonDisabled={isButtonDisabled}
+          setIsButtonDisabled={setIsButtonDisabled}
           isEditable
         />
       );
@@ -252,7 +240,7 @@ const Information: FC<PropsType> = ({ merchantId }) => {
         size="m"
         type="submit"
         className="mb-32"
-        disabled={isLoading}
+        disabled={isLoading || isButtonDisabled}
         icon={isLoading && <Spinner visible />}
       >
         {t('button.save')}
