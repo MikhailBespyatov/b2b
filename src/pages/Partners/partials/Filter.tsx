@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label } from 'arui-feather/label';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
@@ -8,7 +8,6 @@ import { Grid } from '@alfalab/core-components/grid';
 import { Controller, useForm } from 'react-hook-form';
 import { FormField } from 'arui-feather/form-field';
 import Input from 'arui-feather/input';
-import CalendarInput from 'arui-feather/calendar-input';
 import Button from 'arui-feather/button';
 import s from './Filter.module.css';
 
@@ -21,7 +20,7 @@ interface Values {
   registeredByFIO: string;
 }
 
-interface IProps {
+interface Props {
   setFilter: (values: Values) => void;
 }
 
@@ -34,7 +33,7 @@ const defaultValues: Values = {
   registeredByFIO: ''
 };
 
-export const Filter: FC<IProps> = ({ setFilter }) => {
+export const Filter = ({ setFilter }: Props) => {
   const { t } = useTranslation();
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const { handleSubmit, control, reset } = useForm({
@@ -88,7 +87,7 @@ export const Filter: FC<IProps> = ({ setFilter }) => {
                     return (
                       <Input
                         size="s"
-                        label={t('users.filter.fullName')}
+                        label={t('partner.table.companyName')}
                         width="available"
                         {...field}
                       />
@@ -112,7 +111,7 @@ export const Filter: FC<IProps> = ({ setFilter }) => {
                     return (
                       <Input
                         size="s"
-                        label={t('users.filter.registeredAt')}
+                        label={t('partner.table.bin')}
                         width="available"
                         {...field}
                       />
@@ -132,14 +131,13 @@ export const Filter: FC<IProps> = ({ setFilter }) => {
                 <Controller
                   name="registeredAt"
                   control={control}
-                  render={({ field: { value, onChange } }) => {
+                  render={({ field }) => {
                     return (
-                      <CalendarInput
-                        label={t('transactions.filter.createdDate')}
-                        width="available"
+                      <Input
                         size="s"
-                        value={value}
-                        onChange={onChange}
+                        label={t('partner.table.city')}
+                        width="available"
+                        {...field}
                       />
                     );
                   }}
@@ -163,7 +161,7 @@ export const Filter: FC<IProps> = ({ setFilter }) => {
                     return (
                       <Input
                         size="s"
-                        label={t('users.filter.merchantId')}
+                        label={t('partner.table.partnerCode')}
                         width="available"
                         {...field}
                       />
@@ -187,7 +185,7 @@ export const Filter: FC<IProps> = ({ setFilter }) => {
                     return (
                       <Input
                         size="s"
-                        label={t('users.filter.role')}
+                        label={t('partner.table.status')}
                         width="available"
                         {...field}
                       />
@@ -211,7 +209,7 @@ export const Filter: FC<IProps> = ({ setFilter }) => {
                     return (
                       <Input
                         size="s"
-                        label={t('users.filter.registeredBy')}
+                        label={t('partner.table.pointCode')}
                         width="available"
                         {...field}
                       />

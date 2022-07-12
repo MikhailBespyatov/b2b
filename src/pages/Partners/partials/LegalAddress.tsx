@@ -14,7 +14,6 @@ import { PencilIcon } from '../../../components/ui/icons/Pencil';
 const EditIcon = () => <PencilIcon width={16} height={16} />;
 
 type PropsType = {
-  countryList: ISelect[];
   cityList: ISelect[];
   control: Control<any>;
   errors: any;
@@ -24,7 +23,6 @@ type PropsType = {
 };
 
 const LegalAddress: FC<PropsType> = ({
-  countryList,
   cityList,
   control,
   isEditable,
@@ -58,66 +56,6 @@ const LegalAddress: FC<PropsType> = ({
         {t('partner.new.header.legalAddress')}
       </Label>
       <Grid.Row className="container mt-16">
-        <Grid.Col
-          width={{
-            mobile: { s: 12, m: 12, l: 12 },
-            tablet: { s: 12, m: 8, l: 8 },
-            desktop: { s: 7, m: 7, l: 7 }
-          }}
-        >
-          <FormField size="s">
-            <Controller
-              name="Adresses[0].country"
-              control={control}
-              rules={{
-                required: true
-              }}
-              render={({ field: { value, onChange } }) => {
-                if (disabledFields.country) {
-                  return (
-                    <Input
-                      size="s"
-                      label={t('partner.new.form.legal.country')}
-                      width="available"
-                      disabled={disabledFields.country}
-                      rightAddons={
-                        <IconButton
-                          size="xxs"
-                          onClick={handleEdit('country')}
-                          icon={EditIcon}
-                        />
-                      }
-                      error={!!errors?.country}
-                      value={value}
-                    />
-                  );
-                }
-                return (
-                  <Select
-                    size="s"
-                    width="available"
-                    label={t('partner.new.form.legal.country')}
-                    mode="radio"
-                    options={[
-                      {
-                        value: '',
-                        text: 'Не выбран'
-                      },
-                      ...countryList
-                    ]}
-                    value={[value]}
-                    error={!!errors?.country}
-                    onChange={(values: number[] | undefined) => {
-                      if (values) {
-                        onChange(values?.[0]);
-                      }
-                    }}
-                  />
-                );
-              }}
-            />
-          </FormField>
-        </Grid.Col>
         <Grid.Col
           width={{
             mobile: { s: 12, m: 12, l: 12 },

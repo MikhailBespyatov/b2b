@@ -171,7 +171,6 @@ const Information: FC<PropsType> = ({ merchantId }) => {
     if (countryData && cityData) {
       return (
         <LegalAddress
-          countryList={countryData}
           cityList={cityData}
           control={control}
           errors={errors?.Adresses?.[0] ?? false}
@@ -222,7 +221,6 @@ const Information: FC<PropsType> = ({ merchantId }) => {
                   <MailingAddress
                     counter={index + 1}
                     control={control}
-                    countryList={countryData ?? []}
                     cityList={cityData ?? []}
                     errors={errors?.Adresses?.[index + 1] ?? false}
                   />

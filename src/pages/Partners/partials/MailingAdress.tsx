@@ -9,7 +9,6 @@ import { Grid } from '@alfalab/core-components/grid';
 import { ISelect } from '../../../models/ISelect';
 
 type PropsType = {
-  countryList: ISelect[];
   cityList: ISelect[];
   counter: number;
   control: Control<any>;
@@ -17,7 +16,6 @@ type PropsType = {
 };
 
 const MailingAddress: FC<PropsType> = ({
-  countryList,
   cityList,
   counter,
   control,
@@ -31,43 +29,6 @@ const MailingAddress: FC<PropsType> = ({
         {t('partner.new.header.mailingAddress')}
       </Label>
       <Grid.Row className="container mt-16 mb-24">
-        <Grid.Col
-          width={{
-            mobile: { s: 12, m: 12, l: 12 },
-            tablet: { s: 12, m: 8, l: 8 },
-            desktop: { s: 7, m: 7, l: 7 }
-          }}
-        >
-          <FormField size="s">
-            <Controller
-              name="Adresses[1].country"
-              control={control}
-              render={({ field: { value, onChange } }) => {
-                return (
-                  <Select
-                    size="s"
-                    width="available"
-                    label={t('partner.new.form.legal.country')}
-                    mode="radio"
-                    options={[
-                      {
-                        value: '',
-                        text: 'Не выбран'
-                      },
-                      ...countryList
-                    ]}
-                    value={[value]}
-                    onChange={(values: number[] | undefined) => {
-                      if (values) {
-                        onChange(values?.[0]);
-                      }
-                    }}
-                  />
-                );
-              }}
-            />
-          </FormField>
-        </Grid.Col>
         <Grid.Col
           width={{
             mobile: { s: 12, m: 12, l: 12 },

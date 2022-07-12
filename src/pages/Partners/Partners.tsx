@@ -12,6 +12,7 @@ import { IMerchant } from 'models/IMerchant';
 import { Pagination } from 'components/Pagination';
 import { PartnerPage } from '../Partner';
 import { useGetPartnersQuery } from '../../services/api/partnerApi';
+import { Filter } from './partials/Filter';
 
 const Partners: FC = () => {
   const { t } = useTranslation();
@@ -46,6 +47,9 @@ const Partners: FC = () => {
       <Typography.Title tag="h1" className="title-1 mb-42">
         {t('partner.header.title')}
       </Typography.Title>
+
+      <Filter setFilter={() => null} />
+
       {checkedItems.length ? (
         <Button size="m" className="mb-24">
           {t('button.delete')}

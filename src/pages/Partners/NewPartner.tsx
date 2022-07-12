@@ -165,7 +165,6 @@ const NewPartner: FC = () => {
     if (countryData && cityData) {
       return (
         <LegalAddress
-          countryList={countryData}
           cityList={cityData}
           control={control}
           errors={errors?.Adresses?.[0] ?? false}
@@ -215,7 +214,6 @@ const NewPartner: FC = () => {
                     <MailingAddress
                       counter={index + 1}
                       control={control}
-                      countryList={countryData ?? []}
                       cityList={cityData ?? []}
                       errors={errors?.Adresses?.[index + 1] ?? false}
                     />
