@@ -69,6 +69,9 @@ const LegalAddress: FC<PropsType> = ({
             <Controller
               name="Adresses[0].country"
               control={control}
+              rules={{
+                required: true
+              }}
               render={({ field: { value, onChange } }) => {
                 if (disabledFields.country) {
                   return (
@@ -84,6 +87,7 @@ const LegalAddress: FC<PropsType> = ({
                           icon={EditIcon}
                         />
                       }
+                      error={!!errors?.country}
                       value={value}
                     />
                   );
@@ -102,6 +106,7 @@ const LegalAddress: FC<PropsType> = ({
                       ...countryList
                     ]}
                     value={[value]}
+                    error={!!errors?.country}
                     onChange={(values: number[] | undefined) => {
                       if (values) {
                         onChange(values?.[0]);

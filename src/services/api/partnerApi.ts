@@ -14,7 +14,7 @@ export const partnerAPI = baseEmptyAPI.injectEndpoints({
     postPartner: builder.mutation({
       query: body => {
         return {
-          url: '/partners',
+          url: '/partners/partner-register',
           method: 'POST',
           body
         };
