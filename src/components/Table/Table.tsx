@@ -1,4 +1,4 @@
-import React, { FC, useRef, WheelEventHandler } from 'react';
+import React, { FC, useRef } from 'react';
 import { Skeleton } from '@alfalab/core-components/skeleton';
 import { uuid } from 'utils/uuid';
 import { IProps } from './types';
@@ -19,24 +19,24 @@ export const Table: FC<IProps> = ({
     .map(({ grid }) => (grid ? `${grid}fr` : '1fr'))
     .join(' ');
 
-  const onWheel: WheelEventHandler = e => {
-    const scrollSpeed = 50;
-    if (tableRef) {
-      const target = tableRef.current as HTMLDivElement;
-      if (e.deltaY > 0) {
-        target.scrollTo({
-          left: target.scrollLeft + scrollSpeed
-        });
-      } else if (e.deltaY < 0) {
-        target.scrollTo({
-          left: target.scrollLeft - scrollSpeed
-        });
-      }
-    }
-  };
+  // const onWheel: WheelEventHandler = e => {
+  //   const scrollSpeed = 50;
+  //   if (tableRef) {
+  //     const target = tableRef.current as HTMLDivElement;
+  //     if (e.deltaY > 0) {
+  //       target.scrollTo({
+  //         left: target.scrollLeft + scrollSpeed
+  //       });
+  //     } else if (e.deltaY < 0) {
+  //       target.scrollTo({
+  //         left: target.scrollLeft - scrollSpeed
+  //       });
+  //     }
+  //   }
+  // };
 
   return (
-    <div className={s.wrapper} onWheel={onWheel} ref={tableRef}>
+    <div className={s.wrapper} ref={tableRef}>
       <div className={s.table_wrapper} style={{ width }}>
         <div className={s.header_wrapper} style={{ gridTemplateColumns }}>
           {columns.map(({ title, key }) => (
@@ -47,7 +47,11 @@ export const Table: FC<IProps> = ({
         </div>
         {isLoading
           ? Array.from({ length: limit }).map(() => (
-              <div style={{ gridTemplateColumns }} className={s.body_item}>
+              <div
+                key={uuid()}
+                style={{ gridTemplateColumns }}
+                className={s.body_item}
+              >
                 {columns.map(column => {
                   return (
                     <div key={column.key}>
@@ -61,10 +65,14 @@ export const Table: FC<IProps> = ({
             ))
           : dataSource?.map(item => {
               return (
-                <div style={{ gridTemplateColumns }} className={s.body_item}>
+                <div
+                  key={uuid()}
+                  style={{ gridTemplateColumns }}
+                  className={s.body_item}
+                >
                   {columns.map(column => {
                     return (
-                      <div key={uuid()} onClick={() => onClick(item)}>
+                      <div key={uuid()} onClick={onClick(item)}>
                         {typeof column.render === 'function'
                           ? column.render(item[column.dataIndex], item)
                           : item[column.dataIndex]}

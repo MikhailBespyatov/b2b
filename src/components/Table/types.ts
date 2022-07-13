@@ -12,5 +12,5 @@ export interface IProps {
   limit: number;
   width?: string;
   isLoading?: boolean;
-  onClick: (item: any) => void;
+  onClick: (item: any) => () => void;
 }

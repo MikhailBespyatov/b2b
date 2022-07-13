@@ -125,7 +125,7 @@ const Partners: FC = () => {
                     <td>{item.merchantId}</td>
                     <td>{item.bin}</td>
                     <td>{item.pointCode}</td>
-                    <td>{item.status}</td>
+                    <td>{t(`user.status.${item.status}`)}</td>
                     <td>
                       <Switch
                         checked={item.status === 'active'}

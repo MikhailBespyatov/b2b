@@ -2,6 +2,14 @@
   "app.name": "Бизнес отчёт",
   "status.error": "Ошибка",
 
+  "user.status.active": "Активный",
+  "user.status.inactive": "Неактивный",
+  "user.new.form.role": "Роль на портале",
+  "user.role.admin": "Администратор",
+  "user.role.manager": "Менеджер интернет-магазина",
+  "user.role.courier": "Курьер",
+
+
   "page.notFound.text": "Страница не найдена",
   "page.nav.tab_1": "Статистика",
   "page.nav.tab_2": "Транзакции",
@@ -61,10 +69,7 @@
   "user.new.form.middleName": "Отчество",
   "user.new.form.phoneNumber": "Номер телефона",
   "user.new.form.email": "Email",
-  "user.new.form.role": "Роль на портале",
-  "user.new.form.role.admin": "Администратор",
-  "user.new.form.role.manager": "Менеджер интернет-магазина",
-  "user.new.form.role.courier": "Курьер",
+
 
   "user.single.title": "Учётная запись пользователя",
 

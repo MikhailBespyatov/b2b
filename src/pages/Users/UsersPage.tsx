@@ -105,7 +105,10 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
     {
       title: t('users.table.header.role'),
       dataIndex: 'role',
-      key: 'role'
+      key: 'role',
+      render: (value: string) => {
+        return t(`user.role.${value}`);
+      }
     },
     {
       title: t('users.table.header.dateOfRegistration'),
@@ -124,6 +127,10 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
       }
     }
   ];
+
+  const handleTableItemClick = (item: any) => () => {
+    navigate(`${USERS}/${item.login}/`);
+  };
 
   return (
     <div>
@@ -151,7 +158,7 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
           dataSource={data}
           isLoading={isFetching}
           limit={limit}
-          onClick={item => navigate(`${USERS}/${item.login}/`)}
+          onClick={handleTableItemClick}
         />
       </div>
       <Pagination

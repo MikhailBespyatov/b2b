@@ -32,6 +32,7 @@ const Information: FC<PropsType> = ({ merchantId }) => {
   const dispatch = useDispatch();
   const [countAddress, setCountAddress] = useState<number>(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isMAddressEditable, setIsMAddressEditable] = useState(true);
 
   const { data: countryData } = useGetCountriesQuery('', {
     selectFromResult: ({ data, ...rest }) => {
@@ -125,6 +126,8 @@ const Information: FC<PropsType> = ({ merchantId }) => {
           );
         } else {
           setIsButtonDisabled(true);
+          setIsMAddressEditable(true);
+
           dispatch(
             addToast({
               id: uuid(),
@@ -150,6 +153,7 @@ const Information: FC<PropsType> = ({ merchantId }) => {
   const handleIsAddressMatchChange = () => {
     setCountAddress((prev: number) => (prev !== 0 ? 0 : prev + 1));
     setIsButtonDisabled(false);
+    setIsMAddressEditable(false);
   };
 
   const handleAddAddress = () => {
@@ -223,6 +227,9 @@ const Information: FC<PropsType> = ({ merchantId }) => {
                     control={control}
                     cityList={cityData ?? []}
                     errors={errors?.Adresses?.[index + 1] ?? false}
+                    isButtonDisabled={isButtonDisabled}
+                    setIsButtonDisabled={setIsButtonDisabled}
+                    isEditable={isMAddressEditable}
                   />
                 </Fragment>
               );

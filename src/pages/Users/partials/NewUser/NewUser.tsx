@@ -262,15 +262,15 @@ export const NewUser: FC = () => {
                         options={[
                           {
                             value: 'admin',
-                            text: t('user.new.form.role.admin')
+                            text: t('user.role.admin')
                           },
                           {
                             value: 'manager',
-                            text: t('user.new.form.role.manager')
+                            text: t('user.role.manager')
                           },
                           {
                             value: 'courier',
-                            text: t('user.new.form.role.courier')
+                            text: t('user.role.courier')
                           }
                         ]}
                         {...field}
