@@ -393,15 +393,15 @@ export const UserPage = () => {
                           options={[
                             {
                               value: 'admin',
-                              text: t('user.new.form.role.admin')
+                              text: t('user.role.admin')
                             },
                             {
                               value: 'manager',
-                              text: t('user.new.form.role.manager')
+                              text: t('user.role.manager')
                             },
                             {
                               value: 'courier',
-                              text: t('user.new.form.role.courier')
+                              text: t('user.role.courier')
                             }
                           ]}
                         />
@@ -411,7 +411,7 @@ export const UserPage = () => {
                 </FormField>
               ) : (
                 <UserItem
-                  value={userData?.role}
+                  value={t(`user.role.${userData?.role}`)}
                   title={t('user.new.form.role')}
                   onEdit={() => {
                     onEdit('isRoleEdit');
