@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Button from 'arui-feather/button';
 import FormField from 'arui-feather/form-field';
@@ -14,16 +13,21 @@ import { useAddNewUserMutation } from 'services/api/usersApi';
 import { phoneValidator } from 'utils/validator/phoneValidator';
 import { emailValidator } from 'utils/validator/emailValidator';
 
+import { useDispatch } from 'react-redux';
+import { addToast } from 'redux/slices/app-slice';
+import { uuid } from 'utils/uuid';
+import { Skeleton } from '@alfalab/core-components/skeleton';
 import s from './NewUser.module.css';
 
 const emailErrorMessage = 'Пользователь с таким логином уже существует';
 
 export const NewUser: FC = () => {
   const { t } = useTranslation();
-  const { state } = useLocation();
 
-  const [postNewUser, { error, isError }] = useAddNewUserMutation({});
-  const { handleSubmit, control, watch } = useForm({
+  const [postNewUser, { error, isError, isLoading }] = useAddNewUserMutation(
+    {}
+  );
+  const { handleSubmit, control, watch, reset } = useForm({
     defaultValues: {
       lastName: '',
       firstName: '',
@@ -34,6 +38,7 @@ export const NewUser: FC = () => {
       status: true
     }
   });
+  const dispatch = useDispatch();
 
   const status = watch('status');
 
@@ -46,10 +51,19 @@ export const NewUser: FC = () => {
         password: 'string',
         login: email,
         status: formStatus ? 'active' : 'inactive',
-        // @ts-ignore
-        merchantId: state?.merchantId ?? 'adika.kz',
+        merchantId: 'adika.kz',
         role: role[0]
       }
+    }).then(() => {
+      reset();
+      dispatch(
+        addToast({
+          id: uuid(),
+          badge: 'positive',
+          text: t('user.new.form.success'),
+          title: ''
+        })
+      );
     });
   });
 
@@ -86,6 +100,7 @@ export const NewUser: FC = () => {
                   ? t('user.new.form.statusActive')
                   : t('user.new.form.statusInActive')}
               </Typography.Text>
+
               <FormField size="m">
                 <Controller
                   name="status"
@@ -110,23 +125,29 @@ export const NewUser: FC = () => {
                 desktop: { s: 7, m: 7, l: 7 }
               }}
             >
-              <FormField size="m">
-                <Controller
-                  name="lastName"
-                  rules={{ required: true }}
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <Input
-                        size="s"
-                        label={t('user.new.form.lastName')}
-                        width="available"
-                        {...field}
-                      />
-                    );
-                  }}
-                />
-              </FormField>
+              {isLoading ? (
+                <Skeleton className={s.skeleton} visible animate>
+                  -
+                </Skeleton>
+              ) : (
+                <FormField size="m">
+                  <Controller
+                    name="lastName"
+                    rules={{ required: true }}
+                    control={control}
+                    render={({ field }) => {
+                      return (
+                        <Input
+                          size="s"
+                          label={t('user.new.form.lastName')}
+                          width="available"
+                          {...field}
+                        />
+                      );
+                    }}
+                  />
+                </FormField>
+              )}
             </Grid.Col>
             <Grid.Col
               width={{
@@ -135,23 +156,29 @@ export const NewUser: FC = () => {
                 desktop: { s: 7, m: 7, l: 7 }
               }}
             >
-              <FormField size="m">
-                <Controller
-                  name="firstName"
-                  rules={{ required: true }}
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <Input
-                        size="s"
-                        label={t('user.new.form.firstName')}
-                        width="available"
-                        {...field}
-                      />
-                    );
-                  }}
-                />
-              </FormField>
+              {isLoading ? (
+                <Skeleton className={s.skeleton} visible animate>
+                  -
+                </Skeleton>
+              ) : (
+                <FormField size="m">
+                  <Controller
+                    name="firstName"
+                    rules={{ required: true }}
+                    control={control}
+                    render={({ field }) => {
+                      return (
+                        <Input
+                          size="s"
+                          label={t('user.new.form.firstName')}
+                          width="available"
+                          {...field}
+                        />
+                      );
+                    }}
+                  />
+                </FormField>
+              )}
             </Grid.Col>
             <Grid.Col
               width={{
@@ -160,22 +187,28 @@ export const NewUser: FC = () => {
                 desktop: { s: 7, m: 7, l: 7 }
               }}
             >
-              <FormField size="m">
-                <Controller
-                  name="middleName"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <Input
-                        size="s"
-                        label={t('user.new.form.middleName')}
-                        width="available"
-                        {...field}
-                      />
-                    );
-                  }}
-                />
-              </FormField>
+              {isLoading ? (
+                <Skeleton className={s.skeleton} visible animate>
+                  -
+                </Skeleton>
+              ) : (
+                <FormField size="m">
+                  <Controller
+                    name="middleName"
+                    control={control}
+                    render={({ field }) => {
+                      return (
+                        <Input
+                          size="s"
+                          label={t('user.new.form.middleName')}
+                          width="available"
+                          {...field}
+                        />
+                      );
+                    }}
+                  />
+                </FormField>
+              )}
             </Grid.Col>
             <Grid.Col
               width={{
@@ -184,27 +217,33 @@ export const NewUser: FC = () => {
                 desktop: { s: 7, m: 7, l: 7 }
               }}
             >
-              <FormField size="m">
-                <Controller
-                  name="phoneNumber"
-                  rules={{
-                    required: true,
-                    validate: phoneValidator
-                  }}
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <PhoneInput
-                        size="s"
-                        label={t('user.new.form.phoneNumber')}
-                        width="available"
-                        placeholder="+7 000 000 00 00"
-                        {...field}
-                      />
-                    );
-                  }}
-                />
-              </FormField>
+              {isLoading ? (
+                <Skeleton className={s.skeleton} visible animate>
+                  -
+                </Skeleton>
+              ) : (
+                <FormField size="m">
+                  <Controller
+                    name="phoneNumber"
+                    rules={{
+                      required: true,
+                      validate: phoneValidator
+                    }}
+                    control={control}
+                    render={({ field }) => {
+                      return (
+                        <PhoneInput
+                          size="s"
+                          label={t('user.new.form.phoneNumber')}
+                          width="available"
+                          placeholder="+7 000 000 00 00"
+                          {...field}
+                        />
+                      );
+                    }}
+                  />
+                </FormField>
+              )}
             </Grid.Col>
             <Grid.Col
               width={{
@@ -213,72 +252,84 @@ export const NewUser: FC = () => {
                 desktop: { s: 7, m: 7, l: 7 }
               }}
             >
-              <FormField size="m">
-                <Controller
-                  name="email"
-                  control={control}
-                  rules={{
-                    required: true,
-                    validate: emailValidator
-                  }}
-                  render={({ field }) => {
-                    return (
-                      <Input
-                        size="s"
-                        error={
-                          isError &&
-                          // @ts-ignore
-                          error?.data?.message === emailErrorMessage &&
-                          emailErrorMessage
-                        }
-                        label={t('user.new.form.email')}
-                        width="available"
-                        {...field}
-                      />
-                    );
-                  }}
-                />
-              </FormField>
-            </Grid.Col>
-            <Grid.Col
-              width={{
-                mobile: { s: 12, m: 12, l: 12 },
-                tablet: { s: 12, m: 8, l: 8 },
-                desktop: { s: 7, m: 7, l: 7 }
-              }}
-            >
-              <FormField size="m">
-                <Controller
-                  name="role"
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <Select
-                        size="m"
-                        width="available"
-                        className={s.roleTitle}
-                        label={t('user.new.form.role')}
-                        mode="radio"
-                        options={[
-                          {
-                            value: 'admin',
-                            text: t('user.role.admin')
-                          },
-                          {
-                            value: 'manager',
-                            text: t('user.role.manager')
-                          },
-                          {
-                            value: 'courier',
-                            text: t('user.role.courier')
+              {isLoading ? (
+                <Skeleton className={s.skeleton} visible animate>
+                  -
+                </Skeleton>
+              ) : (
+                <FormField size="m">
+                  <Controller
+                    name="email"
+                    control={control}
+                    rules={{
+                      required: true,
+                      validate: emailValidator
+                    }}
+                    render={({ field }) => {
+                      return (
+                        <Input
+                          size="s"
+                          error={
+                            isError &&
+                            // @ts-ignore
+                            error?.data?.message === emailErrorMessage &&
+                            emailErrorMessage
                           }
-                        ]}
-                        {...field}
-                      />
-                    );
-                  }}
-                />
-              </FormField>
+                          label={t('user.new.form.email')}
+                          width="available"
+                          {...field}
+                        />
+                      );
+                    }}
+                  />
+                </FormField>
+              )}
+            </Grid.Col>
+            <Grid.Col
+              width={{
+                mobile: { s: 12, m: 12, l: 12 },
+                tablet: { s: 12, m: 8, l: 8 },
+                desktop: { s: 7, m: 7, l: 7 }
+              }}
+            >
+              {isLoading ? (
+                <Skeleton className={s.skeleton} visible animate>
+                  -
+                </Skeleton>
+              ) : (
+                <FormField size="m">
+                  <Controller
+                    name="role"
+                    control={control}
+                    render={({ field }) => {
+                      return (
+                        <Select
+                          size="m"
+                          width="available"
+                          className={s.roleTitle}
+                          label={t('user.new.form.role')}
+                          mode="radio"
+                          options={[
+                            {
+                              value: 'admin',
+                              text: t('user.role.admin')
+                            },
+                            {
+                              value: 'manager',
+                              text: t('user.role.manager')
+                            },
+                            {
+                              value: 'courier',
+                              text: t('user.role.courier')
+                            }
+                          ]}
+                          {...field}
+                        />
+                      );
+                    }}
+                  />
+                </FormField>
+              )}
             </Grid.Col>
           </Grid.Row>
           <Button type="submit" className="primary-bg">

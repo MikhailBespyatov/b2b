@@ -14,6 +14,7 @@ import { emailValidator } from 'utils/validator/emailValidator';
 import { phoneValidator } from 'utils/validator/phoneValidator';
 import { ReactComponent as EditIcon } from 'assets/images/edit_icon.svg';
 import { ReactComponent as SuccessIcon } from 'assets/images/success_icon.svg';
+import { Skeleton } from '@alfalab/core-components/skeleton';
 import s from './UserPage.module.css';
 import { defaultEditState } from './constants';
 
@@ -21,17 +22,36 @@ interface Props {
   title: string;
   value: string;
   onEdit: () => void;
+  isLoading: boolean;
 }
 
-const UserItem = ({ title, value, onEdit }: Props) => {
+const UserItem = ({ title, value, onEdit, isLoading }: Props) => {
   return (
     <div className={s.userItemWrapper}>
       <div className={s.userItemContent}>
-        <span className={s.userItemTitle}>{title}</span>
-        <span className={s.userItemValue}>{value}</span>
+        {isLoading ? (
+          <Skeleton className={s.skeleton_title} visible animate>
+            -
+          </Skeleton>
+        ) : (
+          <span className={s.userItemTitle}>{title}</span>
+        )}
+        {isLoading ? (
+          <Skeleton className={s.skeleton_value} visible animate>
+            -
+          </Skeleton>
+        ) : (
+          <span className={s.userItemValue}>{value}</span>
+        )}
       </div>
       <button type="button" onClick={onEdit} className={s.userItemButton}>
-        <EditIcon />
+        {isLoading ? (
+          <Skeleton className={s.skeleton_edit} visible animate>
+            -
+          </Skeleton>
+        ) : (
+          <EditIcon />
+        )}
       </button>
     </div>
   );
@@ -47,7 +67,7 @@ const SuccesButton = ({ onClick }: { onClick: () => void }) => {
 
 export const UserPage = () => {
   const { login: userLogin } = useParams();
-  const { data: userData } = useGetUserQuery(userLogin as string);
+  const { data: userData, isFetching } = useGetUserQuery(userLogin as string);
   const [updateUser] = useUpdateUserMutation();
   const { t } = useTranslation();
   const { handleSubmit, control, setValue, watch } = useForm({
@@ -203,6 +223,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isLastNameEdit');
                   }}
+                  isLoading={isFetching}
                 />
               )}
             </Grid.Col>
@@ -241,6 +262,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isFirstNameEdit');
                   }}
+                  isLoading={isFetching}
                 />
               )}
             </Grid.Col>
@@ -278,6 +300,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isMiddleNameEdit');
                   }}
+                  isLoading={isFetching}
                 />
               )}
             </Grid.Col>
@@ -320,6 +343,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isPhoneNumberEdit');
                   }}
+                  isLoading={isFetching}
                 />
               )}
             </Grid.Col>
@@ -361,6 +385,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isEmailEdit');
                   }}
+                  isLoading={isFetching}
                 />
               )}
             </Grid.Col>
@@ -416,6 +441,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isRoleEdit');
                   }}
+                  isLoading={isFetching}
                 />
               )}
             </Grid.Col>
