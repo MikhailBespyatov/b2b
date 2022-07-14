@@ -69,7 +69,7 @@
   "user.new.form.middleName": "Отчество",
   "user.new.form.phoneNumber": "Номер телефона",
   "user.new.form.email": "Email",
-
+  "user.new.form.success": "Пользователь успешно добавлен",
 
   "user.single.title": "Учётная запись пользователя",
 

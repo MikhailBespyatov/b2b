@@ -112,7 +112,7 @@ export const Filter: FC<IProps> = ({ setFilter }) => {
                     return (
                       <Input
                         size="s"
-                        label={t('users.filter.registeredAt')}
+                        label={t('users.filter.email')}
                         width="available"
                         {...field}
                       />
@@ -135,7 +135,7 @@ export const Filter: FC<IProps> = ({ setFilter }) => {
                   render={({ field: { value, onChange } }) => {
                     return (
                       <CalendarInput
-                        label={t('transactions.filter.createdDate')}
+                        label={t('users.filter.registeredAt')}
                         width="available"
                         size="s"
                         value={value}

@@ -76,3 +76,16 @@
   background-color: transparent;
   cursor: pointer;
 }
+
+.skeleton_title {
+  width: 52px;
+  margin-bottom: 6px;
+}
+
+.skeleton_value {
+  width: 104px;
+}
+
+.skeleton_edit {
+  width: 20px;
+}

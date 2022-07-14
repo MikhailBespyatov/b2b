@@ -39,3 +39,8 @@
 .roleTitle {
   padding-top: 24px !important;
 }
+
+.skeleton {
+  height: 33px;
+  margin-bottom: 24px;
+}
