@@ -31,8 +31,8 @@ const NewPartner: FC = () => {
       selectFromResult: ({ data, ...rest }) => {
         const newData = data?.map((item: ICountry) => {
           return {
-            value: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`],
-            text: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`]
+            text: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`],
+            value: item.id?.toString()
           };
         });
         return {
@@ -48,7 +48,8 @@ const NewPartner: FC = () => {
         const newData = data?.map((item: ICity) => {
           return {
             text: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`],
-            value: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`]
+            value: item.id?.toString()
+            // value: item[`${i18n.language.toUpperCase() as 'RU' | 'KZ'}Name`]
           };
         });
 
@@ -63,7 +64,6 @@ const NewPartner: FC = () => {
   const {
     handleSubmit,
     control,
-    register,
     reset,
     formState: { errors }
   } = useForm({
@@ -92,7 +92,24 @@ const NewPartner: FC = () => {
   });
 
   const onSubmit = handleSubmit((values: any) => {
-    postPartner({ ...values, merchantId: uuid().substr(-8, 8) })
+    postPartner({
+      ...values,
+      Adresses: values.Adresses.map((address: any, index: number) => {
+        if (index === 0) {
+          return {
+            ...address,
+            type: 'juridical',
+            country: countryData ? countryData[0].value : ''
+          };
+        }
+        return {
+          ...address,
+          type: 'postal',
+          country: countryData ? countryData[0].value : ''
+        };
+      }),
+      merchantId: uuid().substr(-8, 8)
+    })
       .then(({ error }: any) => {
         if (error) {
           dispatch(
@@ -206,11 +223,6 @@ const NewPartner: FC = () => {
               Array.from({ length: countAddress }, (_, index) => {
                 return (
                   <Fragment key={index + 1}>
-                    <input
-                      type="hidden"
-                      value="postal"
-                      {...register(`Adresses.${index + 1}.type`)}
-                    />
                     <MailingAddress
                       counter={index + 1}
                       control={control}

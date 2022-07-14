@@ -33,7 +33,6 @@ const LegalAddress: FC<PropsType> = ({
   const { t } = useTranslation();
 
   const [disabledFields, setDisabledFields] = useState({
-    country: isEditable,
     city: isEditable,
     postIndex: isEditable,
     street: isEditable,
