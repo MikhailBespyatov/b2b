@@ -107,7 +107,7 @@ const UsersPage: FC<PropsType> = ({ title, merchantId }) => {
       dataIndex: 'role',
       key: 'role',
       render: (value: string) => {
-        return t(`user.role.${value}`);
+        return value;
       }
     },
     {

@@ -17,25 +17,19 @@ import { ReactComponent as SuccessIcon } from 'assets/images/success_icon.svg';
 import { Skeleton } from '@alfalab/core-components/skeleton';
 import s from './UserPage.module.css';
 import { defaultEditState } from './constants';
+import { UserItemProps } from './types';
 
-interface Props {
-  title: string;
-  value: string;
-  onEdit: () => void;
-  isLoading: boolean;
-}
-
-const UserItem = ({ title, value, onEdit, isLoading }: Props) => {
+const UserItem = ({
+  title,
+  value,
+  onEdit,
+  isLoading,
+  isNotEdited
+}: UserItemProps) => {
   return (
     <div className={s.userItemWrapper}>
       <div className={s.userItemContent}>
-        {isLoading ? (
-          <Skeleton className={s.skeleton_title} visible animate>
-            -
-          </Skeleton>
-        ) : (
-          <span className={s.userItemTitle}>{title}</span>
-        )}
+        <span className={s.userItemTitle}>{title}</span>
         {isLoading ? (
           <Skeleton className={s.skeleton_value} visible animate>
             -
@@ -44,15 +38,11 @@ const UserItem = ({ title, value, onEdit, isLoading }: Props) => {
           <span className={s.userItemValue}>{value}</span>
         )}
       </div>
-      <button type="button" onClick={onEdit} className={s.userItemButton}>
-        {isLoading ? (
-          <Skeleton className={s.skeleton_edit} visible animate>
-            -
-          </Skeleton>
-        ) : (
+      {!isNotEdited && (
+        <button type="button" onClick={onEdit} className={s.userItemButton}>
           <EditIcon />
-        )}
-      </button>
+        </button>
+      )}
     </div>
   );
 };
@@ -68,7 +58,7 @@ const SuccesButton = ({ onClick }: { onClick: () => void }) => {
 export const UserPage = () => {
   const { login: userLogin } = useParams();
   const { data: userData, isFetching } = useGetUserQuery(userLogin as string);
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
   const { t } = useTranslation();
   const { handleSubmit, control, setValue, watch } = useForm({
     defaultValues: {
@@ -163,30 +153,42 @@ export const UserPage = () => {
               }}
               className={s.statusWrapper}
             >
-              <Typography.Text className={s.statusLabel}>
-                {watchedStatus
-                  ? t('user.new.form.statusActive')
-                  : t('user.new.form.statusInActive')}
-              </Typography.Text>
-              <FormField size="m" className={s.switcher}>
-                <Controller
-                  name="status"
-                  control={control}
-                  render={({ field: { onBlur, onChange, value } }) => {
-                    return (
-                      <Switch
-                        onBlur={onBlur}
-                        onChange={checked => {
-                          onChange(checked);
-                          onSubmit();
-                        }}
-                        checked={value}
-                        align="center"
-                      />
-                    );
-                  }}
-                />
-              </FormField>
+              {isFetching || isLoading ? (
+                <Skeleton className={s.skeleton_title} visible animate>
+                  -
+                </Skeleton>
+              ) : (
+                <Typography.Text className={s.statusLabel}>
+                  {watchedStatus
+                    ? t('user.new.form.statusActive')
+                    : t('user.new.form.statusInActive')}
+                </Typography.Text>
+              )}
+              {isFetching || isLoading ? (
+                <Skeleton className={s.skeleton_title} visible animate>
+                  -
+                </Skeleton>
+              ) : (
+                <FormField size="m" className={s.switcher}>
+                  <Controller
+                    name="status"
+                    control={control}
+                    render={({ field: { onBlur, onChange, value } }) => {
+                      return (
+                        <Switch
+                          onBlur={onBlur}
+                          onChange={checked => {
+                            onChange(checked);
+                            onSubmit();
+                          }}
+                          checked={value}
+                          align="center"
+                        />
+                      );
+                    }}
+                  />
+                </FormField>
+              )}
             </Grid.Col>
             <Grid.Col
               width={{
@@ -223,7 +225,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isLastNameEdit');
                   }}
-                  isLoading={isFetching}
+                  isLoading={isFetching || isLoading}
                 />
               )}
             </Grid.Col>
@@ -262,7 +264,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isFirstNameEdit');
                   }}
-                  isLoading={isFetching}
+                  isLoading={isFetching || isLoading}
                 />
               )}
             </Grid.Col>
@@ -300,7 +302,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isMiddleNameEdit');
                   }}
-                  isLoading={isFetching}
+                  isLoading={isFetching || isLoading}
                 />
               )}
             </Grid.Col>
@@ -343,7 +345,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isPhoneNumberEdit');
                   }}
-                  isLoading={isFetching}
+                  isLoading={isFetching || isLoading}
                 />
               )}
             </Grid.Col>
@@ -385,7 +387,8 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isEmailEdit');
                   }}
-                  isLoading={isFetching}
+                  isLoading={isFetching || isLoading}
+                  isNotEdited
                 />
               )}
             </Grid.Col>
@@ -441,7 +444,7 @@ export const UserPage = () => {
                   onEdit={() => {
                     onEdit('isRoleEdit');
                   }}
-                  isLoading={isFetching}
+                  isLoading={isFetching || isLoading}
                 />
               )}
             </Grid.Col>

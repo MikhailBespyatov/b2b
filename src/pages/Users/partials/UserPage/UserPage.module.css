@@ -79,13 +79,9 @@
 
 .skeleton_title {
   width: 52px;
-  margin-bottom: 6px;
+  margin-bottom: 24px;
 }
 
 .skeleton_value {
   width: 104px;
-}
-
-.skeleton_edit {
-  width: 20px;
 }
