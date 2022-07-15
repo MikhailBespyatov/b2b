@@ -17,9 +17,8 @@ import { useDispatch } from 'react-redux';
 import { addToast } from 'redux/slices/app-slice';
 import { uuid } from 'utils/uuid';
 import { Skeleton } from '@alfalab/core-components/skeleton';
+import { emailErrorMessage, requiredText } from 'constants/validation-text';
 import s from './NewUser.module.css';
-
-const emailErrorMessage = 'Пользователь с таким логином уже существует';
 
 export const NewUser: FC = () => {
   const { t } = useTranslation();
@@ -27,7 +26,7 @@ export const NewUser: FC = () => {
   const [postNewUser, { error, isError, isLoading }] = useAddNewUserMutation(
     {}
   );
-  const { handleSubmit, control, watch, reset } = useForm({
+  const { handleSubmit, control, watch } = useForm({
     defaultValues: {
       lastName: '',
       firstName: '',
@@ -54,17 +53,39 @@ export const NewUser: FC = () => {
         merchantId: 'adika.kz',
         role: role[0]
       }
-    }).then(() => {
-      reset();
-      dispatch(
-        addToast({
-          id: uuid(),
-          badge: 'positive',
-          text: t('user.new.form.success'),
-          title: ''
-        })
-      );
-    });
+    })
+      .then(res => {
+        // @ts-ignore
+        if (res?.error) {
+          dispatch(
+            addToast({
+              id: uuid(),
+              badge: 'negative',
+              text: t('status.error'),
+              title: ''
+            })
+          );
+        } else {
+          dispatch(
+            addToast({
+              id: uuid(),
+              badge: 'positive',
+              text: t('user.new.form.success'),
+              title: ''
+            })
+          );
+        }
+      })
+      .catch(() => {
+        dispatch(
+          addToast({
+            id: uuid(),
+            badge: 'negative',
+            text: t('status.error'),
+            title: ''
+          })
+        );
+      });
   });
 
   return (
@@ -133,14 +154,19 @@ export const NewUser: FC = () => {
                 <FormField size="m">
                   <Controller
                     name="lastName"
-                    rules={{ required: true }}
+                    rules={{ required: requiredText }}
                     control={control}
-                    render={({ field }) => {
+                    render={({
+                      field,
+                      fieldState: { error: lastNameError }
+                    }) => {
                       return (
                         <Input
                           size="s"
                           label={t('user.new.form.lastName')}
                           width="available"
+                          error={lastNameError?.message}
+                          resetError={false}
                           {...field}
                         />
                       );
@@ -164,15 +190,20 @@ export const NewUser: FC = () => {
                 <FormField size="m">
                   <Controller
                     name="firstName"
-                    rules={{ required: true }}
+                    rules={{ required: requiredText }}
                     control={control}
-                    render={({ field }) => {
+                    render={({
+                      field,
+                      fieldState: { error: firstNameError }
+                    }) => {
                       return (
                         <Input
                           size="s"
                           label={t('user.new.form.firstName')}
                           width="available"
                           {...field}
+                          error={firstNameError?.message}
+                          resetError={false}
                         />
                       );
                     }}
@@ -226,17 +257,19 @@ export const NewUser: FC = () => {
                   <Controller
                     name="phoneNumber"
                     rules={{
-                      required: true,
+                      required: requiredText,
                       validate: phoneValidator
                     }}
                     control={control}
-                    render={({ field }) => {
+                    render={({ field, fieldState: { error: phoneError } }) => {
                       return (
                         <PhoneInput
                           size="s"
                           label={t('user.new.form.phoneNumber')}
                           width="available"
                           placeholder="+7 000 000 00 00"
+                          resetError={false}
+                          error={phoneError?.message}
                           {...field}
                         />
                       );
@@ -262,19 +295,21 @@ export const NewUser: FC = () => {
                     name="email"
                     control={control}
                     rules={{
-                      required: true,
+                      required: requiredText,
                       validate: emailValidator
                     }}
-                    render={({ field }) => {
+                    render={({ field, fieldState: { error: emailError } }) => {
                       return (
                         <Input
                           size="s"
                           error={
-                            isError &&
-                            // @ts-ignore
-                            error?.data?.message === emailErrorMessage &&
-                            emailErrorMessage
+                            emailError?.message ||
+                            (isError &&
+                              // @ts-ignore
+                              error?.data?.message === emailErrorMessage &&
+                              emailErrorMessage)
                           }
+                          resetError={false}
                           label={t('user.new.form.email')}
                           width="available"
                           {...field}

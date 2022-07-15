@@ -15,6 +15,7 @@ import { phoneValidator } from 'utils/validator/phoneValidator';
 import { ReactComponent as EditIcon } from 'assets/images/edit_icon.svg';
 import { ReactComponent as SuccessIcon } from 'assets/images/success_icon.svg';
 import { Skeleton } from '@alfalab/core-components/skeleton';
+import { requiredText } from 'constants/validation-text';
 import s from './UserPage.module.css';
 import { defaultEditState } from './constants';
 import { UserItemProps } from './types';
@@ -87,8 +88,9 @@ export const UserPage = () => {
     setEditItems({ ...editItems, [itemName]: true });
   };
 
-  const onSubmit = handleSubmit((data: any) => {
-    updateUser({
+  const onSuccess = handleSubmit(async (data: any) => {
+    setEditItems(defaultEditState);
+    await updateUser({
       body: {
         ...data,
         role: data.role[0],
@@ -98,11 +100,6 @@ export const UserPage = () => {
       }
     });
   });
-
-  const onSuccess = async () => {
-    await onSubmit();
-    setEditItems(defaultEditState);
-  };
 
   useEffect(() => {
     if (userData) {
@@ -131,7 +128,7 @@ export const UserPage = () => {
         {t('user.single.title')}
       </Typography.Title>
       <div className={s.form_wrapper}>
-        <form onSubmit={onSubmit}>
+        <form>
           <Grid.Row className="container">
             <Grid.Col
               width={{
@@ -179,7 +176,7 @@ export const UserPage = () => {
                           onBlur={onBlur}
                           onChange={checked => {
                             onChange(checked);
-                            onSubmit();
+                            onSuccess();
                           }}
                           checked={value}
                           align="center"
@@ -201,14 +198,19 @@ export const UserPage = () => {
                 <FormField size="m">
                   <Controller
                     name="lastName"
-                    rules={{ required: true }}
+                    rules={{ required: requiredText }}
                     control={control}
-                    render={({ field }) => {
+                    render={({
+                      field,
+                      fieldState: { error: lastNameError }
+                    }) => {
                       return (
                         <Input
                           size="s"
                           label={t('user.new.form.lastName')}
                           width="available"
+                          error={lastNameError && lastNameError.message}
+                          resetError={false}
                           {...field}
                           rightAddons={
                             <SuccesButton onClick={() => onSuccess()} />
@@ -240,15 +242,20 @@ export const UserPage = () => {
                 <FormField size="m">
                   <Controller
                     name="firstName"
-                    rules={{ required: true }}
+                    rules={{ required: requiredText }}
                     control={control}
-                    render={({ field }) => {
+                    render={({
+                      field,
+                      fieldState: { error: firstNameError }
+                    }) => {
                       return (
                         <Input
                           size="s"
                           label={t('user.new.form.firstName')}
                           width="available"
                           {...field}
+                          error={firstNameError?.message}
+                          resetError={false}
                           rightAddons={
                             <SuccesButton onClick={() => onSuccess()} />
                           }
@@ -318,17 +325,22 @@ export const UserPage = () => {
                   <Controller
                     name="phoneNumber"
                     rules={{
-                      required: true,
+                      required: requiredText,
                       validate: phoneValidator
                     }}
                     control={control}
-                    render={({ field }) => {
+                    render={({
+                      field,
+                      fieldState: { error: phoneNumberError }
+                    }) => {
                       return (
                         <PhoneInput
                           size="s"
                           label={t('user.new.form.phoneNumber')}
                           width="available"
                           placeholder="+7 000 000 00 00"
+                          error={phoneNumberError?.message}
+                          resetError={false}
                           {...field}
                           rightAddons={
                             <SuccesButton onClick={() => onSuccess()} />
